@@ -73,6 +73,7 @@ class Rendez_vous(models.Model):
     heure_fin_rendez_vous = models.TimeField(null=True, blank=True)
     duree_rendez_vous = models.DurationField(null=True, blank=True)
 
+
 @receiver(pre_save, sender=Rendez_vous)
 def update_dates_heures_rendez_vous(sender, instance, **kwargs):
     if instance.debut and not instance.heure_debut_rendez_vous:
@@ -86,5 +87,7 @@ def update_dates_heures_rendez_vous(sender, instance, **kwargs):
 
     # Calculer la durée si les heures de début et de fin sont définies
     if instance.heure_debut_rendez_vous and instance.heure_fin_rendez_vous:
-        duree = timezone.datetime.combine(timezone.now().date(), instance.heure_fin_rendez_vous) - timezone.datetime.combine(timezone.now().date(), instance.heure_debut_rendez_vous)
+        duree = timezone.datetime.combine(timezone.now().date(),
+                                          instance.heure_fin_rendez_vous) - timezone.datetime.combine(
+            timezone.now().date(), instance.heure_debut_rendez_vous)
         instance.duree_rendez_vous = duree.total_seconds() // 60

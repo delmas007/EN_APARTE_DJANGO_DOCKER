@@ -1,5 +1,8 @@
 from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
 from django.db import models
+from django.db.models.signals import pre_save
+from django.utils import timezone
+from django.dispatch import receiver
 
 # Create your models here.
 sex = (
@@ -58,3 +61,30 @@ class Utilisateur(AbstractBaseUser):
 
     def __str__(self):
         return self.nom
+
+
+class Rendez_vous(models.Model):
+    en_attente = models.BooleanField(default=True)
+    confirmation = models.BooleanField(default=False)
+    debut = models.BooleanField(default=False)
+    fin = models.BooleanField(default=False)
+    Date_prise_rendez_vous = models.DateTimeField(null=True, blank=True)
+    heure_debut_rendez_vous = models.TimeField(null=True, blank=True)
+    heure_fin_rendez_vous = models.TimeField(null=True, blank=True)
+    duree_rendez_vous = models.DurationField(null=True, blank=True)
+
+@receiver(pre_save, sender=Rendez_vous)
+def update_dates_heures_rendez_vous(sender, instance, **kwargs):
+    if instance.debut and not instance.heure_debut_rendez_vous:
+        instance.heure_debut_rendez_vous = timezone.now().time()
+
+    if instance.fin and not instance.heure_fin_rendez_vous:
+        instance.heure_fin_rendez_vous = timezone.now().time()
+
+    if instance.confirmation and not instance.Date_prise_rendez_vous:
+        instance.Date_prise_rendez_vous = timezone.now()
+
+    # Calculer la durée si les heures de début et de fin sont définies
+    if instance.heure_debut_rendez_vous and instance.heure_fin_rendez_vous:
+        duree = timezone.datetime.combine(timezone.now().date(), instance.heure_fin_rendez_vous) - timezone.datetime.combine(timezone.now().date(), instance.heure_debut_rendez_vous)
+        instance.duree_rendez_vous = duree.total_seconds() // 60

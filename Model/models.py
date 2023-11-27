@@ -63,6 +63,23 @@ class Utilisateur(AbstractBaseUser):
         return self.nom
 
 
+class Roles(models.Model):
+    EMPLOYER = 'EMPLOYER'
+    CLIENT = 'CLIENT'
+    ADMIN = 'ADMIN'
+
+    ROLE_CHOICES = [
+        (EMPLOYER, 'EMPLOYER'),
+        (CLIENT, 'CLIENT'),
+        (ADMIN, 'CLIENT'),
+    ]
+
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES)
+
+    def __str__(self):
+        return self.get_role_display()
+
+
 class Rendez_vous(models.Model):
     en_attente = models.BooleanField(default=True)
     confirmation = models.BooleanField(default=False)
@@ -72,6 +89,8 @@ class Rendez_vous(models.Model):
     heure_debut_rendez_vous = models.TimeField(null=True, blank=True)
     heure_fin_rendez_vous = models.TimeField(null=True, blank=True)
     duree_rendez_vous = models.DurationField(null=True, blank=True)
+    client = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True)
+    employer = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True)
 
 
 @receiver(pre_save, sender=Rendez_vous)

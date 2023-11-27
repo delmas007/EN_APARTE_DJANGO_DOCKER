@@ -1,0 +1,14 @@
+pip install asgiref==3.5.2
+pip install beautifulsoup4==4.11.1
+pip install Django==4.0.6
+pip install django-crispy-forms==1.14.0
+pip install django-livereload-server==0.4
+pip install mysqlclient==2.1.1
+pip install Pillow==9.2.0
+pip install psycopg2==2.9.3
+pip install python-environ==0.4.54
+pip install six==1.16.0
+pip install soupsieve==2.3.2.post1
+pip install sqlparse==0.4.2
+pip install tornado==6.2
+pip install tzdata==2022.1

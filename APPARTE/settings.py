@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'APPARTE.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'don',
+        'NAME': 'enAparte',
         'USER': 'postgres',
         'PASSWORD': 'delmas',
         'HOST': 'localhost',

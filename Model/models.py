@@ -85,7 +85,6 @@ def update_dates_heures_rendez_vous(sender, instance, **kwargs):
     if instance.confirmation and not instance.Date_prise_rendez_vous:
         instance.Date_prise_rendez_vous = timezone.now()
 
-    # Calculer la durée si les heures de début et de fin sont définies
     if instance.heure_debut_rendez_vous and instance.heure_fin_rendez_vous:
         duree = timezone.datetime.combine(timezone.now().date(),
                                           instance.heure_fin_rendez_vous) - timezone.datetime.combine(

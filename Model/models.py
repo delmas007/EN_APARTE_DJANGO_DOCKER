@@ -91,7 +91,7 @@ class Rendez_vous(models.Model):
     duree_rendez_vous = models.DurationField(null=True, blank=True)
     client = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True)
     employer = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True)
-
+    roles = models.ForeignKey(Roles, on_delete=models.SET_NULL, null=True)
 
 @receiver(pre_save, sender=Rendez_vous)
 def update_dates_heures_rendez_vous(sender, instance, **kwargs):

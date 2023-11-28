@@ -36,14 +36,23 @@
                                         </div>
 
                                         {% if form.errors %}
-                                            <small class="text-center" style="color: red;list-style-type:none; ">
-                                                {{form.errors}}
-                                            </small>
+                                            {% for field, errors in form.errors.items %}
+                                                {% for error in errors %}
+                                                        <div class="alert alert-dark mt-4" role="alert">
+                                                            <strong>Erreur :</strong> {{ error }}
+                                                        </div>
+                                                {% endfor %}
+                                            {% endfor %}
                                         {% endif %}
+
+
+
 
                                         <button type="submit" class="btn custom-btn form-control mt-4 mb-3">
                                             Sign in
                                         </button>
+
+
 
                                         <p class="text-center">Don’t have an account? <a href="inscription.html">Create One</a></p>
 
@@ -58,6 +67,5 @@
             </section>
 
         </main >
-    </body>
 
 {% endblock %}

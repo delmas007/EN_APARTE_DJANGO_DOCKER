@@ -3,7 +3,8 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_protect
 
-from Model.forms import ConnexionForm
+from Model.forms import ConnexionForm, UserRegistrationForm
+from Model.models import Roles
 
 
 # Create your views here.
@@ -19,11 +20,16 @@ def inscription(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('base:connexion')
+            user = form.save(commit=False)
+
+            client_role = Roles.objects.get(role=Roles.CLIENT)
+            user.roles = client_role
+
+            user.save()
+            return redirect('Model:connexion')
         else:
             context['errors'] = form.errors
 
     form = UserRegistrationForm()
     context['form'] = form
-    return render(request, 'base/inscription.html', context=context)
+    return render(request, 'inscription.html', context=context)

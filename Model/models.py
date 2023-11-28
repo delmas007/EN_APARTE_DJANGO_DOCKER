@@ -31,6 +31,23 @@ class MyUserManager(BaseUserManager):
         return user
 
 
+class Roles(models.Model):
+    EMPLOYER = 'EMPLOYER'
+    CLIENT = 'CLIENT'
+    ADMIN = 'ADMIN'
+
+    ROLE_CHOICES = [
+        (EMPLOYER, 'EMPLOYER'),
+        (CLIENT, 'CLIENT'),
+        (ADMIN, 'CLIENT'),
+    ]
+
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES)
+
+    def __str__(self):
+        return self.get_role_display()
+
+
 class Utilisateur(AbstractBaseUser):
     email = models.EmailField(
         unique=True,
@@ -41,7 +58,8 @@ class Utilisateur(AbstractBaseUser):
     prenom = models.CharField(max_length=250)
     contact = models.IntegerField()
     commune = models.CharField(max_length=250)
-    sexe = models.CharField(blank=False, choices=sex,max_length=6)
+    sexe = models.CharField(blank=False, choices=sex, max_length=6)
+    roles = models.ForeignKey(Roles, on_delete=models.SET_NULL, null=True)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -63,23 +81,6 @@ class Utilisateur(AbstractBaseUser):
         return self.nom
 
 
-class Roles(models.Model):
-    EMPLOYER = 'EMPLOYER'
-    CLIENT = 'CLIENT'
-    ADMIN = 'ADMIN'
-
-    ROLE_CHOICES = [
-        (EMPLOYER, 'EMPLOYER'),
-        (CLIENT, 'CLIENT'),
-        (ADMIN, 'CLIENT'),
-    ]
-
-    role = models.CharField(max_length=10, choices=ROLE_CHOICES)
-
-    def __str__(self):
-        return self.get_role_display()
-
-
 class Rendez_vous(models.Model):
     en_attente = models.BooleanField(default=True)
     confirmation = models.BooleanField(default=False)
@@ -92,7 +93,6 @@ class Rendez_vous(models.Model):
     client = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True, related_name='rendez_vous_clients')
     employer = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True,
                                  related_name='rendez_vous_employers')
-    roles = models.ForeignKey(Roles, on_delete=models.SET_NULL, null=True)
 
 
 @receiver(pre_save, sender=Rendez_vous)

@@ -39,10 +39,9 @@ class Utilisateur(AbstractBaseUser):
     )
     nom = models.CharField(max_length=250, verbose_name='nom')
     prenom = models.CharField(max_length=250)
-    contact = models.IntegerField(max_length=10)
+    contact = models.IntegerField()
     commune = models.CharField(max_length=250)
-    sexe = models.CharField(blank=False, choices=sex
-                            )
+    sexe = models.CharField(blank=False, choices=sex,max_length=6)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

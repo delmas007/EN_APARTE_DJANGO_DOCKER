@@ -13,57 +13,12 @@
     
         <main>
 
-            <nav class="navbar navbar-expand-lg">
-                <div class="container">
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
+            {% include 'header.html' %}
 
-                    <a class="navbar-brand" href="index.html">
-                        <strong><span>Little</span> Fashion</strong>
-                    </a>
-
-                    <div class="d-lg-none">
-                        <a href="sign-in.html" class="bi-person custom-icon me-3"></a>
-
-                        <a href="product-detail.html" class="bi-bag custom-icon"></a>
-                    </div>
-
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav mx-auto">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="index.html">Home</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="about.html">Story</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="products.html">Products</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="faq.html">FAQs</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="contact.html">Contact</a>
-                            </li>
-                        </ul>
-
-                        <div class="d-none d-lg-block">
-                            <a href="sign-in.html" class="bi-person custom-icon me-3"></a>
-
-                            <a href="product-detail.html" class="bi-bag custom-icon"></a>
-                        </div>
-                    </div>
-                </div>
-            </nav>
 
             <section class="slick-slideshow">   
                 <div class="slick-custom">
-                    <img src="images/slideshow/medium-shot-business-women-high-five.jpeg" class="img-fluid" alt="">
+                    <img src=" {% static 'images/slideshow/medium-shot-business-women-high-five.jpeg' %}" class="img-fluid" alt="">
 
                     <div class="slick-bottom">
                         <div class="container">
@@ -81,7 +36,7 @@
                 </div>
 
                 <div class="slick-custom">
-                    <img src="images/slideshow/team-meeting-renewable-energy-project.jpeg" class="img-fluid" alt="">
+                    <img src="{% static 'images/slideshow/team-meeting-renewable-energy-project.jpeg' %}" class="img-fluid" alt="">
 
                     <div class="slick-bottom">
                         <div class="container">
@@ -99,7 +54,7 @@
                 </div>
 
                 <div class="slick-custom">
-                    <img src="images/slideshow/two-business-partners-working-together-office-computer.jpeg" class="img-fluid" alt="">
+                    <img src=" {% static 'images/slideshow/two-business-partners-working-together-office-computer.jpeg' %}" class="img-fluid" alt="">
 
                     <div class="slick-bottom">
                         <div class="container">
@@ -148,7 +103,7 @@
 
                                     <div class="row">
                                         <div class="col-lg-7 col-12">
-                                            <img src="images/pim-chu-z6NZ76_UTDI-unsplash.jpeg" class="img-fluid" alt="">
+                                            <img src="{% static 'images/pim-chu-z6NZ76_UTDI-unsplash.jpeg' %}" class="img-fluid" alt="">
                                         </div>
 
                                         <div class="col-lg-5 col-12">
@@ -201,7 +156,7 @@
                                 <div class="tab-pane fade" id="pills-skill" role="tabpanel" aria-labelledby="pills-skill-tab">
                                     <div class="row">
                                         <div class="col-lg-7 col-12">
-                                            <img src="images/cody-lannom-G95AReIh_Ko-unsplash.jpeg" class="img-fluid" alt="">
+                                            <img src="{% static 'images/cody-lannom-G95AReIh_Ko-unsplash.jpeg' %}" class="img-fluid" alt="">
                                         </div>
 
                                         <div class="col-lg-5 col-12">
@@ -255,7 +210,7 @@
                     <div class="row align-items-center">
 
                         <div class="col-lg-6 col-12">
-                            <img src="images/retail-shop-owner-mask-social-distancing-shopping.jpg" class="img-fluid" alt="">
+                            <img src="{% static 'images/retail-shop-owner-mask-social-distancing-shopping.jpg' %}" class="img-fluid" alt="">
                         </div>
 
                         <div class="col-lg-6 col-12">
@@ -287,7 +242,7 @@
                         <div class="col-lg-4 col-12 mb-3">
                             <div class="product-thumb">
                                 <a href="product-detail.html">
-                                    <img src="images/product/evan-mcdougall-qnh1odlqOmk-unsplash.jpeg" class="img-fluid product-image" alt="">
+                                    <img src="{% static 'images/product/evan-mcdougall-qnh1odlqOmk-unsplash.jpeg' %}" class="img-fluid product-image" alt="">
                                 </a>
 
                                 <div class="product-top d-flex">
@@ -313,7 +268,7 @@
                         <div class="col-lg-4 col-12 mb-3">
                             <div class="product-thumb">
                                 <a href="product-detail.html">
-                                    <img src="images/product/jordan-nix-CkCUvwMXAac-unsplash.jpeg" class="img-fluid product-image" alt="">
+                                    <img src="{% static 'images/product/jordan-nix-CkCUvwMXAac-unsplash.jpeg' %}" class="img-fluid product-image" alt="">
                                 </a>
 
                                 <div class="product-top d-flex">
@@ -339,7 +294,7 @@
                         <div class="col-lg-4 col-12">
                             <div class="product-thumb">
                                 <a href="product-detail.html">
-                                    <img src="images/product/nature-zen-3Dn1BZZv3m8-unsplash.jpeg" class="img-fluid product-image" alt="">
+                                    <img src="{% static 'images/product/nature-zen-3Dn1BZZv3m8-unsplash.jpeg' %}" class="img-fluid product-image" alt="">
                                 </a>
 
                                 <div class="product-top d-flex">

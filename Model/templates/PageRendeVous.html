@@ -33,75 +33,52 @@
             <div class="col-md-6">
                 <form id="appointmentForm">
 
-                    <div class="mb-4">
-                        <label for="date" class="block text-gray-700 text-sm font-bold mb-2">Date :</label>
-                        {{ form.media }}
-                        {{ form.date_rendez_vous }}
-                    </div>
-
-                    <div class="form-group">
-                        <label for="time">Heure :</label>
-                        {{ form.heure_rendez_vous }}
-                    </div>
-
-                    <div class="form-group">
-                        <label for="reason">Services souhaité :</label>
-                        {{ form.type_massage }}
-                    </div>
-                    {% if form.errors %}
-                        <small style="color: red;">
-                            {{form.errors}}
-                        </small>
-                    {% endif %}
+                    {{ form}}
                     <button type="submit" class="btn btn-success">Prendre rendez-vous</button>
 
                     <div id="error-message" class="error">Disponibilité: Lundi-Vendredi 8H-18H</div>
                 </form>
 
                 <script>
+                    $(document).ready(function() {
+                        // Activer le datepicker
+                        $("#id_date_rendez_vous").datepicker({
+                            minDate: 0, // La date minimale est aujourd'hui
+                            maxDate: "+1w", // La date maximale est une semaine à partir d'aujourd'hui
+                            beforeShowDay: function(date) {
+                                // Désactiver les week-ends
+                                var day = date.getDay();
+                                return [(day !== 0 && day !== 6), ''];
+                            },
+                            dateFormat: 'yy-mm-dd', // Format de date
+                        });
+
+                        // Générer les heures même en cas de changement de date
+                        $("#id_date_rendez_vous").change(function() {
+                            generateEvenHours();
+                        });
+                    });
+
                     function generateEvenHours() {
-                        var select = document.getElementById('id_heure_rendez_vous');  // Utilisez l'ID généré par Django
+                        var select = document.getElementById('id_heure_rendez_vous');
                         select.innerHTML = '';
                         for (var i = 8; i <= 16; i += 2) {
                             var formattedHour = ('0' + i).slice(-2);
+                            var heurSuivant = (i + 2);
                             var option = document.createElement('option');
-                            var heurSuivant=(i+2);
                             option.value = formattedHour + ':00';
                             if (i === 12) {
                                 option.text = '';
                                 option.disabled = true;
                             } else {
-                                option.text = formattedHour+':00'+'-' + heurSuivant+':00';
+                                option.text = formattedHour + ':00' + '-' + heurSuivant + ':00';
                             }
-
                             select.appendChild(option);
                         }
                     }
                     generateEvenHours();
-                    document.getElementById('id_date_rendez_vous').addEventListener('input', function(event) {
-                        generateEvenHours();
-                    });
-                    var today = new Date();
-                    var todayISO = today.toISOString().split('T')[0];
-                    document.getElementById('id_date_rendez_vous').min = todayISO;
-                    var maxDate = new Date(today);
-                    maxDate.setDate(today.getDate() + 7);
-                    document.getElementById('id_date_rendez_vous').max = maxDate.toISOString().split('T')[0];
-                    function isWeekend(dateString) {
-                        var selectedDate = new Date(dateString);
-                        var day = selectedDate.getDay();
-                        return day === 0 || day === 6;
-                    }
-                    document.getElementById('id_date_rendez_vous').addEventListener('input', function(event) {
-                        var selectedDate = event.target.value;
-                        if (isWeekend(selectedDate)) {
-                            event.target.value = '';
-                            document.getElementById('error-message').innerText = "Les rendez-vous ne sont pas disponibles le week-end. ";
-                        } else {
-                            document.getElementById('error-message').innerText = '';
-                        }
-                    });
                 </script>
+
             </div>
         </div>
     </div>

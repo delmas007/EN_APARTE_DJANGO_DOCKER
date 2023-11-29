@@ -103,19 +103,26 @@ class UserRegistrationForm(UserCreationForm):
         fields = ('email', 'nom', 'prenom', 'contact', 'commune', 'sexe')
 
 
+class DateInput(forms.DateInput):
+    input_type = 'date'
+    attrs = {'class': 'w-full p-2 border border-gray-300 rounded', 'id': 'date', 'name': 'date', 'required': True}
+
+
 class RendezVousForm(forms.ModelForm):
     class Meta:
         model = Rendez_vous
         fields = ['date_rendez_vous', 'heure_rendez_vous', 'type_massage']
 
-    # Vous pouvez ajouter des widgets ou des validations personnalisées ici si nécessaire
     widgets = {
-        'date_rendez_vous': forms.DateInput(
-            attrs={'type': 'date', 'class': 'w-full p-2 border border-gray-300 rounded', 'id': 'date', 'name': 'date',
-                   'required': ''}),
-        'heure_rendez_vous': forms.Select(attrs={'class': 'form-control', 'id': 'time', 'name': 'time'}),
-        'type_massage': forms.ChoiceField(
-            choices=Rendez_vous.TYPE_MASSAGE_CHOICES,
-            widget=forms.Select(attrs={'class': 'form-control', 'id': 'reason', 'required': True}),
-        )
+        'date_rendez_vous': DateInput(
+            attrs={'class': 'mb-4 w-full p-2 border border-gray-300 rounded', 'id': 'date', 'name': 'date',
+                   'required': True}),
+        'heure_rendez_vous': forms.Select(
+            attrs={'class': 'form-control', 'id': 'time', 'name': 'time', 'required': True}),
+        'type_massage': forms.Select(attrs={'class': 'form-control', 'id': 'reason', 'required': True}),
     }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Ajoutez des options à 'type_massage' ici si nécessaire
+        self.fields['type_massage'].choices = Rendez_vous.TYPE_MASSAGE_CHOICES

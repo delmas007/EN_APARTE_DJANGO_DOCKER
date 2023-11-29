@@ -97,9 +97,9 @@ class Rendez_vous(models.Model):
     client = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True, related_name='rendez_vous_clients')
     employer = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True,
                                  related_name='rendez_vous_employers')
-    heure_rendez_vous = models.CharField(blank=False)
-    date_rendez_vous = models.DateField(blank=False)
-    type_massage = models.CharField(max_length=255, choices=TYPE_MASSAGE_CHOICES)
+    heure_rendez_vous = models.CharField(blank=False,max_length=250,null=True)
+    date_rendez_vous = models.DateField(null=True)
+    type_massage = models.CharField(max_length=255, choices=TYPE_MASSAGE_CHOICES,null=True)
 
 
 @receiver(pre_save, sender=Rendez_vous)

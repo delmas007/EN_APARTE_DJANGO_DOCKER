@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_protect
 
-from Model.forms import ConnexionForm, UserRegistrationForm
+from Model.forms import ConnexionForm, UserRegistrationForm, RendezVousForm
 from Model.models import Roles
 
 
@@ -33,3 +33,19 @@ def inscription(request):
     form = UserRegistrationForm()
     context['form'] = form
     return render(request, 'inscription.html', context=context)
+
+
+@csrf_protect
+def Rendez_vous(request):
+    if request.method == 'POST':
+        form = RendezVousForm(request.POST)
+        if form.is_valid():
+            rendez_vous = form.save(commit=False)
+            rendez_vous.client = request.user
+            rendez_vous.save()
+            return redirect('votre_vue_de_confirmation')
+    else:
+        form = RendezVousForm()
+    return render(request, 'PageRendeVous.html', {'form': form})
+
+

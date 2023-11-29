@@ -10,7 +10,6 @@ sex = (
     ("Femme", "Femme"),
 )
 
-
 class MyUserManager(BaseUserManager):
     def create_user(self, email, password=None):
         if not email:
@@ -82,6 +81,11 @@ class Utilisateur(AbstractBaseUser):
 
 
 class Rendez_vous(models.Model):
+    TYPE_MASSAGE_CHOICES = [
+        ('massage', 'Massage'),
+        ('coiffure', 'Coiffure'),
+        ('soins_peau', 'Soins de peau'),
+    ]
     en_attente = models.BooleanField(default=True)
     confirmation = models.BooleanField(default=False)
     debut = models.BooleanField(default=False)
@@ -95,8 +99,7 @@ class Rendez_vous(models.Model):
                                  related_name='rendez_vous_employers')
     heure_rendez_vous = models.CharField(blank=False)
     date_rendez_vous = models.DateField(blank=False)
-    type_massage = models.CharField()
-
+    type_massage = models.CharField(max_length=255, choices=TYPE_MASSAGE_CHOICES)
 
 
 @receiver(pre_save, sender=Rendez_vous)

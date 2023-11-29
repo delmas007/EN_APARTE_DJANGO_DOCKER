@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-
-from Model.models import Utilisateur
+from django import forms
+from Model.models import Utilisateur, Rendez_vous
 
 
 class ConnexionForm(AuthenticationForm):
@@ -76,10 +76,10 @@ class UserRegistrationForm(UserCreationForm):
             'name': 'commune',
         })
         self.fields['sexe'].widget.attrs.update({
-            'name':"sexe",
-            'style':"color: #212529;",
-            'class':"form-select",
-            'id':"sexe",
+            'name': "sexe",
+            'style': "color: #212529;",
+            'class': "form-select",
+            'id': "sexe",
         })
         self.fields['password1'].widget.attrs.update({
             'type': "password",
@@ -100,4 +100,22 @@ class UserRegistrationForm(UserCreationForm):
 
     class Meta:
         model = Utilisateur
-        fields = ('email','nom','prenom','contact','commune','sexe')
+        fields = ('email', 'nom', 'prenom', 'contact', 'commune', 'sexe')
+
+
+class RendezVousForm(forms.ModelForm):
+    class Meta:
+        model = Rendez_vous
+        fields = ['date_rendez_vous', 'heure_rendez_vous', 'type_massage']
+
+    # Vous pouvez ajouter des widgets ou des validations personnalisées ici si nécessaire
+    widgets = {
+        'date_rendez_vous': forms.DateInput(
+            attrs={'type': 'date', 'class': 'w-full p-2 border border-gray-300 rounded', 'id': 'date', 'name': 'date',
+                   'required': ''}),
+        'heure_rendez_vous': forms.Select(attrs={'class': 'form-control', 'id': 'time', 'name': 'time'}),
+        'type_massage': forms.ChoiceField(
+            choices=Rendez_vous.TYPE_MASSAGE_CHOICES,
+            widget=forms.Select(attrs={'class': 'form-control', 'id': 'reason', 'required': True}),
+        )
+    }

@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+    <style>
+        body {
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        form {
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .error {
+            color: red;
+            margin-bottom: 10px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+    </style>
+{% endblock %}
+{% block content%}
+<body>
+  
+
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <form id="appointmentForm">
+          <div class="form-group">
+            <label for="name">Nom :</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email :</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Téléphone :</label>
+            <input type="tel" class="form-control" id="phone" name="phone" required>
+          </div>
+
+          <div class="mb-4">
+            <label for="date" class="block text-gray-700 text-sm font-bold mb-2">Date :</label>
+            <input type="date" class="w-full p-2 border border-gray-300 rounded" id="date" name="date" required>
+          </div>
+
+          <div class="form-group">
+            <label for="time">Heure :</label>
+            <select class="form-control" id="time" name="time" required>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="reason">Services souhaité :</label>
+            <select class="form-control" id="reason" name="reason" required>
+              <option value="" disabled selected>Sélectionnez une raison</option>
+              <option value="checkup">Massage</option>
+              <option value="consultation">Coiffure</option>
+              <option value="followup">Soins de peau</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-success">Prendre rendez-vous</button>
+
+          <div id="error-message" class="error">Disponibilité: Lundi-Vendredi 8H-18H</div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script>
+     function generateEvenHours() {
+    var select = document.getElementById('time');
+    select.innerHTML = '';
+    for (var i = 8; i <= 16; i += 2) {
+      var formattedHour = ('0' + i).slice(-2);
+      var option = document.createElement('option');
+      var heurSuivant=(i+2);
+      option.value = formattedHour + ':00';
+      if (i === 12) {
+        option.text = '';
+        option.disabled = true;
+      } else {
+        option.text = formattedHour+':00'+'-' + heurSuivant+':00';
+      }
+
+      select.appendChild(option);
+    }
+  }
+  generateEvenHours();
+  document.getElementById('date').addEventListener('input', function(event) {
+    generateEvenHours();
+  });
+    var today = new Date();
+    var todayISO = today.toISOString().split('T')[0];
+    document.getElementById('date').min = todayISO;
+    var maxDate = new Date(today);
+    maxDate.setDate(today.getDate() + 7);
+    document.getElementById('date').max = maxDate.toISOString().split('T')[0];
+    function isWeekend(dateString) {
+      var selectedDate = new Date(dateString);
+      var day = selectedDate.getDay();
+      return day === 0 || day === 6;
+    }
+    document.getElementById('date').addEventListener('input', function(event) {
+      var selectedDate = event.target.value;
+      if (isWeekend(selectedDate)) {
+        event.target.value = '';
+        document.getElementById('error-message').innerText = "Les rendez-vous ne sont pas disponibles le week-end. ";
+      } else {
+        document.getElementById('error-message').innerText = '';
+      }
+    });
+  </script>
+
+</body>
+{% endblock %}

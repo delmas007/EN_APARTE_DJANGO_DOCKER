@@ -93,6 +93,10 @@ class Rendez_vous(models.Model):
     client = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True, related_name='rendez_vous_clients')
     employer = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True,
                                  related_name='rendez_vous_employers')
+    heure_rendez_vous = models.CharField(blank=False)
+    date_rendez_vous = models.DateField(blank=False)
+    type_massage = models.CharField()
+
 
 
 @receiver(pre_save, sender=Rendez_vous)

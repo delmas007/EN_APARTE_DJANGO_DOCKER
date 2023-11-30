@@ -87,6 +87,13 @@ class Rendez_vous(models.Model):
         ('coiffure', 'Coiffure'),
         ('soins_peau', 'Soins de peau'),
     ]
+    TIME = [
+        ('8H00-10H00', '8H00-10H00'),
+        ('10H00-12H00', '10H00-12H00'),
+        ('14H00-16H00', '14H00-16H00'),
+        ('16H00-18H00', '16H00-18H00'),
+    ]
+    date_rendez_vous = models.DateField(blank=True,null=True)
     en_attente = models.BooleanField(default=True)
     confirmation = models.BooleanField(default=False)
     debut = models.BooleanField(default=False)
@@ -98,8 +105,8 @@ class Rendez_vous(models.Model):
     client = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True, related_name='rendez_vous_clients')
     employer = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True,
                                  related_name='rendez_vous_employers')
-    heure_rendez_vous = models.CharField(blank=False, max_length=250, null=True)
-    date_rendez_vous = models.DateField()
+    heure_rendez_vous = models.CharField(blank=True,null=True,choices=TIME)
+
     type_massage = models.CharField(max_length=255, choices=TYPE_MASSAGE_CHOICES, null=True)
 
 

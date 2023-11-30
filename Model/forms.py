@@ -103,30 +103,44 @@ class UserRegistrationForm(UserCreationForm):
         fields = ('email', 'nom', 'prenom', 'contact', 'commune', 'sexe')
 
 
-class RendezVousForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['date_rendez_vous'].widget.attrs.update({
-            'type': "date",
-            'name': 'date',
-            'class': "w-full p-2 border border-gray-300 rounded",
-            'id': "date",
-            'required': 'True'
-        })
-        self.fields['heure_rendez_vous'].widget.attrs.update({
-            'type': "Select",
-            'name': 'time',
-            'class': "form-control",
-            'id': "time",
-            'required': 'True'
-        })
-        self.fields['type_massage'].widget.attrs.update({
-            'type': "Select",
-            'class': "form-control",
-            'id': "reason",
-            'required': 'True'
-        })
+class XYZ_DateInput(forms.DateInput):
+    input_type = "date"
 
+    def __init__(self, **kwargs):
+        kwargs.setdefault('attrs', {})
+        kwargs['attrs'].update({
+            'class': 'w-full p-2 border border-gray-300 rounded',
+            'required': 'True',
+        })
+        kwargs["format"] = "%m-%d-%Y"
+        # kwargs["format"] = "%d-%m-%Y"
+        super().__init__(**kwargs)
+
+
+
+
+class RendezVousForm(forms.ModelForm):
     class Meta:
         model = Rendez_vous
         fields = ['date_rendez_vous', 'heure_rendez_vous', 'type_massage']
+
+        widgets = {
+            'date_rendez_vous': XYZ_DateInput(attrs={
+                'id': 'id_date_rendez_vous',  # Utilisez l'ID généré par Django
+            }),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['heure_rendez_vous'].widget.attrs.update({
+            'name': 'time',
+            'class': 'form-control',
+            'id': 'id_heure_rendez_vous',  # Utilisez l'ID généré par Django
+            'required': 'True'
+        })
+        self.fields['type_massage'].widget.attrs.update({
+            'name': 'reason',
+            'class': 'form-control',
+            'id': 'id_type_massage',  # Utilisez l'ID généré par Django
+            'required': 'True'
+        })

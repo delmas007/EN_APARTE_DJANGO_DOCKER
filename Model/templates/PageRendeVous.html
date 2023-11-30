@@ -1,30 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block css %}
-    <style>
-        body {
-            background-color: #f4f4f4;
-            padding: 20px;
-        }
-
-        form {
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            border-radius: 8px;
-        }
-
-        .error {
-            color: red;
-            margin-bottom: 10px;
-        }
-
-        label {
-            font-weight: bold;
-        }
-
-    </style>
-{% endblock %}
+{% include 'css.html' %}
 {% block content%}
     <body>
 

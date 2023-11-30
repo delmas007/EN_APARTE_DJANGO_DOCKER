@@ -1,10 +1,10 @@
 from django.urls import path
 
-from Employer.views import EmployerConfirme
+from Employer.views import  reservations_en_attente
 
 app_name = 'employer'
 
 urlpatterns = [
 
-    path('reservation/', EmployerConfirme, name='reservation'),
+    path('reservation/', reservations_en_attente, name='reservation'),
 ]

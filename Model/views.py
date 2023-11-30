@@ -1,4 +1,4 @@
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_protect
@@ -57,3 +57,5 @@ def Rendez_vous(request):
     return render(request, 'PageRendeVous.html', {'form': form})
 
 
+class Deconnexion(LogoutView):
+    pass

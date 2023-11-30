@@ -156,7 +156,7 @@
 
                   <ul class="nav flex-column mb-auto">
                     <li class="nav-item">
-                      <a class="nav-link d-flex align-items-center text-danger gap-2" href="#">
+                      <a class="nav-link d-flex align-items-center text-danger gap-2" href="{% url 'Model:Deconnexion'%}">
                         <svg class="bi"><use xlink:href="#door-closed"/></svg>
                         Se deconnecter
                       </a>
@@ -177,7 +177,7 @@
                         <th>Date de rendez-vous</th>
                         <th>Heure de rendez-vous</th>
                         <th>Type de massage</th>
-                        <th>Actions</th>
+                        <th>Confirmation</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -188,7 +188,7 @@
                                 <td>{{ reservation.heure_rendez_vous }}</td>
                                 <td>{{ reservation.type_massage }}</td>
                                 <td>
-                                    <form method="post" action="{% url 'reservations_en_attente' %}">
+                                    <form method="post" action="{% url 'employer:reservation' %}">
                                         {% csrf_token %}
                                         {{ form.as_p }}
                                         <input type="hidden" name="reservation_id" value="{{ reservation.id }}">

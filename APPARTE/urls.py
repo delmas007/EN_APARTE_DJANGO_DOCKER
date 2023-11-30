@@ -20,6 +20,7 @@ from Vitrine.views import Accueil
 
 urlpatterns = [
     path('', Accueil, name='Accueil'),
+    path('employer/', include('Employer.urls')),
     path('utilisateur/', include('Model.urls')),
     path('admin/', admin.site.urls),
 ]

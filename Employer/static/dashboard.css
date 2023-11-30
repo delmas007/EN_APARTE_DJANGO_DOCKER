@@ -7,6 +7,29 @@
 /*
  * Sidebar
  */
+#sidebar {
+  position: fixed;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  padding-top: 3rem; /* Si vous avez un en-tête, ajustez en conséquence */
+}
+
+#main {
+  margin-left: 16rem; /* Ajustez la marge gauche pour correspondre à la largeur de votre barre latérale */
+}
+
+@media (max-width: 768px) {
+  #sidebar {
+    position: static;
+    height: auto;
+  }
+
+  #main {
+    margin-left: 0;
+  }
+}
 
 @media (min-width: 768px) {
   .sidebar .offcanvas-lg {

@@ -13,6 +13,14 @@ class Connexion(LoginView):
     template_name = 'connexion.html'
     form_class = ConnexionForm
 
+    def get_success_url(self) -> str:
+        if self.request.user.roles.role == 'EMPLOYER':
+            return reverse('employer:reservation')
+        elif self.request.user.roles.role == 'ADMIN':
+            return reverse('nom_de_votre_url_pour_les_employeurs')
+        elif self.request.user.roles.role == 'CLIENT':
+            return reverse('Accueil')
+
 
 @csrf_protect
 def inscription(request):

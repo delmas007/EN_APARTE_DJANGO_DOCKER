@@ -1,14 +1,16 @@
-
+{% extends 'lien.html' %}
+{% load static %}
+{% block content%}
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
 
   <!-- Navbar -->
-
+    {% include 'nav.html' %}
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
 
-
+    {% include 'slide.html' %}
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -633,4 +635,5 @@
 <!-- jQuery -->
 
 </body>
+{% endblock %}
 

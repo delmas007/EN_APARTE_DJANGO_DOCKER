@@ -42,6 +42,6 @@ def reservations_en_attente(request):
     else:
         form = ConfirmationReservationForm()
 
-    return render(request, 'indexCon.html', {'reservations': reservations, 'form': form})
+    return render(request, 'indexe.html', {'reservations': reservations, 'form': form})
 
 # Create your views here.

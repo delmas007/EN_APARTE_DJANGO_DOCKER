@@ -105,7 +105,7 @@ class Rendez_vous(models.Model):
     client = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True, related_name='rendez_vous_clients')
     employer = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True,
                                  related_name='rendez_vous_employers')
-    heure_rendez_vous = models.CharField(blank=True,null=True,choices=TIME)
+    heure_rendez_vous = models.CharField(blank=True,null=True,choices=TIME,max_length=250)
 
     type_massage = models.CharField(max_length=255, choices=TYPE_MASSAGE_CHOICES, null=True)
 

@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
 from django.db import models
 from django.db.models.signals import pre_save
@@ -122,7 +124,11 @@ def update_dates_heures_rendez_vous(sender, instance, **kwargs):
         instance.Date_prise_rendez_vous = timezone.now()
 
     if instance.heure_debut_rendez_vous and instance.heure_fin_rendez_vous:
-        duree = timezone.datetime.combine(timezone.now().date(),
-                                          instance.heure_fin_rendez_vous) - timezone.datetime.combine(
+        duree = timezone.datetime.combine(timezone.now().date(), instance.heure_fin_rendez_vous) - timezone.datetime.combine(
             timezone.now().date(), instance.heure_debut_rendez_vous)
-        instance.duree_rendez_vous = duree.total_seconds() // 60
+
+        # Convertir la différence en timedelta
+        duree_timedelta = timedelta(seconds=duree.total_seconds())
+
+        # Affecter la valeur à duree_rendez_vous
+        instance.duree_rendez_vous = duree_timedelta

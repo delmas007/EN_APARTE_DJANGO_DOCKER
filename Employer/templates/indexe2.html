@@ -18,12 +18,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Réservation en attente...</h1>
+            <h1 class="m-0 text-dark">Réservation Confirmer</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{% url 'employer:reservation' %}">Home</a></li>
-              <li class="breadcrumb-item active">Rendez-vous</li>
+              <li class="breadcrumb-item active">Rendez-vous confirmer</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -43,32 +43,38 @@
                               <table id="example1" class="table table-bordered table-striped">
                                   <thead>
                                   <tr>
-                                      <th>Date de rendez-vous</th>
-                                      <th>Heure de rendez-vous</th>
+                                      <th>Nom du Client</th>
                                       <th>Type de massage</th>
-                                      <th>Confirmation</th>
+                                      <th>Date</th>
+                                      <th>Debut</th>
+                                      <th>Fin</th>
                                   </tr>
                                   </thead>
                                   <tbody>
-                                  {% if reservations %}
-                                      {% for reservation in reservations %}
+                                  {% if rendez_vous %}
+                                      {% for rdv in rendez_vous %}
                                           <tr>
-                                              <td>{{ reservation.date_rendez_vous }}</td>
-                                              <td>{{ reservation.heure_rendez_vous }}</td>
-                                              <td>{{ reservation.type_massage }}</td>
-                                              <td>
-                                                  <form method="post" action="{% url 'employer:reservation' %}">
-                                                      {% csrf_token %}
-                                                      {{ form.as_p }}
-                                                      <input type="hidden" name="reservation_id" value="{{ reservation.id }}">
-                                                      <button type="submit" class="btn btn-primary">Confirmer</button>
-                                                  </form>
-                                              </td>
+                                              <td>{{ rdv.client.nom }} {{ rdv.client.prenom }}</td>
+                                              <td>{{ rdv.get_type_massage_display }}</td>
+                                              <td>{{ rdv.Date_prise_rendez_vous }}</td>
+                                                      <td>
+                                                          <form method="post" action="{% url 'employer:debut_rendez_vous' rdv.id %}">
+                                                              {% csrf_token %}
+                                                              <button type="submit" class="btn btn-primary" {% if rdv.debut == True %}disabled{% endif %}>Début</button>
+                                                          </form>
+                                                      </td>
+                                                      <td>
+                                                          <form method="post" action="{% url 'employer:fin_rendez_vous' rdv.id %}">
+                                                              {% csrf_token %}
+                                                              <button type="submit" class="btn btn-success" {% if rdv.fin == True or rdv.debut == False %}disabled{% endif %}>Fin</button>
+                                                          </form>
+                                                      </td>
+
                                           </tr>
                                       {% endfor %}
                                   {% else %}
                                       <tr>
-                                          <td colspan="4">Aucune réservation en attente.</td>
+                                          <td colspan="5">Aucun Rendez-vous prevu.</td>
                                       </tr>
                                   {% endif %}
                                   </tbody>

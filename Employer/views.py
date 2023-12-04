@@ -5,6 +5,13 @@ from Model.models import Rendez_vous
 
 
 @login_required
+def Accueile(request):
+    if not request.user.roles or request.user.roles.role != 'EMPLOYER':
+        return redirect('Accueil')
+    return render(request, 'indexe.html')
+
+
+@login_required
 def reservations_en_attente(request):
     if not request.user.roles or request.user.roles.role != 'EMPLOYER':
         return redirect('Accueil')
@@ -23,7 +30,6 @@ def reservations_en_attente(request):
             # Mettez à jour le champ de confirmation
             reservation.confirmation = True
 
-
             # Si la réservation est confirmée, enregistrez l'id de l'utilisateur connecté comme client
             if reservation.confirmation:
                 reservation.employer = request.user
@@ -34,8 +40,7 @@ def reservations_en_attente(request):
             else:
                 print(f"Réservation {reservation_id} refusée par {request.user}")
 
-
-        # Ajoutez d'autres logiques pour le refus de la réservation si nécessaire
+            # Ajoutez d'autres logiques pour le refus de la réservation si nécessaire
             # ...
 
             return redirect('employer:reservation')

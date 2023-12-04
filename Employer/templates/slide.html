@@ -20,11 +20,12 @@
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
+            {% url 'employer:reservation' as employer_reservation_url %}
+            {% url 'employer:reservation_confirmer' as employer_reservation_confirmer_url %}
+
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <!-- Add icons to the links using the .nav-icon class
-                     with font-awesome or any other icon font library -->
-                <li class="nav-item has-treeview menu-open">
-                    <a href="#" class="nav-link active">
+                <li class="nav-item has-treeview {% if request.path == employer_reservation_url or request.path == employer_reservation_confirmer_url %}menu-open{% endif %}">
+                    <a href="#" class="nav-link {% if request.path == employer_reservation_url or request.path == employer_reservation_confirmer_url %}active{% endif %}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Rendez-vous
@@ -33,7 +34,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{% url 'employer:reservation' %}" class="nav-link active">
+                            <a href="{{ employer_reservation_url }}" class="nav-link {% if request.path == employer_reservation_url %}active{% endif %}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Réservation en attente...</p>
                             </a>
@@ -41,7 +42,7 @@
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{% url 'employer:reservation_confirmer' %}" class="nav-link ">
+                            <a href="{{ employer_reservation_confirmer_url }}" class="nav-link {% if request.path == employer_reservation_confirmer_url %}active{% endif %}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Réservation confirmer</p>
                             </a>
@@ -49,6 +50,10 @@
                     </ul>
                 </li>
             </ul>
+
+
+
+
         </nav>
         <!-- /.sidebar-menu -->
     </div>

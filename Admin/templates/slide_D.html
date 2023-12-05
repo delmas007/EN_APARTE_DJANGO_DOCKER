@@ -22,6 +22,8 @@
         <nav class="mt-2">
             {% url 'admin:reservation_D' as admin_reservation_url %}
             {% url 'admin:reservation_confirmer_D' as admin_reservation_confirmer_url %}
+            {% url 'admin:rendez_vous_aujourdhui' as admin_rendez_vous_aujourdhui_url %}
+            {% url 'admin:filtrer_rendez_vous' as admin_filtrer_rendez_vous_url %}
 
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item has-treeview {% if request.path == admin_reservation_url or request.path == admin_reservation_confirmer_url %}menu-open{% endif %}">
@@ -49,11 +51,33 @@
                         </li>
                     </ul>
                 </li>
+
+                <li class="nav-item has-treeview {% if request.path == admin_rendez_vous_aujourdhui_url or request.path == admin_filtrer_rendez_vous_url %}menu-open{% endif %}">
+                    <a href="#" class="nav-link {% if request.path == admin_rendez_vous_aujourdhui_url or request.path == admin_filtrer_rendez_vous_url %}active{% endif %}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Rendez-vous filtrer
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ admin_rendez_vous_aujourdhui_url }}" class="nav-link {% if request.path == admin_rendez_vous_aujourdhui_url %}active{% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Réservation en attente...</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ admin_filtrer_rendez_vous_url }}" class="nav-link {% if request.path == admin_filtrer_rendez_vous_url %}active{% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Réservation confirmer</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
-
-
-
-
         </nav>
         <!-- /.sidebar-menu -->
     </div>

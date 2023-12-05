@@ -10,18 +10,17 @@ from Model.models import Rendez_vous, Roles
 
 @csrf_protect
 @login_required
-def inscription(request):
+def inscription_D(request):
     context = {}
     if request.method == 'POST':
         form = UserRegistrationForme(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
 
-            client_role = Roles.objects.get(role=Roles.CLIENT)
+            client_role = Roles.objects.get(role=Roles.EMPLOYER)
             user.roles = client_role
 
             user.save()
-            return redirect('Model:connexion')
         else:
             context['errors'] = form.errors
 

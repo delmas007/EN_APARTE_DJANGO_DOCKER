@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_protect
-
+from django.contrib import messages
 from Admin.forms import UserRegistrationForme
 from Employer.forms import ConfirmationReservationForm
 from Model.models import Rendez_vous, Roles
@@ -21,12 +21,13 @@ def inscription_D(request):
             user.roles = client_role
 
             user.save()
+            messages.success(request, 'Employer ajouter avec succès !')
         else:
             context['errors'] = form.errors
 
     form = UserRegistrationForme()
     context['form'] = form
-    return render(request, 'inscription.html', context=context)
+    return render(request, 'employer_D.html', context=context)
 # Create your views here.
 @login_required
 def filtrer_rendez_vous(request):

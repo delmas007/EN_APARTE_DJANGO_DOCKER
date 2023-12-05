@@ -1,6 +1,6 @@
-{% extends 'lien_D.html' %}
+{% extends 'lien_DD.html' %}
 {% load static %}
-{% block content%}>
+{% block content%}
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
   <!-- Navbar -->
@@ -31,13 +31,14 @@
           <!-- left column -->
           <div class="col-md-12">
             <!-- jquery validation -->
-            <div class="card card-success">
+            <div class="card card-secondary">
               <div class="card-header">
                 <h3 class="card-title">Add product</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form id="quickForm" method="POST" action="">
+              <form id="quickForm" method="POST" action="{% url 'admin:inscription_D' %}">
+
                   {% csrf_token %}
                 <div class="card-body">
                   <div class="form-group">
@@ -51,6 +52,10 @@
                     <div class="form-group">
                         <label for="email">email</label>
                         {{ form.email}}
+                    </div>
+                    <div class="form-group">
+                        <label for="email">contact</label>
+                        {{ form.contact}}
                     </div>
                     <div class="form-group">
                         <label for="password">mot de passe</label>
@@ -92,23 +97,35 @@
                           {% endif %}
                       {% endfor %}
                   {% endfor %}
+                  {% if messages %}
+                      {% for message in messages %}
+                          <div class="alert alert-primary">
+                              {{ message }}
+                          </div>
+                      {% endfor %}
+                  {% endif %}
 
                 <!-- /.card-body -->
                 <div class="card-footer">
-                  <input type="submit" class="btn btn-success" value="Save">
+                  <input type="submit" class="btn btn-secondary" value="Save">
                 </div>
 
               </form>
             </div>
             </div>
-          <!--/.col (left) -->
-          <!-- right column -->
-          <div class="col-md-6">
 
           </div>
         </div>
       </div>
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2014-2020 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Version</b> 3.1.0-pre
+            </div>
+        </footer>
     </section>
+
   </div>
       <aside class="control-sidebar control-sidebar-dark">
   </aside>

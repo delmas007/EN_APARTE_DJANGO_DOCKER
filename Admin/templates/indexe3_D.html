@@ -1,156 +1,197 @@
-{% extends 'lien.html' %}
 {% load static %}
-{% block content%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AdminLTE 3 | DataTables</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css' %}">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{% static 'plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}">
+</head>
+
 <body class="hold-transition sidebar-mini layout-fixed">
-<div class="wrapper">
+    <div class="wrapper">
 
-  <!-- Main Sidebar Container -->
+      <!-- Main Sidebar Container -->
 
-    {% include 'slide_D.html' %}
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Réservation en attente...</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="{% url 'admin:reservation_D' %}">Home</a></li>
-              <li class="breadcrumb-item active">Rendez-vous</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-      <!-- Main content -->
-      <section class="content">
+        {% include 'slide_D.html' %}
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
           <div class="container-fluid">
-              <div class="row">
-                  <!-- left column -->
-                  <div class="col-md-12">
-                      <!-- jquery validation -->
-                      <div class="card card-success">
-                          <!-- /.card-header -->
-                          <!-- form start -->
-                          <form method="get" action="{% url 'admin:filtrer_rendez_vous' %}" id="quickForm">
-                              {% csrf_token %}
+            <div class="row mb-2">
+              <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Réservation en attente...</h1>
+              </div><!-- /.col -->
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item"><a href="{% url 'admin:reservation_D' %}">Home</a></li>
+                  <li class="breadcrumb-item active">Rendez-vous</li>
+                </ol>
+              </div><!-- /.col -->
+            </div><!-- /.row -->
+          </div><!-- /.container-fluid -->
+        </div>
+          <!-- Main content -->
+          <section class="content">
+              <div class="container-fluid">
+                  <div class="row">
+                      <!-- left column -->
+                      <div class="col-md-12">
+                          <!-- jquery validation -->
+                          <div class="card card-success">
+                              <!-- /.card-header -->
+                              <!-- form start -->
+                              <form method="get" action="{% url 'admin:filtrer_rendez_vous' %}" id="quickForm">
+                                  {% csrf_token %}
+                                  <div class="card-body">
+                                      <div class="form-group">
+                                          <label for="date">Date </label>
+                                          <input type="date" name="date" class="form-control" value="{{ date_filtre }}" id="date">
+                                      </div>
+                                      <div class="form-group">
+                                          <label for="employer">Employé </label>
+                                          <input type="text" name="employer" class="form-control" id="employer" value="{{ employer_filtre }}" placeholder="Nom employer" >
+                                      </div>
+                                      <div class="form-group">
+                                          <label for="client">Client </label>
+                                          <input type="text" name="client" class="form-control" id="client" value="{{ client_filtre }}" placeholder="Nom client" >
+                                      </div>
+                                  </div>
+                                  <!-- /.card-body -->
+                                  <div class="card-footer">
+                                      <!-- <button type="submit" class="btn btn-success">Submit</button> -->
+                                      <input type="submit" class="btn btn-success" value="Save">
+                                  </div>
+                              </form>
+                          </div>
+                          <!-- /.card -->
+                      </div>
+                      <!--/.col (left) -->
+                      <!-- right column -->
+                      <div class="col-md-6">
+
+                      </div>
+                      <!--/.col (right) -->
+                  </div>
+                  <!-- /.row -->
+              </div><!-- /.container-fluid -->
+          </section>
+        <!-- /.content-header -->
+          <section class="content">
+              <div class="container-fluid">
+                  <div class="row">
+                      <div class="col-12">
+                          <div class="card">
+                              <div class="card-header">
+                                  <h3 class="card-title">All categories</h3>
+                              </div>
+                              <!-- /.card-header -->
                               <div class="card-body">
-                                  <div class="form-group">
-                                      <label for="date">Date </label>
-                                      <input type="date" name="date" class="form-control" value="{{ date_filtre }}" id="date">
-                                  </div>
-                                  <div class="form-group">
-                                      <label for="employer">Employé </label>
-                                      <input type="text" name="employer" class="form-control" id="employer" value="{{ employer_filtre }}" placeholder="Nom employer" >
-                                  </div>
-                                  <div class="form-group">
-                                      <label for="client">Client </label>
-                                      <input type="text" name="client" class="form-control" id="client" value="{{ client_filtre }}" placeholder="Nom client" >
-                                  </div>
+                                  <table id="example1" class="table table-bordered table-striped">
+                                      <thead>
+                                      <tr>
+                                          <th>Date</th>
+                                          <th>Heure de début</th>
+                                          <th>Heure de fin</th>
+                                          <th>Durée</th>
+                                          <th>Client</th>
+                                          <th>Employé</th>
+                                      </tr>
+                                      </thead>
+                                      <tbody>
+                                      {% if tous_les_rendez_vous %}
+                                          {% for rendez_vous in tous_les_rendez_vous %}
+                                              <tr>
+                                                  <td>{{ rendez_vous.date_rendez_vous }}</td>
+                                                  <td>{{ rendez_vous.heure_debut_rendez_vous }}</td>
+                                                  <td>{{ rendez_vous.heure_fin_rendez_vous }}</td>
+                                                  <td>{{ rendez_vous.duree_rendez_vous }}</td>
+                                                  <td>{{ rendez_vous.client.nom }} {{ rendez_vous.client.prenom }}</td>
+                                                  <td>{{ rendez_vous.employer.nom }} {{ rendez_vous.employer.prenom }}</td>
+                                              </tr>
+                                          {% endfor %}
+                                      {% else %}
+                                          <tr>
+                                              <td colspan="5">Aucun rendez-vous trouvé</td>
+                                          </tr>
+                                      {% endif %}
+                                      </tbody>
+
+                                  </table>
                               </div>
                               <!-- /.card-body -->
-                              <div class="card-footer">
-                                  <!-- <button type="submit" class="btn btn-success">Submit</button> -->
-                                  <input type="submit" class="btn btn-success" value="Save">
-                              </div>
-                          </form>
-                      </div>
-                      <!-- /.card -->
-                  </div>
-                  <!--/.col (left) -->
-                  <!-- right column -->
-                  <div class="col-md-6">
-
-                  </div>
-                  <!--/.col (right) -->
-              </div>
-              <!-- /.row -->
-          </div><!-- /.container-fluid -->
-      </section>
-    <!-- /.content-header -->
-      <section class="content">
-          <div class="container-fluid">
-              <div class="row">
-                  <div class="col-12">
-                      <div class="card">
-                          <div class="card-header">
-                              <h3 class="card-title">All categories</h3>
                           </div>
-                          <!-- /.card-header -->
-                          <div class="card-body">
-                              <table id="example1" class="table table-bordered table-striped">
-                                  <thead>
-                                  <tr>
-                                      <th>Date</th>
-                                      <th>Heure de début</th>
-                                      <th>Heure de fin</th>
-                                      <th>Durée</th>
-                                      <th>Client</th>
-                                      <th>Employé</th>
-                                  </tr>
-                                  </thead>
-                                  <tbody>
-                                  {% if tous_les_rendez_vous %}
-                                      {% for rendez_vous in tous_les_rendez_vous %}
-                                          <tr>
-                                              <td>{{ rendez_vous.date_rendez_vous }}</td>
-                                              <td>{{ rendez_vous.heure_debut_rendez_vous }}</td>
-                                              <td>{{ rendez_vous.heure_fin_rendez_vous }}</td>
-                                              <td>{{ rendez_vous.duree_rendez_vous }}</td>
-                                              <td>{{ rendez_vous.client.nom }} {{ rendez_vous.client.prenom }}</td>
-                                              <td>{{ rendez_vous.employer.nom }} {{ rendez_vous.employer.prenom }}</td>
-                                          </tr>
-                                      {% endfor %}
-                                  {% else %}
-                                      <tr>
-                                          <td colspan="5">Aucun rendez-vous trouvé</td>
-                                      </tr>
-                                  {% endif %}
-                                  </tbody>
-
-                              </table>
-                          </div>
-                          <!-- /.card-body -->
+                          <!-- /.card -->
                       </div>
-                      <!-- /.card -->
+                      <!-- /.col -->
                   </div>
-                  <!-- /.col -->
+                  <!-- /.row -->
               </div>
-              <!-- /.row -->
-          </div>
-          <!-- /.container-fluid -->
-      </section>
-      <!-- /.content -->
-  </div>
-    <!-- Main content -->
+              <!-- /.container-fluid -->
+          </section>
+      </div>
 
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
+          <footer class="main-footer">
+              <div class="float-right d-none d-sm-block">
+                  <b>Version</b> 3.1.0-pre
+              </div>
+              <strong>Copyright &copy; 2014-2020 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+          </footer>
+
+          <!-- Control Sidebar -->
+          <aside class="control-sidebar control-sidebar-dark">
+              <!-- Control sidebar content goes here -->
+          </aside>
+
+    </div>
+      <!-- jQuery -->
+      <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+      <!-- Bootstrap 4 -->
+      <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+      <!-- DataTables -->
+      <script src="{% static 'plugins/datatables/jquery.dataTables.min.js' %}"></script>
+      <script src="{% static 'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+      <script src="{% static 'plugins/datatables-responsive/js/dataTables.responsive.min.js'%}"></script>
+      <script src="{% static 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js'%}"></script>
+      <!-- AdminLTE App -->
+      <script src="{% static 'dist/js/adminlte.min.js' %}"></script>
+      <!-- AdminLTE for demo purposes -->
+
+      <script src="{% static 'dist/js/demo.js' %}"></script>
+
+      <script src="{% static 'dist/js/bootbox.min.js' %}"></script>
+      <!-- page script -->
 
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
-<!-- ./wrapper -->
+      <!-- page script -->
+      <script>
+          $(function () {
+              $("#example1").DataTable({
+                  "responsive": true,
+                  "autoWidth": false,
+              });
+              $('#example2').DataTable({
+                  "paging": true,
+                  "lengthChange": false,
+                  "searching": false,
+                  "ordering": true,
+                  "info": true,
+                  "autoWidth": false,
+                  "responsive": true,
+              });
+          });
+      </script>
 
-<!-- jQuery -->
-<script>
-    $(document).on("click", "#delete", function(e){
-        e.preventDefault();
-        var link = $(this).attr("href");
-        bootbox.confirm("Do you really want to delete this element ?", function(confirmed){
-            if (confirmed){
-                window.location.href = link;
-            };
-        });
-    });
-</script>
 </body>
-{% endblock %}
+</html>
 

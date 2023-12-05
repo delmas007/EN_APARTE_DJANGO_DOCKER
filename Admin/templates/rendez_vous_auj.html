@@ -44,26 +44,28 @@
                                   <thead>
                                   <tr>
                                       <th>Nom client</th>
-                                      <th>Prenom client</th>
+                                      <th>Nom employer</th>
                                       <th>Date de rendez-vous</th>
                                       <th>Heure de rendez-vous</th>
                                       <th>Type de massage</th>
+                                      <th>Etat du rendez-vous</th>
                                   </tr>
                                   </thead>
                                   <tbody>
-                                  {% if reservations %}
-                                      {% for reservation in reservations %}
+                                  {% if rendez_vous_aujourdhui %}
+                                      {% for rendez_vous in rendez_vous_aujourdhui %}
                                           <tr>
-                                              <td>{{ reservation.client.nom }} {{ reservation.client.prenom }}</td>
-                                              <td>{{ reservation.employer.nom }} {{ reservation.employer.prenom }}</td>
-                                              <td>{{ reservation.date_rendez_vous }}</td>
-                                              <td>{{ reservation.heure_rendez_vous }}</td>
-                                              <td>{{ reservation.type_massage }}</td>
+                                              <td>{{ rendez_vous.client.nom }} {{ rendez_vous.client.prenom }}</td>
+                                              <td>{{ rendez_vous.employer.nom }} {{ rendez_vous.employer.prenom }}</td>
+                                              <td>{{ rendez_vous.date_rendez_vous }}</td>
+                                              <td>{{ rendez_vous.heure_rendez_vous }}</td>
+                                              <td>{{ rendez_vous.type_massage }}</td>
+                                              <td>{{ rendez_vous.etat }}</td>
                                           </tr>
                                       {% endfor %}
                                   {% else %}
                                       <tr>
-                                          <td colspan="5">Aucune réservation confirmer.</td>
+                                          <td colspan="6">Aucune réservation en attente.</td>
                                       </tr>
                                   {% endif %}
                                   </tbody>

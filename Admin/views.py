@@ -11,7 +11,7 @@ def filtrer_rendez_vous(request):
     if not request.user.roles or request.user.roles.role != 'ADMIN':
         return redirect('Accueil')
     # Obtenez la liste de tous les rendez-vous
-    tous_les_rendez_vous = Rendez_vous.objects.all()
+    tous_les_rendez_vous = Rendez_vous.objects.filter(fin=True)
 
     # Gestion des filtres
     date_filtre = request.GET.get('date', '')
@@ -33,6 +33,7 @@ def filtrer_rendez_vous(request):
         'client_filtre': client_filtre,
     }
     return render(request, 'indexe3_D.html', context)
+
 
 @login_required
 def reservations_en_attente_D(request):
@@ -73,7 +74,7 @@ def reservations_en_attente_D(request):
 def reservations_confirmer_D(request):
     if not request.user.roles or request.user.roles.role != 'ADMIN':
         return redirect('Accueil')
-    rendez_vous = Rendez_vous.objects.filter(confirmation=True, en_attente=False, fin=False, debut=False, employer=request.user.id)
+    rendez_vous = Rendez_vous.objects.filter(confirmation=True, en_attente=False, fin=False, debut=False)
     return render(request, 'indexe2_D.html', {'reservations': rendez_vous})
 
 
@@ -88,12 +89,13 @@ def rendez_vous_aujourdhui(request):
 
     # Calculez l'état de chaque rendez-vous
     for rendez_vous in rendez_vous_aujourdhui:
-        current_datetime = timezone.now()
-        if rendez_vous.heure_debut_rendez_vous is not None and rendez_vous.heure_debut_rendez_vous <= current_datetime.time():
-            rendez_vous.etat = "Commencé"
-        elif rendez_vous.heure_fin_rendez_vous is not None and rendez_vous.heure_fin_rendez_vous <= current_datetime.time():
+        if rendez_vous.en_attente:
+            rendez_vous.etat = "Reservation pas encore accepter"
+        elif rendez_vous.debut == True and rendez_vous.fin == False:
+            rendez_vous.etat = "en cours..."
+        elif rendez_vous.fin:
             rendez_vous.etat = "Terminé"
-        else:
+        elif not rendez_vous.debut:
             rendez_vous.etat = "Pas encore commencé"
 
     context = {'rendez_vous_aujourdhui': rendez_vous_aujourdhui}

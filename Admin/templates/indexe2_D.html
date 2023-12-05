@@ -4,13 +4,11 @@
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
 
-  <!-- Navbar -->
-    {% include 'nav.html' %}
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
 
-    {% include 'slide.html' %}
+    {% include 'slide_D.html' %}
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -22,7 +20,7 @@
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="{% url 'employer:reservation' %}">Home</a></li>
+              <li class="breadcrumb-item"><a href="{% url 'admin:reservation_confirmer_D' %}">Home</a></li>
               <li class="breadcrumb-item active">Rendez-vous</li>
             </ol>
           </div><!-- /.col -->
@@ -43,8 +41,8 @@
                               <table id="example1" class="table table-bordered table-striped">
                                   <thead>
                                   <tr>
-                                      <th>Nom client</th>
-                                      <th>Prenom client</th>
+                                      <th>client</th>
+                                      <th>employer</th>
                                       <th>Date de rendez-vous</th>
                                       <th>Heure de rendez-vous</th>
                                       <th>Type de massage</th>

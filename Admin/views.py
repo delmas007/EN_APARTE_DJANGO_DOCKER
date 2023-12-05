@@ -8,6 +8,8 @@ from Model.models import Rendez_vous
 # Create your views here.
 @login_required
 def filtrer_rendez_vous(request):
+    if not request.user.roles or request.user.roles.role != 'ADMIN':
+        return redirect('Accueil')
     # Obtenez la liste de tous les rendez-vous
     tous_les_rendez_vous = Rendez_vous.objects.all()
 
@@ -30,7 +32,7 @@ def filtrer_rendez_vous(request):
         'employer_filtre': employer_filtre,
         'client_filtre': client_filtre,
     }
-    return render(request, 'filtrer_rendez_vous.html', context)
+    return render(request, 'rendez_vous_auj.html', context)
 
 @login_required
 def reservations_en_attente_D(request):
@@ -68,7 +70,7 @@ def reservations_en_attente_D(request):
     return render(request, 'indexe_D.html', {'reservations': reservations, 'form': form})
 
 
-def reservations_confirmer(request):
+def reservations_confirmer_D(request):
     if not request.user.roles or request.user.roles.role != 'ADMIN':
         return redirect('Accueil')
     rendez_vous = Rendez_vous.objects.filter(confirmation=True, en_attente=False, fin=False, debut=False, employer=request.user.id)

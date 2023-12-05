@@ -1,10 +1,33 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_protect
+
+from Admin.forms import UserRegistrationForme
 from Employer.forms import ConfirmationReservationForm
-from Model.models import Rendez_vous
+from Model.models import Rendez_vous, Roles
 
 
+@csrf_protect
+@login_required
+def inscription(request):
+    context = {}
+    if request.method == 'POST':
+        form = UserRegistrationForme(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+
+            client_role = Roles.objects.get(role=Roles.CLIENT)
+            user.roles = client_role
+
+            user.save()
+            return redirect('Model:connexion')
+        else:
+            context['errors'] = form.errors
+
+    form = UserRegistrationForme()
+    context['form'] = form
+    return render(request, 'inscription.html', context=context)
 # Create your views here.
 @login_required
 def filtrer_rendez_vous(request):

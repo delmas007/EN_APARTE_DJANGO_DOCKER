@@ -3,7 +3,7 @@ from django.urls import path
 from .views import rendez_vous_aujourdhui, reservations_en_attente_D, reservations_confirmer_D, filtrer_rendez_vous, \
     inscription_D
 
-app_name = 'admin'
+app_name = 'admins'
 urlpatterns = [
     path('Inscription/', inscription_D, name='inscription_D'),
     path('rendez-vous-aujourdhui/', rendez_vous_aujourdhui, name='rendez_vous_aujourdhui'),

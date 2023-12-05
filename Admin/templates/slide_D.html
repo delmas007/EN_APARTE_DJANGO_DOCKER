@@ -20,11 +20,11 @@
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
-            {% url 'admin:reservation_D' as admin_reservation_url %}
-            {% url 'admin:reservation_confirmer_D' as admin_reservation_confirmer_url %}
-            {% url 'admin:rendez_vous_aujourdhui' as admin_rendez_vous_aujourdhui_url %}
-            {% url 'admin:filtrer_rendez_vous' as admin_filtrer_rendez_vous_url %}
-            {% url 'admin:inscription_D' as admin_inscription_url %}
+            {% url 'admins:reservation_D' as admin_reservation_url %}
+            {% url 'admins:reservation_confirmer_D' as admin_reservation_confirmer_url %}
+            {% url 'admins:rendez_vous_aujourdhui' as admin_rendez_vous_aujourdhui_url %}
+            {% url 'admins:filtrer_rendez_vous' as admin_filtrer_rendez_vous_url %}
+            {% url 'admins:inscription_D' as admin_inscription_url %}
 
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item has-treeview {% if request.path == admin_reservation_url or request.path == admin_reservation_confirmer_url %}menu-open{% endif %}">

@@ -32,7 +32,7 @@ def filtrer_rendez_vous(request):
         'employer_filtre': employer_filtre,
         'client_filtre': client_filtre,
     }
-    return render(request, 'rendez_vous_auj.html', context)
+    return render(request, 'indexe3_D.html', context)
 
 @login_required
 def reservations_en_attente_D(request):

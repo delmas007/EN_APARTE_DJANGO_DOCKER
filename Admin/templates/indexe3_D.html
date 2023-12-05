@@ -39,7 +39,8 @@
                       <div class="card card-success">
                           <!-- /.card-header -->
                           <!-- form start -->
-                          <form method="get" action="{% url 'filtrer_rendez_vous' %}" id="quickForm">
+                          <form method="get" action="{% url 'admin:filtrer_rendez_vous' %}" id="quickForm">
+                              {% csrf_token %}
                               <div class="card-body">
                                   <div class="form-group">
                                       <label for="date">Date </label>

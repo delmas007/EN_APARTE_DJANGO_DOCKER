@@ -1,14 +1,16 @@
-{% extends 'lien_D.html' %}
+{% extends 'lien.html' %}
 {% load static %}
 {% block content%}
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
 
+  <!-- Navbar -->
+    {% include 'nav.html' %}
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
 
-    {% include 'slide_D.html' %}
+    {% include 'slide.html' %}
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -45,6 +47,7 @@
                                       <th>Date de rendez-vous</th>
                                       <th>Heure de rendez-vous</th>
                                       <th>Type de massage</th>
+                                      <th>Confirmation</th>
                                   </tr>
                                   </thead>
                                   <tbody>
@@ -52,6 +55,7 @@
                                       {% for reservation in reservations %}
                                           <tr>
                                               <td>{{ reservation.client.nom }} {{ reservation.client.prenom }}</td>
+                                              <td>{{ reservation.employer.nom }} {{ reservation.employer.prenom }}</td>
                                               <td>{{ reservation.date_rendez_vous }}</td>
                                               <td>{{ reservation.heure_rendez_vous }}</td>
                                               <td>{{ reservation.type_massage }}</td>

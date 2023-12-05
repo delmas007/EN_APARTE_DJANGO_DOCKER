@@ -3,7 +3,7 @@
     <!-- Brand Logo -->
     <a href="indexe_D.html" class="brand-link">
         <img src="{% static 'dist/img/AdminLTELogo.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">AdminLTE 3</span>
+        <span class="brand-text font-weight-light">Employer</span>
     </a>
 
     <!-- Sidebar -->
@@ -14,137 +14,46 @@
                 <img src="{% static 'dist/img/user2-160x160.jpg' %}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Alexander Pierce</a>
+                <a href="#" class="d-block">{{ request.user.nom }} {{ request.user.prenom }}</a>
             </div>
         </div>
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
+            {% url 'employer:reservation' as employer_reservation_url %}
+            {% url 'employer:reservation_confirmer' as employer_reservation_confirmer_url %}
+
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <!-- Add icons to the links using the .nav-icon class
-                     with font-awesome or any other icon font library -->
-                <li class="nav-item has-treeview menu-open">
-                    <a href="#" class="nav-link active">
+                <li class="nav-item has-treeview {% if request.path == employer_reservation_url or request.path == employer_reservation_confirmer_url %}menu-open{% endif %}">
+                    <a href="#" class="nav-link {% if request.path == employer_reservation_url or request.path == employer_reservation_confirmer_url %}active{% endif %}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
-                            Dashboard
+                            Rendez-vous
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="indexe_D.html" class="nav-link active">
+                            <a href="{{ employer_reservation_url }}" class="nav-link {% if request.path == employer_reservation_url %}active{% endif %}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Dashboard v1</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-folder"></i>
-                        <p>
-                            Categories
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-{#                            <a href="{% url 'forms/addcategory_D.html'%}" class="nav-link">#}
-                                <i class="far fa-file nav-icon"></i>
-                                <p>Add category</p>
+                                <p>Réservation en attente...</p>
                             </a>
                         </li>
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-{#                            <a href="{% url 'tables/categories_D.html' %}" class="nav-link">#}
-                                <i class="far fa-file nav-icon"></i>
-                                <p>Categories</p>
+                            <a href="{{ employer_reservation_confirmer_url }}" class="nav-link {% if request.path == employer_reservation_confirmer_url %}active{% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Réservation confirmer</p>
                             </a>
                         </li>
                     </ul>
-                </li>
-
-                <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-folder"></i>
-                        <p>
-                            Sliders
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-{#                            <a href="{% url 'forms/addslider.html' %}" class="nav-link">#}
-                                <i class="far fa-file nav-icon"></i>
-                                <p>Add slider</p>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-{#                            <a href="{% url 'tables/sliders.html' %}" class="nav-link">#}
-                                <i class="far fa-file nav-icon"></i>
-                                <p>Sliders</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-folder"></i>
-                        <p>
-                            Products
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-{#                            <a href="{% url 'forms/addproduct_D.html' %}" class="nav-link">#}
-                                <i class="far fa-file nav-icon"></i>
-                                <p>Add product</p>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-{#                            <a href="{% url 'tables/products.html' %}" class="nav-link">#}
-                                <i class="far fa-file nav-icon"></i>
-                                <p>Products</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-folder"></i>
-                        <p>
-                            Orders
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-{#                            <a href="{% url 'tables/orders.html' %}" class="nav-link">#}
-                                <i class="far fa-file nav-icon"></i>
-                                <p>Orders</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="nav-header">MISCELLANEOUS</li>
-                <li class="nav-item">
-                    <a href="https://adminlte.io/docs/3.0/" class="nav-link">
-                        <i class="nav-icon fas fa-file"></i>
-                        <p>Documentation</p>
-                    </a>
                 </li>
             </ul>
+
+
+
+
         </nav>
         <!-- /.sidebar-menu -->
     </div>

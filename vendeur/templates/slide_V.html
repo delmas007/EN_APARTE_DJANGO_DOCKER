@@ -1,0 +1,62 @@
+{% load static %}
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="indexe_D.html" class="brand-link">
+        <img src="{% static 'dist/img/AdminLTELogo.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <span class="brand-text font-weight-light">Employer</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="{% static 'dist/img/user2-160x160.jpg' %}" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <a href="#" class="d-block">{{ request.user.nom }} {{ request.user.prenom }}</a>
+            </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            {% url 'admins:reservation_D' as admin_reservation_url %}
+            {% url 'admins:reservation_confirmer_D' as admin_reservation_confirmer_url %}
+            {% url 'admins:rendez_vous_aujourdhui' as admin_rendez_vous_aujourdhui_url %}
+            {% url 'admins:filtrer_rendez_vous' as admin_filtrer_rendez_vous_url %}
+            {% url 'admins:inscription_D' as admin_inscription_url %}
+            {% url 'admins:Compte_employer' as admin_Compte_employer_url %}
+
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <li class="nav-item has-treeview {% if request.path == admin_reservation_url or request.path == admin_reservation_confirmer_url %}menu-open{% endif %}">
+                    <a href="#" class="nav-link {% if request.path == admin_reservation_url or request.path == admin_reservation_confirmer_url %}active{% endif %}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Rendez-vous
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ admin_reservation_url }}" class="nav-link {% if request.path == admin_reservation_url %}active{% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Réservation en attente...</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ admin_reservation_confirmer_url }}" class="nav-link {% if request.path == admin_reservation_confirmer_url %}active{% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Réservation confirmer</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+
+    <!-- /.sidebar -->
+</aside>

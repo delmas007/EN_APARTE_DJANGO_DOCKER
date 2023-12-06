@@ -1,0 +1,153 @@
+{% extends 'lien_DD.html' %}
+{% load static %}
+{% block content%}
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+  <!-- Navbar -->
+    {% include 'slide_D.html' %}
+
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Product</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Product</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- left column -->
+          <div class="col-md-12">
+            <!-- jquery validation -->
+            <div class="card card-secondary">
+              <div class="card-header">
+                <h3 class="card-title">Add product</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form id="quickForm" method="POST" action="{% url 'admins:inscription_D' %}">
+
+                  {% csrf_token %}
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="nom">nom</label>
+                      {{ form.nom}}
+                  </div>
+                    <div class="form-group">
+                        <label for="prenom">prenom</label>
+                        {{ form.prenom}}
+                    </div>
+                    <div class="form-group">
+                        <label for="email">email</label>
+                        {{ form.email}}
+                    </div>
+                    <div class="form-group">
+                        <label for="email">contact</label>
+                        {{ form.contact}}
+                    </div>
+                    <div class="form-group">
+                        <label for="password">mot de passe</label>
+                        {{ form.password1}}
+                    </div>
+                    <div class="form-group">
+                        <label for="password">confirme mot de passe</label>
+                        {{ form.password2}}
+                    </div>
+                  <div class="form-group">
+                    <label for="commune">commune</label>
+                      {{ form.commune}}
+                  </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                        <label class="form-check-label" for="pourcentage">Promotion ?</label>
+                    </div>
+                  <div class="form-group">
+                    <label>sexe</label>
+                        {{ form.sexe}}
+                  </div>
+                    <div class="form-group">
+                        <label>roles</label>
+                        {{ form.roles}}
+                    </div>
+                    <label for="image">Image du produit</label>
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="image">
+                            <label class="custom-file-label" for="image">Choose file</label>
+                        </div>
+                        <div class="input-group-append">
+                            <span class="input-group-text">Ajouter</span>
+                        </div>
+                    </div>
+
+
+                </div>
+                  {% for field, errors in errors.items %}
+                      {% for error in errors %}
+                          {% if field == 'email' %}
+                              <div class="alert alert-dark mt-4" role="alert">
+                                  <strong>Erreur dans le champ Email :</strong> {{ error }}
+                              </div>
+                          {% elif field == 'password1' %}
+                              <div class="alert alert-dark mt-4" role="alert">
+                                  <strong>Erreur dans le champ Password :</strong> {{ error }}
+                              </div>
+                          {% elif field == 'password2' %}
+                              <div class="alert alert-dark mt-4" role="alert">
+                                  <strong>Erreur dans le champ confirmation Password :</strong> {{ error }}
+                              </div>
+                          {% else %}
+                              <div class="alert alert-dark" role="alert">
+                                  <strong>Erreur dans le champ {{ field|title }} :</strong> {{ error }}
+                              </div>
+                          {% endif %}
+                      {% endfor %}
+                  {% endfor %}
+                  {% if messages %}
+                      {% for message in messages %}
+                          <div class="alert alert-primary">
+                              {{ message }}
+                          </div>
+                      {% endfor %}
+                  {% endif %}
+
+                <!-- /.card-body -->
+                <div class="card-footer">
+                  <input type="submit" class="btn btn-secondary" value="Save">
+                </div>
+
+              </form>
+            </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2014-2020 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Version</b> 3.1.0-pre
+            </div>
+        </footer>
+    </section>
+
+  </div>
+      <aside class="control-sidebar control-sidebar-dark">
+  </aside>
+</div>
+
+</body>
+{% endblock %}

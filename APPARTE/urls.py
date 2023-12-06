@@ -21,10 +21,10 @@ from APPARTE import settings
 from Vitrine.views import Accueil
 
 urlpatterns = [
-    path('', Accueil, name='Accueil'),
-    path('admins/', include('Admin.urls')),
-    path('vendeur/', include('vendeur.urls')),
-    path('employer/', include('Employer.urls')),
-    path('utilisateur/', include('Model.urls')),
-    path('admin/', admin.site.urls),
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+                  path('', Accueil, name='Accueil'),
+                  path('admins/', include('Admin.urls')),
+                  path('vendeur/', include('vendeur.urls')),
+                  path('employer/', include('Employer.urls')),
+                  path('utilisateur/', include('Model.urls')),
+                  path('admin/', admin.site.urls),
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

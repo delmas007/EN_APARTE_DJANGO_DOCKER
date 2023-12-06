@@ -11,6 +11,8 @@ from Model.models import Rendez_vous, Roles, Utilisateur
 @csrf_protect
 @login_required
 def inscription_D(request):
+    if not request.user.roles or request.user.roles.role != 'ADMIN':
+        return redirect('Accueil')
     context = {}
     if request.method == 'POST':
         form = UserRegistrationForme(request.POST)

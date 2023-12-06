@@ -1,9 +1,10 @@
-from django.contrib.auth.forms import UserCreationForm
+from django import forms
+
 
 from Model.models import Produit
 
 
-class UserRegistrationFormee(UserCreationForm):
+class UserRegistrationFormee(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['nom'].widget.attrs.update({
@@ -30,20 +31,17 @@ class UserRegistrationFormee(UserCreationForm):
             'required': True,
             'name': 'prix',
         })
-        self.fields['promotion'].widget.attrs.update({
+        self.fields['pourcentage_promotion'].widget.attrs.update({
             'type': "number",
             'class': "form-control",
-            'id': "promotion",
-            'placeholder': "abidjan",
-            'required': '',
-            'name': 'promotion',
-        })
-        self.fields['pourcentage_promotion'].widget.attrs.update({
-            'type': "checkbox",
-            'name': "pourcentage_promotion",
-            'class': "form-check-input",
             'id': "pourcentage_promotion",
-            'role': "switch",
+            'placeholder': "10",
+            'name': 'pourcentage_promotion',
+        })
+        self.fields['promotion'].widget.attrs.update({
+            'type': "checkbox",
+            'class': "form-check-input ",
+            'id': "exampleCheck1",
         })
         self.fields['image'].widget.attrs.update({
             'type': "file",

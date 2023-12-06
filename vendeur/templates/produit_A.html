@@ -37,7 +37,7 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form id="quickForm" method="POST" action="{% url 'vendeur:ajouter_un_produit' %}">
+              <form id="quickForm" method="POST" enctype="multipart/form-data" action="{% url 'vendeur:ajouter_un_produit' %}">
 
                   {% csrf_token %}
                 <div class="card-body">
@@ -53,14 +53,17 @@
                         <label for="prix">prix</label>
                         {{ form.prix}}
                     </div>
-                    <div class="form-check form-switch">
-                        {{ form.pourcentage_promotion}}
-                        <label class="form-check-label" for="pourcentage">Promotion ?</label>
-                    </div>
-                    <div class="form-group">
-                        <label for="promotion">pourcentage de la promotion</label>
+
+                    <div class="form-group form-check">
                         {{ form.promotion}}
+                        <label class="form-check-label" for="exampleCheck1">promotion ?</label>
                     </div>
+
+                    <div class="form-group">
+                        <label for="pourcentage_promotion">pourcentage de la promotion</label>
+                        {{ form.pourcentage_promotion}}
+                    </div>
+
                     <label for="image">Image du produit</label>
                     <div class="input-group">
                         <div class="custom-file">
@@ -128,6 +131,7 @@
       <aside class="control-sidebar control-sidebar-dark">
   </aside>
 </div>
+
 
 </body>
 {% endblock %}

@@ -144,7 +144,7 @@ class Produit(models.Model):
     prix = models.DecimalField(max_digits=10, decimal_places=2)
     promotion = models.BooleanField(default=False)
     pourcentage_promotion = models.IntegerField(blank=True, null=True)
-    image = models.ImageField(blank=True, null=True, upload_to='produit')
+    image = models.ImageField(blank=True, null=True, upload_to='image_produit/')
 
 
 class Commande(models.Model):

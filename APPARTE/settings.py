@@ -127,9 +127,8 @@ STATIC_URL = 'static/'
 AUTH_USER_MODEL = 'Model.Utilisateur'
 LOGIN_REDIRECT_URL = 'Model:Rendez_vous'
 LOGOUT_REDIRECT_URL = 'Model:connexion'
-MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR / 'image'
-
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 

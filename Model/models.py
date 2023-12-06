@@ -34,13 +34,15 @@ class MyUserManager(BaseUserManager):
 
 
 class Roles(models.Model):
-    EMPLOYER = 'EMPLOYER'
-    CLIENT = 'CLIENT'
     ADMIN = 'ADMIN'
+    EMPLOYER = 'EMPLOYER'
+    VENDEUR = 'VENDEUR'
+    CLIENT = 'CLIENT'
 
     ROLE_CHOICES = [
-        (EMPLOYER, 'EMPLOYER'),
         (ADMIN, 'ADMIN'),
+        (EMPLOYER, 'EMPLOYER'),
+        (VENDEUR, 'VENDEUR'),
         (CLIENT, 'CLIENT'),
 
     ]

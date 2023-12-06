@@ -20,6 +20,8 @@ class Connexion(LoginView):
             return reverse('admins:reservation_D')
         elif self.request.user.roles.role == 'CLIENT':
             return reverse('Accueil')
+        elif self.request.user.roles.role == 'VENDEUR':
+            return reverse('vendeur:ajouter_un_produit')
 
 
 @csrf_protect

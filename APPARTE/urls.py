@@ -27,4 +27,5 @@ urlpatterns = [
                   path('employer/', include('Employer.urls')),
                   path('utilisateur/', include('Model.urls')),
                   path('admin/', admin.site.urls),
+                  path('vitrine/', include('Vitrine.urls')),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

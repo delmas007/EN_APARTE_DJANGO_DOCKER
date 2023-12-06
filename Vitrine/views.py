@@ -13,3 +13,14 @@ def Contact(request):
 def Faq(request):
     return render(request, 'faq.html')
 
+
+def Produit(request):
+    return render(request, 'products.html')
+
+
+def About(request):
+    return render(request, 'about.html')
+
+
+def Produitdetails(request):
+    return render(request, 'product-detail.html')

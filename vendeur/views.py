@@ -27,4 +27,4 @@ def ajouter_produit(request):
 
     form = UserRegistrationFormee()
     context['form'] = form
-    return render(request, '.html', context=context)
+    return render(request, 'produit_A.html', context=context)

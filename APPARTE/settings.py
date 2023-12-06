@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'Model',
     'Vitrine',
     'Admin',
-    'Employer'
+    'Employer',
+    'vendeur'
 ]
 
 MIDDLEWARE = [
@@ -58,7 +59,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'templates'), os.path.join(BASE_DIR, 'Model/templates'),
-                 os.path.join(BASE_DIR, 'Vitrine/templates'), os.path.join(BASE_DIR, 'Employer/templates')]
+                 os.path.join(BASE_DIR, 'Vitrine/templates'), os.path.join(BASE_DIR, 'Employer/templates'),
+                 os.path.join(BASE_DIR, 'vendeur/templates')]
         ,
         'APP_DIRS': True,
         'OPTIONS': {

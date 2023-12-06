@@ -22,8 +22,9 @@ from Vitrine.views import Accueil
 
 urlpatterns = [
     path('', Accueil, name='Accueil'),
-    path('admin/', include('Admin.urls')),
+    path('admins/', include('Admin.urls')),
+    path('vendeur/', include('vendeur.urls')),
     path('employer/', include('Employer.urls')),
     path('utilisateur/', include('Model.urls')),
-    path('admine/', admin.site.urls),
+    path('admin/', admin.site.urls),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

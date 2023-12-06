@@ -17,38 +17,39 @@ class UserRegistrationFormee(UserCreationForm):
         self.fields['description'].widget.attrs.update({
             'type': "text",
             'class': "form-control",
-            'id': "prenom",
-            'placeholder': "prenom",
-            'required': '',
-            'name': 'prenom',
+            'id': "description",
+            'placeholder': "description",
+            'required': True,
+            'name': 'description',
         })
         self.fields['prix'].widget.attrs.update({
             'type': "number",
             'class': "form-control",
-            'id': "contact",
+            'id': "prix",
             'placeholder': "10000",
             'required': True,
-            'name': 'contact',
+            'name': 'prix',
         })
         self.fields['promotion'].widget.attrs.update({
-            'type': "text",
+            'type': "number",
             'class': "form-control",
-            'id': "commune",
+            'id': "promotion",
             'placeholder': "abidjan",
             'required': '',
-            'name': 'commune',
+            'name': 'promotion',
         })
         self.fields['pourcentage_promotion'].widget.attrs.update({
             'type': "checkbox",
-            'name': "pourcentage",
+            'name': "pourcentage_promotion",
             'class': "form-check-input",
-            'id': "pourcentage",
-            'role': "switch"
+            'id': "pourcentage_promotion",
+            'role': "switch",
         })
         self.fields['image'].widget.attrs.update({
             'type': "file",
             'class': "custom-file-input",
             'id': "image",
+            'required': True,
         })
 
     class Meta:

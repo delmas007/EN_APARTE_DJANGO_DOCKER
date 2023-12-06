@@ -1,6 +1,7 @@
 from django.urls import path
+from vendeur.views import ajouter_produit
 
-app_name = 'admins'
+app_name = 'vendeur'
 urlpatterns = [
-    path('Inscription/', inscription_D, name='inscription_D'),
+    path('ajouter_un_produit/', ajouter_produit, name='ajouter_un_produit'),
 ]

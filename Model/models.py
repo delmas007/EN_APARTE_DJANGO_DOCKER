@@ -141,5 +141,39 @@ class Produit(models.Model):
     description = models.TextField()
     prix = models.DecimalField(max_digits=10, decimal_places=2)
     promotion = models.BooleanField(default=False)
-    pourcentage_promotion = models.IntegerField(blank=True,null=True)
-    image = models.ImageField(blank=True,null=True, upload_to='site',)
+    pourcentage_promotion = models.IntegerField(blank=True, null=True)
+    image = models.ImageField(blank=True, null=True, upload_to='produit')
+
+
+class Commande(models.Model):
+    client = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True,
+                               related_name='commande_client')
+    employer = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True,
+                                 related_name='commande_employers')
+    produits = models.ManyToManyField(Produit, through='LigneCommande')
+    quantite = models.IntegerField(default=0)  # Correction ici
+    date_commande = models.DateTimeField(auto_now_add=True)
+    montant_total = models.DecimalField(max_digits=12, decimal_places=2)
+    confirmer = models.BooleanField(default=False)
+    statut = models.CharField(
+        max_length=50,
+        choices=[
+            ('En attente', 'En attente'),
+            ('En cours de traitement', 'En cours de traitement'),
+            ('Expédiée', 'Expédiée')
+        ],
+        default='En attente'
+    )
+
+    def __str__(self):
+        return f"Commande #{self.pk} - {self.client.nom} - {self.date_commande}"
+
+
+class LigneCommande(models.Model):
+    produit = models.ForeignKey(Produit, on_delete=models.CASCADE)
+    commande = models.ForeignKey(Commande, on_delete=models.CASCADE)
+    quantite = models.PositiveIntegerField()
+    prix_unitaire = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f"Ligne de commande #{self.pk} - {self.produit.nom} - Quantité: {self.quantite}"

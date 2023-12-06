@@ -54,6 +54,12 @@ class UserRegistrationForme(UserCreationForm):
             'class': "form-control select2",
             'id': "sexe",
         })
+        self.fields['roles'].widget.attrs.update({
+            'name': "roles",
+            'style': "color: #212529;width: 100%;",
+            'class': "form-control",
+            'id': "roles",
+        })
         self.fields['password1'].widget.attrs.update({
             'type': "password",
             'name': 'password',
@@ -71,6 +77,6 @@ class UserRegistrationForme(UserCreationForm):
 
     class Meta:
         model = Utilisateur
-        fields = ('email', 'nom', 'prenom', 'contact', 'commune', 'sexe')
+        fields = ('email', 'nom', 'prenom', 'contact', 'commune', 'sexe','roles')
 
 

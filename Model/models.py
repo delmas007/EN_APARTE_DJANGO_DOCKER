@@ -40,8 +40,9 @@ class Roles(models.Model):
 
     ROLE_CHOICES = [
         (EMPLOYER, 'EMPLOYER'),
+        (ADMIN, 'ADMIN'),
         (CLIENT, 'CLIENT'),
-        (ADMIN, 'CLIENT'),
+
     ]
 
     role = models.CharField(max_length=10, choices=ROLE_CHOICES)

@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from Admin.forms import UserRegistrationForme
 from Employer.forms import ConfirmationReservationForm
-from Model.models import Rendez_vous, Roles
+from Model.models import Rendez_vous, Roles, Utilisateur
 
 
 @csrf_protect
@@ -29,6 +29,32 @@ def inscription_D(request):
     context['form'] = form
     return render(request, 'employer_D.html', context=context)
 # Create your views here.
+
+@login_required
+def reservations_confirmer(request):
+    if not request.user.roles or request.user.roles.role != 'ADMIN':
+        return redirect('Accueil')
+    utilisateurs_employers = Utilisateur.objects.filter(roles__role=Roles.EMPLOYER)
+    return render(request, 'employer_ac.html', {'employers': utilisateurs_employers})
+
+
+@login_required
+def active_emp(request, employer_id):
+    employer = get_object_or_404(Utilisateur, id=employer_id)
+    employer.is_active = True
+    employer.save()
+
+    return redirect('employer:reservation_confirmer')
+
+
+@login_required
+def desactive_amp(request, employer_id):
+    employer = get_object_or_404(Utilisateur, id=employer_id)
+    employer.is_active = False
+    employer.save()
+
+    return redirect('employer:reservation_confirmer')
+
 @login_required
 def filtrer_rendez_vous(request):
     if not request.user.roles or request.user.roles.role != 'ADMIN':

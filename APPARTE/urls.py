@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+
+from APPARTE import settings
 from Vitrine.views import Accueil
 
 urlpatterns = [
@@ -24,4 +26,4 @@ urlpatterns = [
     path('employer/', include('Employer.urls')),
     path('utilisateur/', include('Model.urls')),
     path('admine/', admin.site.urls),
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

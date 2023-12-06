@@ -61,13 +61,13 @@
                                                       <td>
                                                           <form method="post" action="{% url 'admins:active_emp' employer.id %}">
                                                               {% csrf_token %}
-                                                              <button type="submit" class="btn btn-primary" {% if employer.is_active == False %}disabled{% endif %}>Active</button>
+                                                              <button type="submit" class="btn btn-primary" {% if employer.is_active == True %}disabled{% endif %}>Active</button>
                                                           </form>
                                                       </td>
                                                       <td>
                                                           <form method="post" action="{% url 'admins:desactive_amp' employer.id %}">
                                                               {% csrf_token %}
-                                                              <button type="submit" class="btn btn-success" {% if employer.is_active == True %}disabled{% endif %}>Desactive</button>
+                                                              <button type="submit" class="btn btn-success" {% if employer.is_active == False %}disabled{% endif %}>Desactive</button>
                                                           </form>
                                                       </td>
 

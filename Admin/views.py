@@ -31,7 +31,7 @@ def inscription_D(request):
 # Create your views here.
 
 @login_required
-def reservations_confirmer(request):
+def employer_compte(request):
     if not request.user.roles or request.user.roles.role != 'ADMIN':
         return redirect('Accueil')
     utilisateurs_employers = Utilisateur.objects.filter(roles__role=Roles.EMPLOYER)
@@ -40,20 +40,24 @@ def reservations_confirmer(request):
 
 @login_required
 def active_emp(request, employer_id):
+    if not request.user.roles or request.user.roles.role != 'ADMIN':
+        return redirect('Accueil')
     employer = get_object_or_404(Utilisateur, id=employer_id)
     employer.is_active = True
     employer.save()
 
-    return redirect('employer:reservation_confirmer')
+    return redirect('admins:Compte_employer')
 
 
 @login_required
 def desactive_amp(request, employer_id):
+    if not request.user.roles or request.user.roles.role != 'ADMIN':
+        return redirect('Accueil')
     employer = get_object_or_404(Utilisateur, id=employer_id)
     employer.is_active = False
     employer.save()
 
-    return redirect('employer:reservation_confirmer')
+    return redirect('admins:Compte_employer')
 
 @login_required
 def filtrer_rendez_vous(request):

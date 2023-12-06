@@ -25,6 +25,7 @@
             {% url 'admins:rendez_vous_aujourdhui' as admin_rendez_vous_aujourdhui_url %}
             {% url 'admins:filtrer_rendez_vous' as admin_filtrer_rendez_vous_url %}
             {% url 'admins:inscription_D' as admin_inscription_url %}
+            {% url 'admins:Compte_employer' as admin_Compte_employer_url %}
 
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item has-treeview {% if request.path == admin_reservation_url or request.path == admin_reservation_confirmer_url %}menu-open{% endif %}">
@@ -79,8 +80,8 @@
                     </ul>
                 </li>
 
-                <li class="nav-item has-treeview {% if request.path == admin_inscription_url %}menu-open{% endif %}">
-                    <a href="#" class="nav-link {% if request.path == admin_inscription_url  %}active{% endif %}">
+                <li class="nav-item has-treeview {% if request.path == admin_inscription_url or request.path == admin_Compte_employer_url %}menu-open{% endif %}">
+                    <a href="#" class="nav-link {% if request.path == admin_inscription_url or  request.path == admin_Compte_employer_url %}active{% endif %}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Employer
@@ -92,6 +93,14 @@
                             <a href="{{ admin_inscription_url }}" class="nav-link {% if request.path == admin_inscription_url %}active{% endif %}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Enregistrer employer</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ admin_Compte_employer_url }}" class="nav-link {% if request.path == admin_Compte_employer_url %}active{% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Compte employer</p>
                             </a>
                         </li>
                     </ul>

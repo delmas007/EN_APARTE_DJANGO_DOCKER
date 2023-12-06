@@ -96,7 +96,7 @@ class Rendez_vous(models.Model):
         ('14H00-16H00', '14H00-16H00'),
         ('16H00-18H00', '16H00-18H00'),
     ]
-    date_rendez_vous = models.DateField(blank=True,null=True)
+    date_rendez_vous = models.DateField(blank=True, null=True)
     en_attente = models.BooleanField(default=True)
     confirmation = models.BooleanField(default=False)
     debut = models.BooleanField(default=False)
@@ -108,7 +108,7 @@ class Rendez_vous(models.Model):
     client = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True, related_name='rendez_vous_clients')
     employer = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True,
                                  related_name='rendez_vous_employers')
-    heure_rendez_vous = models.CharField(blank=True,null=True,choices=TIME,max_length=250)
+    heure_rendez_vous = models.CharField(blank=True, null=True, choices=TIME, max_length=250)
 
     type_massage = models.CharField(max_length=255, choices=TYPE_MASSAGE_CHOICES, null=True)
 
@@ -125,7 +125,8 @@ def update_dates_heures_rendez_vous(sender, instance, **kwargs):
         instance.Date_prise_rendez_vous = timezone.now()
 
     if instance.heure_debut_rendez_vous and instance.heure_fin_rendez_vous:
-        duree = timezone.datetime.combine(timezone.now().date(), instance.heure_fin_rendez_vous) - timezone.datetime.combine(
+        duree = timezone.datetime.combine(timezone.now().date(),
+                                          instance.heure_fin_rendez_vous) - timezone.datetime.combine(
             timezone.now().date(), instance.heure_debut_rendez_vous)
 
         # Convertir la différence en timedelta
@@ -133,3 +134,12 @@ def update_dates_heures_rendez_vous(sender, instance, **kwargs):
 
         # Affecter la valeur à duree_rendez_vous
         instance.duree_rendez_vous = duree_timedelta
+
+
+class Produit(models.Model):
+    nom = models.CharField(max_length=255)
+    description = models.TextField()
+    prix = models.DecimalField(max_digits=10, decimal_places=2)
+    promotion = models.BooleanField(default=False)
+    pourcentage_promotion = models.IntegerField(blank=True,null=True)
+    image = models.ImageField(blank=True,null=True, upload_to='site',)

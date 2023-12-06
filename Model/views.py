@@ -17,7 +17,7 @@ class Connexion(LoginView):
         if self.request.user.roles.role == 'EMPLOYER':
             return reverse('employer:reservation')
         elif self.request.user.roles.role == 'ADMIN':
-            return reverse('admin:reservation_D')
+            return reverse('admins:reservation_D')
         elif self.request.user.roles.role == 'CLIENT':
             return reverse('Accueil')
 

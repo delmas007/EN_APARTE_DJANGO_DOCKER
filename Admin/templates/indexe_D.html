@@ -1,4 +1,4 @@
-{% extends 'lien_D.html' %}
+{% extends 'base_f.html' %}
 {% load static %}
 {% block content%}
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -27,7 +27,6 @@
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
-    <!-- /.content-header -->
       <section class="content">
           <div class="container-fluid">
               <div class="row">
@@ -76,6 +75,8 @@
           </div>
           <!-- /.container-fluid -->
       </section>
+    <!-- /.content-header -->
+
       <!-- /.content -->
   </div>
     <!-- Main content -->
@@ -93,17 +94,7 @@
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script>
-    $(document).on("click", "#delete", function(e){
-        e.preventDefault();
-        var link = $(this).attr("href");
-        bootbox.confirm("Do you really want to delete this element ?", function(confirmed){
-            if (confirmed){
-                window.location.href = link;
-            };
-        });
-    });
-</script>
+
 </body>
 {% endblock %}
 

@@ -1,4 +1,4 @@
-{% extends 'lien.html' %}
+{% extends 'base_f.html' %}
 {% load static %}
 {% block content%}
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -29,6 +29,7 @@
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
+
       <section class="content">
           <div class="container-fluid">
               <div class="row">
@@ -58,18 +59,18 @@
                                               <td>{{ employer.contact }}</td>
                                               <td>{{ employer.email }}</td>
                                               <td>{{ employer.commune }}</td>
-                                                      <td>
-                                                          <form method="post" action="{% url 'admins:active_emp' employer.id %}">
-                                                              {% csrf_token %}
-                                                              <button type="submit" class="btn btn-primary" {% if employer.is_active == True %}disabled{% endif %}>Active</button>
-                                                          </form>
-                                                      </td>
-                                                      <td>
-                                                          <form method="post" action="{% url 'admins:desactive_amp' employer.id %}">
-                                                              {% csrf_token %}
-                                                              <button type="submit" class="btn btn-success" {% if employer.is_active == False %}disabled{% endif %}>Desactive</button>
-                                                          </form>
-                                                      </td>
+                                              <td>
+                                                  <form method="post" action="{% url 'admins:active_emp' employer.id %}">
+                                                      {% csrf_token %}
+                                                      <button type="submit" class="btn btn-primary" {% if employer.is_active == True %}disabled{% endif %}>Active</button>
+                                                  </form>
+                                              </td>
+                                              <td>
+                                                  <form method="post" action="{% url 'admins:desactive_amp' employer.id %}">
+                                                      {% csrf_token %}
+                                                      <button type="submit" class="btn btn-success" {% if employer.is_active == False %}disabled{% endif %}>Desactive</button>
+                                                  </form>
+                                              </td>
 
                                           </tr>
                                       {% endfor %}
@@ -105,21 +106,6 @@
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
   </aside>
-  <!-- /.control-sidebar -->
-<!-- ./wrapper -->
-
-<!-- jQuery -->
-<script>
-    $(document).on("click", "#delete", function(e){
-        e.preventDefault();
-        var link = $(this).attr("href");
-        bootbox.confirm("Do you really want to delete this element ?", function(confirmed){
-            if (confirmed){
-                window.location.href = link;
-            };
-        });
-    });
-</script>
 </body>
 {% endblock %}
 

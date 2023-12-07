@@ -17,7 +17,6 @@
 
 
             .product-promotion {
-                position: absolute;
                 top: 10px;
                 right: 10px;
                 background-color: #FF9B50;
@@ -25,6 +24,7 @@
                 padding: 5px 10px;
                 border-radius: 5px;
                 font-size: 14px;
+                text-align:center;
             }
 
             .product-price-original {
@@ -54,6 +54,7 @@
 
                         <div class="col-lg-6 col-12">
                             <div class="product-thumb">
+
                                 <img src="{% static 'images/product/1.webp'%}" class="img-fluid product-image" alt="">
                             </div>
                         </div>
@@ -66,8 +67,10 @@
                                     <p class="product-p">Original package design from house</p>
                                 </div>
                                 <small class="product-price text-muted ms-auto">
+
                                     <span class="h3 text-warning" style="text-decoration:none ">80 FCFA</span><br>
                                     <span class="product-price-original">100 FCFA </span>
+                                    <div class="product-promotion">-20%</div>
                                 </small>
                             </div>
 

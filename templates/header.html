@@ -5,8 +5,8 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <a class="navbar-brand" href="index.html">
-            <strong><span>Little</span> Fashion</strong>
+        <a class="navbar-brand" href="{% url 'vitrine:Accueil'%}">
+            <strong><span class="text-warning">EN </span> APARTE</strong>
         </a>
 
         <div class="d-lg-none">
@@ -20,13 +20,11 @@
                 <li class="nav-item">
                     <a class="nav-link active" href="{% url 'vitrine:Accueil'%}">Accueil</a>
                 </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'vitrine:About'%}">A propos</a>
-                </li>
-
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'vitrine:Produit'%}">Produits</a>
+                </li>
+                 <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vitrine:About'%}">A propos</a>
                 </li>
 
                 <li class="nav-item">

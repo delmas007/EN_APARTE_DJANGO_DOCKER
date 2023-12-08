@@ -18,7 +18,7 @@
       <sourceFolder url="file://$MODULE_DIR$/env" type="java-resource" />
       <excludeFolder url="file://$MODULE_DIR$/ENAPARTE" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.10" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.10 (test1)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="jquery-3.6.4" level="application" />
     <orderEntry type="library" name="jquery-ui" level="application" />
@@ -31,19 +31,11 @@
     <orderEntry type="library" name="@docsearch" level="application" />
     <orderEntry type="library" name="jquery-3.6.0" level="application" />
   </component>
-  <component name="PyNamespacePackagesService">
-    <option name="namespacePackageFolders">
-      <list>
-        <option value="$MODULE_DIR$/env" />
-      </list>
-    </option>
-  </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
     <option name="TEMPLATE_FOLDERS">
       <list>
         <option value="$MODULE_DIR$/templates" />
-        <option value="$MODULE_DIR$/env" />
       </list>
     </option>
   </component>

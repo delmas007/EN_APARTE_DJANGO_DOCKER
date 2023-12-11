@@ -54,36 +54,41 @@
 
                         <div class="col-lg-6 col-12">
                             <div class="product-thumb">
-
-                                <img src="{% static 'images/product/1.webp'%}" class="img-fluid product-image" alt="">
+                                <img src="{{ produit.image.url }}" class="img-fluid product-image" alt="">
                             </div>
                         </div>
 
                         <div class="col-lg-6 col-12">
                             <div class="product-info d-flex">
                                 <div>
-                                    <h2 class="product-title mb-0">Tree pot</h2>
-
-                                    <p class="product-p">Original package design from house</p>
+                                    <h2 class="product-title mb-0">{{ produit.nom }}</h2>
+                                    <p class="product-p">{{ produit.description }}</p>
                                 </div>
-                                <small class="product-price text-muted ms-auto">
 
-                                    <span class="h3 text-warning" style="text-decoration:none ">80 FCFA</span><br>
-                                    <span class="product-price-original">100 FCFA </span>
-                                    <div class="product-promotion">-20%</div>
-                                </small>
+                                {% if produit.promotion and produit.prix_reduit %}
+                                    <small class="product-price text-muted ms-auto">
+                                        <div class="product-promotion">-{{ produit.pourcentage_promotion }}%</div>
+                                        <span class="h3 text-warning" style="text-decoration:none ">{{ produit.prix_reduit }} FCFA</span><br>
+                                        <span class="product-price-original">{{ produit.prix }} FCFA </span>
+                                    </small>
+                                {% elif  produit.promotion and not produit.prix_reduit  %}
+                                    <small class="product-price text-muted ms-auto">
+                                        <span class="h3 text-warning" style="text-decoration:none ">{{ produit.prix }} FCFA</span><br>
+                                    </small>
+                                {% elif not produit.promotion  %}
+                                    <small class="product-price text-muted ms-auto">
+                                        <span class="h3 text-warning" style="text-decoration:none ">{{ produit.prix }} FCFA</span><br>
+                                    </small>
+                                {% endif %}
                             </div>
 
                             <div class="product-description">
-
                                 <strong class="d-block mt-4 mb-2">Description</strong>
-
-                                <p class="lead mb-5">Over three years in business, We’ve had the chance to work on a variety of projects, with companies</p>
+                                <p class="lead mb-5">{{ produit.description }}</p>
                             </div>
 
                             <div class="product-cart-thumb row">
                                 <div class="col-lg-6 col-12">
-                                    
                                     <select class="form-select cart-form-select" id="inputGroupSelect01">
                                         <option selected>Quantité</option>
                                         <option value="1">1</option>

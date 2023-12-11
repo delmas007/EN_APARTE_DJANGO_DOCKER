@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from Model.models import Produit
 
@@ -8,12 +8,12 @@ from Model.models import Produit
 def liste_tous_produits(request):
     # Récupérer tous les produits
     tous_les_produits = Produit.objects.all()
-    for produit in tous_les_produits:
-        # Vérifier s'il y a une promotion
-        if produit.promotion:
-            produit.prix_reduit = produit.prix - (produit.prix * produit.pourcentage_promotion / 100)
-        else:
-            produit.prix_reduit = produit.prix
+    # for produit in tous_les_produits:
+    #     # Vérifier s'il y a une promotion
+    #     if produit.promotion:
+    #         produit.prix_reduits = produit.prix - (produit.prix * produit.pourcentage_promotion / 100)
+    #     else:
+    #         produit.prix_reduits = produit.prix
 
     context = {'tous_les_produits': tous_les_produits}
     return render(request, 'products.html', context)
@@ -35,5 +35,8 @@ def About(request):
     return render(request, 'about.html')
 
 
-def Produitdetails(request):
-    return render(request, 'product-detail.html')
+def produit_details(request, produit_id):
+    produit = get_object_or_404(Produit, pk=produit_id)
+
+    context = {'produit': produit}
+    return render(request, 'product-detail.html', context)

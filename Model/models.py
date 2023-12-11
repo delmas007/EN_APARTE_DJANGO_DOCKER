@@ -142,9 +142,19 @@ class Produit(models.Model):
     nom = models.CharField(max_length=255)
     description = models.TextField()
     prix = models.DecimalField(max_digits=10, decimal_places=2)
+    prix_reduit = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     promotion = models.BooleanField(default=False)
     pourcentage_promotion = models.IntegerField(blank=True, null=True)
     image = models.ImageField(blank=True, null=True, upload_to='image_produit/')
+
+    def save(self, *args, **kwargs):
+        if self.promotion and self.pourcentage_promotion :
+            self.prix_reduit = self.prix - (self.prix * self.pourcentage_promotion / 100)
+        else:
+            self.prix_reduit = None  # Remettre à None si pas de promotion
+
+        super().save(*args, **kwargs)
+
 
 
 class Commande(models.Model):

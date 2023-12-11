@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render, redirect, get_object_or_404
 from Employer.forms import ConfirmationReservationForm
-from Model.models import Rendez_vous
+from Model.models import Rendez_vous, Produit
 
 
 # noinspection PyPackageRequirements
@@ -9,7 +9,7 @@ from Model.models import Rendez_vous
 def reservations_confirmer(request):
     if not request.user.roles or request.user.roles.role != 'EMPLOYER':
         return redirect('Accueil')
-    rendez_vous = Rendez_vous.objects.filter(confirmation=True, en_attente=False,fin=False, employer=request.user.id)
+    rendez_vous = Rendez_vous.objects.filter(confirmation=True, en_attente=False, fin=False, employer=request.user.id)
     return render(request, 'indexe2.html', {'rendez_vous': rendez_vous})
 
 
@@ -74,4 +74,4 @@ def reservations_en_attente(request):
 
     return render(request, 'indexe.html', {'reservations': reservations, 'form': form})
 
-# Create your views here.
+

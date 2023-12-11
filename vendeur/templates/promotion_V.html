@@ -1,0 +1,183 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AdminLTE 3 | DataTables</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css' %}">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{% static 'plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}">
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+    <!-- Main Sidebar Container -->
+
+    {% include 'slide_V.html' %}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Réservation en attente...</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="{% url 'admins:reservation_D' %}">Home</a></li>
+                            <li class="breadcrumb-item active">Rendez-vous</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- Main content -->
+        <!-- /.content-header -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">All categories</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Nom produit</th>
+                                        <th>Description</th>
+                                        <th>Prix</th>
+                                        <th>Image</th>
+                                        <th>Promotion</th>
+                                        <th>pourcentage de la promotion</th>
+                                        <th>promotion</th>
+                                        <th>Pourcentage de promotion</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% if produits %}
+                                        {% for produit in produits %}
+                                            <tr>
+                                                <td>{{ produit.nom }}</td>
+                                                <td>{{ produit.description }}</td>
+                                                <td>{{ produit.prix }}</td>
+                                                <td>
+                                                    <div style="width: 50px; height: 50px; ">
+                                                        <img src="{{ produit.image.url }}" alt="{{ produit.nom }}" style="width: 100%; height: auto;">
+                                                    </div>
+                                                </td>
+                                                <td>{% if produit.promotion == True  %}cet article est en promotion{% endif %}
+                                                    {% if produit.promotion == False  %}cet article n'est pas en promotion{% endif %}</td>
+                                                <td>{% if produit.promotion == True  %}{{ produit.pourcentage_promotion }}{% endif %}
+                                                    {% if produit.promotion == False  %}0{% endif %}</td>
+                                                <td>
+                                                    {% if not produit.promotion %}
+                                                        <form action="{% url 'vendeur:toggle_promotion' produit.id %}" method="post">
+                                                            {% csrf_token %}
+                                                            <button type="submit" class="btn btn-success" name="toggle_promotion" {% if produit.promotion %}disabled{% endif %}>Activer la promotion</button>
+                                                        </form>
+                                                    {% else %}
+                                                        <form action="{% url 'vendeur:toggle_promotion' produit.id %}" method="post">
+                                                            {% csrf_token %}
+                                                            <button type="submit" class="btn btn-danger" name="toggle_promotion" {% if not produit.promotion %}disabled{% endif %}>Désactiver la promotion</button>
+                                                        </form>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    <form action="{% url 'vendeur:toggle_promotion' produit.id %}" method="post">
+                                                        {% csrf_token %}
+                                                        <div class="input-group mb-3">
+                                                            <input type="number" name="pourcentage_promotion" class="form-control" value="{{ produit.pourcentage_promotion }}" {% if not produit.promotion %}disabled{% endif %}>
+                                                            <button type="submit" class="btn btn-primary" name="pourcentage_promotion" {% if not produit.promotion %}disabled{% endif %}>Enregistrer</button>
+                                                        </div>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="6">Aucun produit publier</td>
+                                        </tr>
+                                    {% endif %}
+                                    </tbody>
+
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </section>
+    </div>
+
+    <footer class="main-footer">
+        <div class="float-right d-none d-sm-block">
+            <b>Version</b> 3.1.0-pre
+        </div>
+        <strong>Copyright &copy; 2014-2020 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+    </footer>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+
+</div>
+<!-- jQuery -->
+<script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+<!-- DataTables -->
+<script src="{% static 'plugins/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-responsive/js/dataTables.responsive.min.js'%}"></script>
+<script src="{% static 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js'%}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'dist/js/adminlte.min.js' %}"></script>
+<!-- AdminLTE for demo purposes -->
+
+<script src="{% static 'dist/js/demo.js' %}"></script>
+
+<script src="{% static 'dist/js/bootbox.min.js' %}"></script>
+<!-- page script -->
+
+
+<!-- page script -->
+<script>
+    $(function () {
+        $("#example1").DataTable({
+            "responsive": true,
+            "autoWidth": false,
+        });
+        $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+        });
+    });
+</script>
+
+</body>
+</html>
+

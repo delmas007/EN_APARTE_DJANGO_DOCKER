@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_protect
 
 from Model.models import Roles, Produit
-from vendeur.forms import UserRegistrationFormee
+from vendeur.forms import UserRegistrationFormee, UserRegistrationFor
 
 
 # Create your views here.
@@ -42,7 +42,7 @@ def modifier_produit(request, produit_id):
     produit = get_object_or_404(Produit, id=produit_id)
 
     if request.method == 'POST':
-        form = UserRegistrationFormee(request.POST, request.FILES, instance=produit)
+        form = UserRegistrationFor(request.POST, request.FILES, instance=produit)
         if form.is_valid():
             form.save()
             messages.success(request, 'Produit modifier avec succès !')
@@ -60,3 +60,40 @@ def supprimer_produit(request, produit_id):
     produit.delete()
     messages.success(request, 'Produit supprimé avec succès !')
     return redirect('vendeur:liste_produits')
+
+@login_required
+def liste_produitss(request):
+    if not request.user.roles or request.user.roles.role != 'VENDEUR':
+        return redirect('Accueil')
+    produits = Produit.objects.all()
+    context = {'produits': produits}
+    return render(request, 'promotion_V.html', context)
+
+
+@login_required
+def toggle_promotion(request, produit_id):
+    if not request.user.roles or request.user.roles.role != 'VENDEUR':
+        return redirect('Accueil')
+
+    produit = get_object_or_404(Produit, pk=produit_id)
+
+    if request.method == 'POST':
+        # Si le formulaire est soumis, traitez les données
+        if 'pourcentage_promotion' in request.POST:
+            pourcentage_promotion = request.POST.get('pourcentage_promotion')
+            # Assurez-vous que pourcentage_promotion est un entier valide
+            try:
+                pourcentage_promotion = int(pourcentage_promotion)
+                produit.pourcentage_promotion = pourcentage_promotion
+                produit.save()
+            except ValueError:
+                # Gérer l'erreur si pourcentage_promotion n'est pas un entier valide
+                # Vous pouvez ajouter ici le comportement souhaité en cas d'erreur
+                pass
+        elif 'toggle_promotion' in request.POST:
+            # Basculez la promotion entre True et False uniquement si le bouton correspondant est soumis
+            produit.promotion = not produit.promotion
+            produit.save()
+
+    return redirect('vendeur:liste_produitss')
+

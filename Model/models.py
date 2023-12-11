@@ -1,5 +1,5 @@
 from datetime import timedelta
-
+from decimal import Decimal
 from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
 from django.db import models
 from django.db.models.signals import pre_save
@@ -141,17 +141,17 @@ def update_dates_heures_rendez_vous(sender, instance, **kwargs):
 class Produit(models.Model):
     nom = models.CharField(max_length=255)
     description = models.TextField()
-    prix = models.IntegerField(null=True, blank=True)
-    prix_reduit = models.IntegerField( null=True, blank=True)
+    prix = models.DecimalField(max_digits=10, decimal_places=2)
+    prix_reduit = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     promotion = models.BooleanField(default=False)
     pourcentage_promotion = models.IntegerField(blank=True, null=True)
     image = models.ImageField(blank=True, null=True, upload_to='image_produit/')
 
     def get_prix_reduit(self):
         if self.promotion and self.pourcentage_promotion :
-            return self.prix_reduit
+            return Decimal(str(self.prix_reduit))  # Convertit en Decimal
         else:
-            return self.prix
+            return Decimal(str(self.prix))
     def save(self, *args, **kwargs):
         if self.promotion and self.pourcentage_promotion :
             self.prix_reduit = self.prix - (self.prix * self.pourcentage_promotion / 100)
@@ -170,7 +170,7 @@ class Commande(models.Model):
     produits = models.ManyToManyField(Produit, through='LigneCommande')
     quantite = models.IntegerField(default=0)  # Correction ici
     date_commande = models.DateTimeField(auto_now_add=True)
-    montant_total = models.IntegerField(blank=True, null=True)
+    montant_total = models.DecimalField(max_digits=12, decimal_places=2)
     confirmer = models.BooleanField(default=False)
     statut = models.CharField(
         max_length=50,

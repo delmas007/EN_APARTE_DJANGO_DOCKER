@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_POST
 
-from Model.models import Produit, Commande
+from Model.models import Produit, Commande, LigneCommande
 
 
 # Create your views here.
@@ -26,16 +26,22 @@ def liste_tous_produits(request):
 def commander_produit(request):
     produit_id = request.POST.get('produit_id')
     quantite = request.POST.get('quantite')
-
+    quantit = int(quantite)
     produit = get_object_or_404(Produit, pk=produit_id)
-    prix = produit.get_prix_reduit() * quantite
+    prix = produit.get_prix_reduit() * quantit
     # Créer la commande avec le produit et la quantité
     commande = Commande.objects.create(
         client=request.user,
-        quantite=quantite,
+        quantite=quantit,
         montant_total=prix,  # Utilisez la méthode get_prix_reduit
         confirmer=False,
         statut='En attente'
+    )
+    ligne_commande = LigneCommande.objects.create(
+        produit=produit,
+        commande=commande,
+        quantite=quantit,
+        prix_unitaire=prix
     )
 
     # Ajouter le produit à la commande

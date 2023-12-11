@@ -92,7 +92,7 @@
                     {% for produit in tous_les_produits %}
                         <div class="col-lg-4 col-12 mb-3">
                             <div class="product-thumb">
-                                <a href="{% url 'vitrine:Produit details' produit.id %}">
+                                <a href="{% url 'vitrine:Produit_details' produit.id %}">
                                     {% if produit.promotion and produit.prix_reduit %}
                                         <div class="product-promotion">-{{ produit.pourcentage_promotion }}%</div>
                                     {% endif %}
@@ -106,7 +106,7 @@
                                 <div class="product-info d-flex">
                                     <div>
                                         <h5 class="product-title mb-0">
-                                            <a href="{% url 'vitrine:Produit details' produit.id %}" class="product-title-link">{{ produit.nom }}</a>
+                                            <a href="{% url 'vitrine:Produit_details' produit.id %}" class="product-title-link">{{ produit.nom }}</a>
                                         </h5>
                                         <p class="product-p">{{ produit.description }}</p>
                                     </div>

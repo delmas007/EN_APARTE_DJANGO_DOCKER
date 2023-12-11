@@ -141,19 +141,20 @@ def update_dates_heures_rendez_vous(sender, instance, **kwargs):
 class Produit(models.Model):
     nom = models.CharField(max_length=255)
     description = models.TextField()
-    prix = models.DecimalField(max_digits=10, decimal_places=2)
+    prix = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     prix_reduit = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     promotion = models.BooleanField(default=False)
     pourcentage_promotion = models.IntegerField(blank=True, null=True)
     image = models.ImageField(blank=True, null=True, upload_to='image_produit/')
 
     def get_prix_reduit(self):
-        if self.promotion and self.pourcentage_promotion :
+        if self.promotion and self.pourcentage_promotion:
             return Decimal(str(self.prix_reduit))  # Convertit en Decimal
         else:
             return Decimal(str(self.prix))
+
     def save(self, *args, **kwargs):
-        if self.promotion and self.pourcentage_promotion :
+        if self.promotion and self.pourcentage_promotion:
             self.prix_reduit = self.prix - (self.prix * self.pourcentage_promotion / 100)
         else:
             self.prix_reduit = None  # Remettre à None si pas de promotion
@@ -161,16 +162,23 @@ class Produit(models.Model):
         super().save(*args, **kwargs)
 
 
-
 class Commande(models.Model):
-    client = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True,
+    client = models.ForeignKey(Utilisateur, on_delete=models.CASCADE, null=True,
                                related_name='commande_client')
-    employer = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True,
-                                 related_name='commande_employers')
-    produits = models.ManyToManyField(Produit, through='LigneCommande')
-    quantite = models.IntegerField(default=0)  # Correction ici
-    date_commande = models.DateTimeField(auto_now_add=True)
-    montant_total = models.DecimalField(max_digits=12, decimal_places=2)
+    produits = models.ForeignKey(Produit, on_delete=models.CASCADE, null=True, )
+    quantite = models.IntegerField(default=1)  # Correction ici
+
+    def __str__(self):
+        return f"Commande #{self.pk} - {self.client.nom} "
+
+
+class Panier(models.Model):
+    client = models.OneToOneField(Utilisateur, on_delete=models.CASCADE)
+    employer = models.ForeignKey(Utilisateur, on_delete=models.CASCADE, null=True, related_name='commande_employers')
+    ordre = models.ManyToManyField(Commande)
+    date_commande = models.DateTimeField(null=True, blank=True)
+    commander = models.BooleanField(default=False)
+    montant_total = models.DecimalField(max_digits=12, decimal_places=2, null=True)
     confirmer = models.BooleanField(default=False)
     statut = models.CharField(
         max_length=50,
@@ -182,15 +190,9 @@ class Commande(models.Model):
         default='En attente'
     )
 
-    def __str__(self):
-        return f"Commande #{self.pk} - {self.client.nom} - {self.date_commande}"
+    def save(self, *args, **kwargs):
+        # Met à jour la date_commande lors de la confirmation
+        if self.confirmer and not self.date_commande:
+            self.date_commande = timezone.now()
 
-
-class LigneCommande(models.Model):
-    produit = models.ForeignKey(Produit, on_delete=models.CASCADE)
-    commande = models.ForeignKey(Commande, on_delete=models.CASCADE)
-    quantite = models.PositiveIntegerField()
-    prix_unitaire = models.DecimalField(max_digits=10, decimal_places=2)
-
-    def __str__(self):
-        return f"Ligne de commande #{self.pk} - {self.produit.nom} - Quantité: {self.quantite}"
+        super().save(*args, **kwargs)

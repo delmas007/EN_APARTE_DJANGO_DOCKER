@@ -1,9 +1,10 @@
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
 from django.views.decorators.http import require_POST
 
-from Model.models import Produit, Commande, LigneCommande
+from Model.models import Produit, Commande, Panier
 
 
 # Create your views here.
@@ -22,6 +23,7 @@ def liste_tous_produits(request):
     context = {'tous_les_produits': tous_les_produits}
     return render(request, 'products.html', context)
 
+
 @login_required
 def commander_produit(request):
     produit_id = request.POST.get('produit_id')
@@ -37,12 +39,6 @@ def commander_produit(request):
         confirmer=False,
         statut='En attente'
     )
-    ligne_commande = LigneCommande.objects.create(
-        produit=produit,
-        commande=commande,
-        quantite=quantit,
-        prix_unitaire=prix
-    )
 
     # Ajouter le produit à la commande
     commande.produits.add(produit)
@@ -50,6 +46,8 @@ def commander_produit(request):
     response_data = {'message': 'Commande enregistrée avec succès!'}
 
     return JsonResponse(response_data)
+
+
 def Accueil(request):
     return render(request, 'index.html')
 
@@ -71,3 +69,18 @@ def produit_details(request, produit_id):
 
     context = {'produit': produit}
     return render(request, 'product-detail.html', context)
+
+
+def ajouter_panier(request, produit_id):
+    user = request.user
+    product = get_object_or_404(Produit, pk=produit_id)
+    panier, _ = Panier.objects.get_or_create(client=user)
+    commande, cree = Commande.objects.get_or_create(client=user, produits=product)
+
+    if cree:
+        panier.ordre.add(commande)
+        panier.save()
+    else:
+        commande.quantite += 1
+        commande.save()
+    return redirect(reverse("vitrine:Produit_details", kwargs={"produit_id": produit_id}))

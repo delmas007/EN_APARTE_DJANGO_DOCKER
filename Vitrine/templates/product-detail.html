@@ -26,6 +26,13 @@
                 font-size: 14px;
                 text-align:center;
             }
+            input[type="number"] {
+                width: 100%; /* Ajustez la largeur selon vos besoins */
+                padding: 15px;
+                font-size: 16px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-sizing: border-box;}
 
             .product-price-original {
                 text-decoration: line-through;
@@ -89,13 +96,15 @@
 
 
                             <div class="product-cart-thumb row">
-                                <div class="col-lg-6 col-12">
-                                    <input type="number" id="quantite_{{ produit.id }}" name="quantite" value="1">
-
-                                </div>
-
-                                <div class="col-lg-6 col-12 mt-4 mt-lg-0">
-                                    <button type="submit" class="btn custom-btn cart-btn" onclick="commanderProduit({{ produit.id }})">Commander</button>
+{#                                <div class="col-lg-6 col-12">#}
+{#                                    <input type="number" id="quantite_{{ produit.id }}" name="quantite" value="1" >#}
+{#                                </div>#}
+{##}
+{#                                <div class="col-lg-6 col-12 mt-4 mt-lg-0">#}
+{#                                    <button type="submit" class="btn custom-btn cart-btn" onclick="commanderProduit({{ produit.id }})">Commander</button>#}
+{#                                </div>#}
+                                <div class="col-lg-12 col-12 mt-4 mt-lg-0">
+                                    <a href="{% url 'vitrine:panier' produit.id %}" class="btn custom-btn cart-btn">Panier</a>
                                 </div>
                             </div>
                         </div>

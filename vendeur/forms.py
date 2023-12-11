@@ -94,11 +94,6 @@ class UserRegistrationFor(forms.ModelForm):
             'class': "form-check-input ",
             'id': "exampleCheck1",
         })
-        self.fields['image'].widget.attrs.update({
-            'type': "file",
-            'class': "custom-file-input",
-            'id': "image",
-        })
 
     class Meta:
         model = Produit

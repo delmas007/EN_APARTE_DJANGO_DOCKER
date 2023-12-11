@@ -99,9 +99,10 @@
                                                         {% csrf_token %}
                                                         <div class="input-group mb-3">
                                                             <input type="number" name="pourcentage_promotion" class="form-control" value="{{ produit.pourcentage_promotion }}" {% if not produit.promotion %}disabled{% endif %}>
-                                                            <button type="submit" class="btn btn-primary" name="pourcentage_promotion" {% if not produit.promotion %}disabled{% endif %}>Enregistrer</button>
+                                                            <button type="submit" class="btn btn-primary" {% if not produit.promotion %}disabled{% endif %}>Enregistrer</button>
                                                         </div>
                                                     </form>
+
                                                 </td>
                                             </tr>
                                         {% endfor %}

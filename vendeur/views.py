@@ -85,13 +85,17 @@ def toggle_promotion(request, produit_id):
             try:
                 pourcentage_promotion = int(pourcentage_promotion)
                 produit.pourcentage_promotion = pourcentage_promotion
-                produit.save()
             except ValueError:
+                # Gérer l'erreur si pourcentage_promotion n'est pas un entier valide
+                # Vous pouvez ajouter ici le comportement souhaité en cas d'erreur
                 pass
+
+        # Basculez la promotion entre True et False uniquement si le bouton correspondant est soumis
         elif 'toggle_promotion' in request.POST:
-            # Basculez la promotion entre True et False uniquement si le bouton correspondant est soumis
             produit.promotion = not produit.promotion
-            produit.save()
+
+        produit.save()
 
     return redirect('vendeur:liste_produitss')
+
 

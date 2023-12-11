@@ -87,23 +87,17 @@
                                 <p class="lead mb-5">{{ produit.description }}</p>
                             </div>
 
+
                             <div class="product-cart-thumb row">
                                 <div class="col-lg-6 col-12">
-                                    <select class="form-select cart-form-select" id="inputGroupSelect01">
-                                        <option selected>Quantité</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                    </select>
+                                    <input type="number" id="quantite_{{ produit.id }}" name="quantite" value="1">
+
                                 </div>
 
                                 <div class="col-lg-6 col-12 mt-4 mt-lg-0">
-                                    <button type="submit" class="btn custom-btn cart-btn" data-bs-toggle="modal" data-bs-target="#cart-modal">Commander</button>
+                                    <button type="submit" class="btn custom-btn cart-btn" onclick="commanderProduit({{ produit.id }})">Commander</button>
                                 </div>
                             </div>
-
                         </div>
 
                     </div>
@@ -111,6 +105,52 @@
             </section>
 
         </main>
+
+        <!-- Mettez à jour ceci dans votre template -->
+        <script>
+            function commanderProduit(produitId) {
+                var quantite = document.getElementById('quantite_' + produitId).value;
+
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "{% url 'vitrine:commander_produit' %}", true);
+
+                // Inclure le jeton CSRF dans l'en-tête de la requête
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4) {
+                        // Gérer la réponse du serveur
+                        var response = JSON.parse(xhr.responseText);
+                        alert(response.message);  // Afficher une alerte avec le message du serveur
+
+                        // Rediriger l'utilisateur vers la même page
+                        window.location.reload();
+                    }
+                };
+
+                var data = "produit_id=" + produitId + "&quantite=" + quantite;
+                xhr.send(data);
+            }
+
+            // Fonction pour récupérer le jeton CSRF à partir des cookies
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = cookies[i].trim();
+                        // Chercher le jeton CSRF
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+
+        </script>
 
     </body>
 {% endblock %}

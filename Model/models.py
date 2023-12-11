@@ -141,12 +141,17 @@ def update_dates_heures_rendez_vous(sender, instance, **kwargs):
 class Produit(models.Model):
     nom = models.CharField(max_length=255)
     description = models.TextField()
-    prix = models.DecimalField(max_digits=10, decimal_places=2)
-    prix_reduit = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    prix = models.IntegerField(null=True, blank=True)
+    prix_reduit = models.IntegerField( null=True, blank=True)
     promotion = models.BooleanField(default=False)
     pourcentage_promotion = models.IntegerField(blank=True, null=True)
     image = models.ImageField(blank=True, null=True, upload_to='image_produit/')
 
+    def get_prix_reduit(self):
+        if self.promotion and self.pourcentage_promotion :
+            return self.prix_reduit
+        else:
+            return self.prix
     def save(self, *args, **kwargs):
         if self.promotion and self.pourcentage_promotion :
             self.prix_reduit = self.prix - (self.prix * self.pourcentage_promotion / 100)
@@ -165,7 +170,7 @@ class Commande(models.Model):
     produits = models.ManyToManyField(Produit, through='LigneCommande')
     quantite = models.IntegerField(default=0)  # Correction ici
     date_commande = models.DateTimeField(auto_now_add=True)
-    montant_total = models.DecimalField(max_digits=12, decimal_places=2)
+    montant_total = models.IntegerField(blank=True, null=True)
     confirmer = models.BooleanField(default=False)
     statut = models.CharField(
         max_length=50,

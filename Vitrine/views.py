@@ -1,9 +1,13 @@
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
+from django.views.decorators.http import require_POST
 
-from Model.models import Produit
+from Model.models import Produit, Commande
 
 
 # Create your views here.
+
 
 def liste_tous_produits(request):
     # Récupérer tous les produits
@@ -18,7 +22,28 @@ def liste_tous_produits(request):
     context = {'tous_les_produits': tous_les_produits}
     return render(request, 'products.html', context)
 
+@login_required
+def commander_produit(request):
+    produit_id = request.POST.get('produit_id')
+    quantite = request.POST.get('quantite')
 
+    produit = get_object_or_404(Produit, pk=produit_id)
+    prix = produit.get_prix_reduit() * quantite
+    # Créer la commande avec le produit et la quantité
+    commande = Commande.objects.create(
+        client=request.user,
+        quantite=quantite,
+        montant_total=prix,  # Utilisez la méthode get_prix_reduit
+        confirmer=False,
+        statut='En attente'
+    )
+
+    # Ajouter le produit à la commande
+    commande.produits.add(produit)
+
+    response_data = {'message': 'Commande enregistrée avec succès!'}
+
+    return JsonResponse(response_data)
 def Accueil(request):
     return render(request, 'index.html')
 

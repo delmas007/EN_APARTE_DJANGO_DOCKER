@@ -84,31 +84,37 @@
                     </div>
 
                     <!--for produit in produit  -->
-                    <div class="col-lg-4 col-12 mb-3">
-                        <div class="product-thumb">
-
-                            <a href="{% url 'vitrine:Produit details' %}">
-                                <div class="product-promotion">-20%</div>
-                                <img src="{% static 'images/product/1.webp'%}" class="img-fluid product-image" alt="">
-                            </a>
-                            <div class="product-top d-flex">
-                                <span class="product-alert me-auto">Nouvelles Arrivées</span>
-                            </div>
-                            <div class="product-info d-flex">
-                                <div>
-                                    <h5 class="product-title mb-0">
-                                        <a href="product-detail.html" class="product-title-link">Tree pot</a>
-                                    </h5>
-                                    <p class="product-p">Original package design from house</p>
+                    {% for produit in tous_les_produits %}
+                        <div class="col-lg-4 col-12 mb-3">
+                            <div class="product-thumb">
+                                <a href="{% url 'vitrine:Produit details' %}">
+                                    {% if produit.promotion %}
+                                        <div class="product-promotion">-{{ produit.pourcentage_promotion }}%</div>
+                                    {% endif %}
+                                    <img src="{{ produit.image.url }}" class="img-fluid product-image" alt="">
+                                </a>
+                                <div class="product-top d-flex">
+                                    {% if produit.promotion %}
+                                        <span class="product-alert me-auto">En promotion</span>
+                                    {% endif %}
                                 </div>
-                                <small class="product-price text-muted ms-auto">
-                                    <span class="h3 text-warning" style="text-decoration:none ">80 FCFA</span><br>
-                                    <span class="product-price-original">100 FCFA </span>
-                                </small>
+                                <div class="product-info d-flex">
+                                    <div>
+                                        <h5 class="product-title mb-0">
+                                            <a href="{% url 'vitrine:Produit details' %}" class="product-title-link">{{ produit.nom }}</a>
+                                        </h5>
+                                        <p class="product-p">{{ produit.description }}</p>
+                                    </div>
+                                    <small class="product-price text-muted ms-auto">
+                                        <span class="h3 text-warning" style="text-decoration:none ">{{ produit.prix_reduit }} FCFA</span><br>
+                                        {% if produit.promotion %}
+                                        <span class="product-price-original">{{ produit.prix }} FCFA </span>
+                                        {% endif %}
+                                    </small>
+                                </div>
                             </div>
-
                         </div>
-                    </div>
+                    {% endfor %}
                     <!-- endfor-->
 
 

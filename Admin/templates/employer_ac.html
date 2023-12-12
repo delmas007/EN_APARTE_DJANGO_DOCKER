@@ -60,6 +60,7 @@
                                               <td>{{ employer.contact }}</td>
                                               <td>{{ employer.email }}</td>
                                               <td>{{ employer.commune }}</td>
+                                              <td>{{ employer.roles }}</td>
                                               <td>
                                                   <form method="post" action="{% url 'admins:active_emp' employer.id %}">
                                                       {% csrf_token %}

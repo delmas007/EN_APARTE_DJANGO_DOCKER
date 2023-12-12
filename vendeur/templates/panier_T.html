@@ -62,31 +62,31 @@
                                         <th>article et quantiter</th>
                                         <th>Prix total</th>
                                         <th>Status</th>
-                                        <th>Confirmation de commande</th>
+                                        <th>Confirmation d'expédition</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% if paniers_confirmes %}
-                                        {% for paniers_confirme in paniers_confirmes %}
+                                    {% if paniers_traitements %}
+                                        {% for paniers_traitement in paniers_traitements %}
                                             <tr>
-                                                <td>{{ paniers_confirme.client.nom }} {{ paniers_confirme.client.prenom }}</td>
-                                                <td>{{ paniers_confirme.client.email }}</td>
-                                                <td>{{ paniers_confirme.client.contact }}</td>
-                                                <td>{{ paniers_confirme.client.commune }}</td>
+                                                <td>{{ paniers_traitement.client.nom }} {{ paniers_traitement.client.prenom }}</td>
+                                                <td>{{ paniers_traitement.client.email }}</td>
+                                                <td>{{ paniers_traitement.client.contact }}</td>
+                                                <td>{{ paniers_traitement.client.commune }}</td>
                                                 <td>
                                                     <ul>
-                                                        {% for commande in paniers_confirme.ordre.all %}
+                                                        {% for commande in paniers_traitement.ordre.all %}
                                                             <li>{{ commande.produits.nom }} - Quantité: {{ commande.quantite }}</li>
                                                         {% endfor %}
                                                     </ul>
                                                 </td>
-                                                <td>{{ paniers_confirme.montant_total }}</td>
-                                                <td>{{ paniers_confirme.get_statut_display }}</td>
+                                                <td>{{ paniers_traitement.montant_total }}</td>
+                                                <td>{{ paniers_traitement.get_statut_display }}</td>
                                                 <td>
-                                                    {% if not paniers_confirme.confirmation_employer %}
-                                                        <form method="post" action="{% url 'vendeur:confirmer_statut_panier' paniers_confirme.id %}">
+                                                    {% if not paniers_traitement.reception_commande %}
+                                                        <form method="post" action="{% url 'vendeur:confirmer_statut_traitements' paniers_traitement.id %}">
                                                             {% csrf_token %}
-                                                            <button type="submit" class="btn btn-primary">Confirmer Commande</button>
+                                                            <button type="submit" class="btn btn-primary">Confirmer expédition</button>
                                                         </form>
                                                     {% endif %}
                                                 </td>
@@ -94,7 +94,7 @@
                                         {% endfor %}
                                     {% else %}
                                         <tr>
-                                            <td colspan="9">Aucun produit commander</td>
+                                            <td colspan="9">Aucun produit en cours de traitement</td>
                                         </tr>
                                     {% endif %}
                                     {% if messages %}

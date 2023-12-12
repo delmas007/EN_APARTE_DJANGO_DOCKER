@@ -178,9 +178,11 @@ class Paniers(models.Model):
     ordre = models.ManyToManyField(Commande)
     date_commande_client = models.DateTimeField(null=True, blank=True)
     date_confirmation_commande = models.DateTimeField(null=True, blank=True)
+    date_reception_commande = models.DateTimeField(null=True, blank=True)
     montant_total = models.DecimalField(max_digits=12, decimal_places=2, null=True)
     confirmation_panier = models.BooleanField(default=False)
     confirmation_employer = models.BooleanField(default=False)
+    reception_commande = models.BooleanField(default=False)
     statut = models.CharField(
         max_length=50,
         choices=[
@@ -199,5 +201,8 @@ class Paniers(models.Model):
 
         if self.confirmation_employer and not self.date_confirmation_commande:
             self.date_confirmation_commande = timezone.now()
+
+        if self.reception_commande and not self.date_reception_commande:
+            self.date_reception_commande = timezone.now()
 
         super().save(*args, **kwargs)

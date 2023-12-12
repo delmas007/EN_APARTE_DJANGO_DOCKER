@@ -24,6 +24,7 @@
             {% url 'vendeur:liste_produits' as vendeur_liste_produits_url %}
             {% url 'vendeur:liste_produitss' as vendeur_liste_produitss_url %}
             {% url 'vendeur:liste_paniers_confirmes' as vendeur_liste_paniers_confirmes_url %}
+            {% url 'vendeur:liste_paniers_traitements' as vendeur_liste_paniers_traitements_url %}
 
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item has-treeview {% if request.path == vendeur_ajouter_un_produit_url or request.path == vendeur_liste_produits_url or request.path == vendeur_liste_produitss_url %}menu-open{% endif %}">
@@ -59,8 +60,8 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item has-treeview {% if request.path == vendeur_liste_paniers_confirmes_url  %}menu-open{% endif %}">
-                    <a href="#" class="nav-link {% if request.path == vendeur_liste_paniers_confirmes_url  %}active{% endif %}">
+                <li class="nav-item has-treeview {% if request.path == vendeur_liste_paniers_confirmes_url or request.path == vendeur_liste_paniers_traitements_url  %}menu-open{% endif %}">
+                    <a href="#" class="nav-link {% if request.path == vendeur_liste_paniers_confirmes_url or request.path == vendeur_liste_paniers_traitements_url  %}active{% endif %}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Commande
@@ -72,6 +73,14 @@
                             <a href="{{ vendeur_liste_paniers_confirmes_url }}" class="nav-link {% if request.path == vendeur_liste_paniers_confirmes_url %}active{% endif %}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>En attente</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ vendeur_liste_paniers_traitements_url }}" class="nav-link {% if request.path == vendeur_liste_paniers_traitements_url %}active{% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>En cours de traitement</p>
                             </a>
                         </li>
                     </ul>

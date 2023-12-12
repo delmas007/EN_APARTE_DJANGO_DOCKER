@@ -125,3 +125,28 @@ def confirmer_statut_panier(request, panier_id):
         messages.warning(request, 'Le statut du panier a déjà été confirmé.')
 
     return redirect('vendeur:liste_paniers_confirmes')
+
+@login_required
+def liste_paniers_traitements(request):
+    paniers_traitements = Paniers.objects.filter(employer=request.user,confirmation_employer=True, reception_commande= False)
+
+    context = {'paniers_traitements': paniers_traitements}
+    return render(request, 'panier_T.html', context)
+
+
+@login_required
+def confirmer_statut_traitements(request, panier_id):
+    if not request.user.roles or request.user.roles.role != 'VENDEUR':
+        return redirect('Accueil')
+    panier = Paniers.objects.get(id=panier_id)
+
+    if not panier.reception_commande:
+        panier.reception_commande = True
+        panier.statut = 'Expédiée'
+        panier.save()
+
+        messages.success(request, 'Le statut du panier a été expédiée.')
+    else:
+        messages.warning(request, 'Le statut du panier a déjà été expédiée.')
+
+    return redirect('vendeur:liste_paniers_traitements')

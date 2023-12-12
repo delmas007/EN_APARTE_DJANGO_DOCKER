@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
@@ -128,6 +130,8 @@ def confirmer_statut_panier(request, panier_id):
 
 @login_required
 def liste_paniers_traitements(request):
+    if not request.user.roles or request.user.roles.role != 'VENDEUR':
+        return redirect('Accueil')
     paniers_traitements = Paniers.objects.filter(employer=request.user,confirmation_employer=True, reception_commande= False)
 
     context = {'paniers_traitements': paniers_traitements}
@@ -150,3 +154,16 @@ def confirmer_statut_traitements(request, panier_id):
         messages.warning(request, 'Le statut du panier a déjà été expédiée.')
 
     return redirect('vendeur:liste_paniers_traitements')
+
+@login_required
+def liste_commandes_receptionnees(request):
+    if not request.user.roles or request.user.roles.role != 'VENDEUR':
+        return redirect('Accueil')
+    commandes_receptionnees = Paniers.objects.filter(
+        employer=request.user,
+        reception_commande=True,
+        date_reception_commande__date=date.today()
+    )
+
+    context = {'commandes_receptionnees': commandes_receptionnees}
+    return render(request, 'panier_E.html', context)

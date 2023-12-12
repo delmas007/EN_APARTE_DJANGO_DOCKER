@@ -1,7 +1,7 @@
 from django.urls import path
 from vendeur.views import ajouter_produit, liste_produits, modifier_produit, supprimer_produit, toggle_promotion, \
     liste_produitss, liste_paniers_confirmes, confirmer_statut_panier, liste_paniers_traitements, \
-    confirmer_statut_traitements
+    confirmer_statut_traitements, liste_commandes_receptionnees
 
 app_name = 'vendeur'
 urlpatterns = [
@@ -15,4 +15,5 @@ urlpatterns = [
     path('confirmer_statut_panier/<int:panier_id>/', confirmer_statut_panier, name='confirmer_statut_panier'),
     path('liste_paniers_traitements/', liste_paniers_traitements, name='liste_paniers_traitements'),
     path('confirmer_statut_traitements/<int:panier_id>/', confirmer_statut_traitements, name='confirmer_statut_traitements'),
+    path('liste_commandes_receptionnees/', liste_commandes_receptionnees, name='liste_commandes_receptionnees'),
 ]

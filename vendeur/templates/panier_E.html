@@ -62,34 +62,27 @@
                                         <th>article et quantiter</th>
                                         <th>Prix total</th>
                                         <th>Status</th>
-                                        <th>Confirmation d'expédition</th>
+                                        <th>Date de reception</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% if paniers_traitements %}
-                                        {% for paniers_traitement in paniers_traitements %}
+                                    {% if commandes_receptionnees %}
+                                        {% for commandes_receptionnee in commandes_receptionnees %}
                                             <tr>
-                                                <td>{{ paniers_traitement.client.nom }} {{ paniers_traitement.client.prenom }}</td>
-                                                <td>{{ paniers_traitement.client.email }}</td>
-                                                <td>{{ paniers_traitement.client.contact }}</td>
-                                                <td>{{ paniers_traitement.client.commune }}</td>
+                                                <td>{{ commandes_receptionnee.client.nom }} {{ commandes_receptionnee.client.prenom }}</td>
+                                                <td>{{ commandes_receptionnee.client.email }}</td>
+                                                <td>{{ commandes_receptionnee.client.contact }}</td>
+                                                <td>{{ commandes_receptionnee.client.commune }}</td>
                                                 <td>
                                                     <ul>
-                                                        {% for commande in paniers_traitement.ordre.all %}
+                                                        {% for commande in commandes_receptionnee.ordre.all %}
                                                             <li>{{ commande.produits.nom }} - Quantité: {{ commande.quantite }} - Prix unitaire: {{ commande.produits.get_prix_reduit }}</li>
                                                         {% endfor %}
                                                     </ul>
                                                 </td>
-                                                <td>{{ paniers_traitement.montant_total }}</td>
-                                                <td>{{ paniers_traitement.get_statut_display }}</td>
-                                                <td>
-                                                    {% if not paniers_traitement.reception_commande %}
-                                                        <form method="post" action="{% url 'vendeur:confirmer_statut_traitements' paniers_traitement.id %}">
-                                                            {% csrf_token %}
-                                                            <button type="submit" class="btn btn-primary">Confirmer expédition</button>
-                                                        </form>
-                                                    {% endif %}
-                                                </td>
+                                                <td>{{ commandes_receptionnee.montant_total }}</td>
+                                                <td>{{ commandes_receptionnee.get_statut_display }}</td>
+                                                <td>{{ commandes_receptionnee.date_reception_commande }}</td>
                                             </tr>
                                         {% endfor %}
                                     {% else %}

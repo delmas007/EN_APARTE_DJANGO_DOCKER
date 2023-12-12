@@ -36,7 +36,10 @@ def inscription_D(request):
 def employer_compte(request):
     if not request.user.roles or request.user.roles.role != 'ADMIN':
         return redirect('Accueil')
-    utilisateurs_employers = Utilisateur.objects.filter(roles__role=Roles.EMPLOYER)
+
+    # Inclure à la fois les rôles "EMPLOYER" et "VENDEUR"
+    utilisateurs_employers = Utilisateur.objects.filter(roles__role__in=[Roles.EMPLOYER, Roles.VENDEUR])
+
     return render(request, 'employer_ac.html', {'employers': utilisateurs_employers})
 
 

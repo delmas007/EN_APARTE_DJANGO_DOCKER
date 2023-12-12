@@ -1,9 +1,11 @@
+from datetime import date
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_protect
 
-from Model.models import Roles, Produit
+from Model.models import Roles, Produit, Paniers
 from vendeur.forms import UserRegistrationFormee, UserRegistrationFor
 
 
@@ -61,6 +63,7 @@ def supprimer_produit(request, produit_id):
     messages.success(request, 'Produit supprimé avec succès !')
     return redirect('vendeur:liste_produits')
 
+
 @login_required
 def liste_produitss(request):
     if not request.user.roles or request.user.roles.role != 'VENDEUR':
@@ -99,3 +102,68 @@ def toggle_promotion(request, produit_id):
     return redirect('vendeur:liste_produitss')
 
 
+@login_required
+def liste_paniers_confirmes(request):
+    paniers_confirmes = Paniers.objects.filter(confirmation_panier=True , confirmation_employer=False)
+
+    context = {'paniers_confirmes': paniers_confirmes}
+    return render(request, 'panier_C.html', context)
+
+
+@login_required
+def confirmer_statut_panier(request, panier_id):
+    if not request.user.roles or request.user.roles.role != 'VENDEUR':
+        return redirect('Accueil')
+    panier = Paniers.objects.get(id=panier_id)
+
+    if not panier.confirmation_employer:
+        panier.confirmation_employer = True
+        panier.statut = 'En cours de traitement'  # Mettez à jour le statut comme vous le souhaitez
+        panier.employer = request.user  # Enregistrez l'utilisateur qui a effectué l'action
+        panier.save()
+
+        messages.success(request, 'Le statut du panier a été confirmé avec succès.')
+    else:
+        messages.warning(request, 'Le statut du panier a déjà été confirmé.')
+
+    return redirect('vendeur:liste_paniers_confirmes')
+
+@login_required
+def liste_paniers_traitements(request):
+    if not request.user.roles or request.user.roles.role != 'VENDEUR':
+        return redirect('Accueil')
+    paniers_traitements = Paniers.objects.filter(employer=request.user,confirmation_employer=True, reception_commande= False)
+
+    context = {'paniers_traitements': paniers_traitements}
+    return render(request, 'panier_T.html', context)
+
+
+@login_required
+def confirmer_statut_traitements(request, panier_id):
+    if not request.user.roles or request.user.roles.role != 'VENDEUR':
+        return redirect('Accueil')
+    panier = Paniers.objects.get(id=panier_id)
+
+    if not panier.reception_commande:
+        panier.reception_commande = True
+        panier.statut = 'Expédiée'
+        panier.save()
+
+        messages.success(request, 'Le statut du panier a été expédiée.')
+    else:
+        messages.warning(request, 'Le statut du panier a déjà été expédiée.')
+
+    return redirect('vendeur:liste_paniers_traitements')
+
+@login_required
+def liste_commandes_receptionnees(request):
+    if not request.user.roles or request.user.roles.role != 'VENDEUR':
+        return redirect('Accueil')
+    commandes_receptionnees = Paniers.objects.filter(
+        employer=request.user,
+        reception_commande=True,
+        date_reception_commande__date=date.today()
+    )
+
+    context = {'commandes_receptionnees': commandes_receptionnees}
+    return render(request, 'panier_E.html', context)

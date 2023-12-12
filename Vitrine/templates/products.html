@@ -4,7 +4,6 @@
 {% block content %}
 <body style="padding-top: 60px;">
     <main>
-        {% include 'header.html' %}
         <style>
             .product-card {
                 display: flex;
@@ -81,6 +80,8 @@
                 object-fit: cover; /* Pour couvrir la zone de manière proportionnée */
             }
         </style>
+        {% include 'header.html' %}
+        {% include 'panier.html' %}
         <section class="products section-padding">
             <div class="container">
                 <div class="row">
@@ -135,5 +136,64 @@
             </div>
         </section>
     </main>
+<script>
+    const addToCart = (product_id) => {
+    let positionThisProductInCart = cart.findIndex((value) => value.product_id == product_id);
+
+    if (cart.length <= 0) {
+        cart = [{
+            product_id: product_id,
+            quantity: 1
+        }];
+    } else if (positionThisProductInCart < 0) {
+        cart.push({
+            product_id: product_id,
+            quantity: 1
+        });
+    } else {
+        cart[positionThisProductInCart].quantity = cart[positionThisProductInCart].quantity + 1;
+    }
+
+    // Mise à jour du nombre affiché sur l'icône du panier
+    updateCartIcon();
+
+    addCartToHTML();
+    addCartToMemory();
+}
+
+const updateCartIcon = () => {
+    let totalQuantity = cart.reduce((acc, item) => acc + item.quantity, 0);
+    iconCartSpan.innerText = totalQuantity;
+}
+const addToCart = (product_id) => {
+    let positionThisProductInCart = cart.findIndex((value) => value.product_id == product_id);
+
+    if (cart.length <= 0) {
+        cart = [{
+            product_id: product_id,
+            quantity: 1
+        }];
+    } else if (positionThisProductInCart < 0) {
+        cart.push({
+            product_id: product_id,
+            quantity: 1
+        });
+    } else {
+        cart[positionThisProductInCart].quantity = cart[positionThisProductInCart].quantity + 1;
+    }
+
+    // Mise à jour du nombre affiché sur l'icône du panier
+    updateCartIcon();
+
+    addCartToHTML();
+    addCartToMemory();
+}
+
+const updateCartIcon = () => {
+    let totalQuantity = cart.reduce((acc, item) => acc + item.quantity, 0);
+    iconCartSpan.innerText = totalQuantity;
+}
+
+</script>
 </body>
 {% endblock %}

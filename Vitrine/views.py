@@ -84,3 +84,7 @@ def ajouter_panier(request, produit_id):
         commande.quantite += 1
         commande.save()
     return redirect(reverse("vitrine:Produit_details", kwargs={"produit_id": produit_id}))
+
+
+def PanierContent(request):
+    return render(request, 'PanierContent.html')

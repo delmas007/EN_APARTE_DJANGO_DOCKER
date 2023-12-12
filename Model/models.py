@@ -3,6 +3,7 @@ from decimal import Decimal
 from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
 from django.db import models
 from django.db.models.signals import pre_save
+from django.template.defaultfilters import floatformat
 from django.utils import timezone
 from django.dispatch import receiver
 
@@ -171,6 +172,10 @@ class Commande(models.Model):
     def __str__(self):
         return f"Commande #{self.pk} - {self.client.nom} "
 
+    @property
+    def total_commande(self):
+        return self.produits.get_prix_reduit() * self.quantite
+
 
 class Paniers(models.Model):
     client = models.OneToOneField(Utilisateur, on_delete=models.CASCADE)
@@ -192,6 +197,10 @@ class Paniers(models.Model):
         ],
         default='En attente'
     )
+
+    def calculer_montant_total(self):
+        total = sum(commande.total_commande for commande in self.ordre.all())
+        return total
 
     def save(self, *args, **kwargs):
         # Met à jour la date_commande lors de la confirmation

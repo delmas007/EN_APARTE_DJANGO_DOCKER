@@ -7,7 +7,32 @@ from django.views.decorators.http import require_POST
 from Model.models import Produit, Commande, Paniers
 
 
-# Create your views here.
+def panier(request):
+    panier_utilisateur = Paniers.objects.filter(client=request.user, confirmation_panier=False).first()
+
+    if panier_utilisateur:
+        if request.method == 'POST':
+            if 'mise_a_jour' in request.POST:
+                for commande in panier_utilisateur.ordre.all():
+                    nouvelle_quantite = request.POST.get(f'quantite-{commande.id}')
+                    if nouvelle_quantite:
+                        commande.quantite = nouvelle_quantite
+                        commande.save()
+
+            elif 'confirmer_commande' in request.POST:
+                montant_total = panier_utilisateur.calculer_montant_total()
+                panier_utilisateur.confirmation_panier = True
+                panier_utilisateur.montant_total = montant_total
+                panier_utilisateur.save()
+                return redirect('vitrine:panier_confirme')
+
+        return render(request, 'PanierContent.html', {'panier_utilisateur': panier_utilisateur})
+    else:
+        return render(request, 'PanierContent.html')
+
+def suppprimer_panier(request):
+    panie = request.user.
+
 
 
 def liste_tous_produits(request):
@@ -84,7 +109,3 @@ def ajouter_panier(request, produit_id):
         commande.quantite += 1
         commande.save()
     return redirect(reverse("vitrine:Produit_details", kwargs={"produit_id": produit_id}))
-
-
-def PanierContent(request):
-    return render(request, 'PanierContent.html')

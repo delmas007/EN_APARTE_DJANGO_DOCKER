@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views.decorators.http import require_POST
 
-from Model.models import Produit, Commande, Panier
+from Model.models import Produit, Commande, Paniers
 
 
 # Create your views here.
@@ -74,7 +74,7 @@ def produit_details(request, produit_id):
 def ajouter_panier(request, produit_id):
     user = request.user
     product = get_object_or_404(Produit, pk=produit_id)
-    panier, _ = Panier.objects.get_or_create(client=user)
+    panier, _ = Paniers.objects.get_or_create(client=user)
     commande, cree = Commande.objects.get_or_create(client=user, produits=product)
 
     if cree:

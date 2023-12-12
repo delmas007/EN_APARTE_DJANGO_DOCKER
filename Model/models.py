@@ -166,20 +166,21 @@ class Commande(models.Model):
     client = models.ForeignKey(Utilisateur, on_delete=models.CASCADE, null=True,
                                related_name='commande_client')
     produits = models.ForeignKey(Produit, on_delete=models.CASCADE, null=True, )
-    quantite = models.IntegerField(default=1)  # Correction ici
+    quantite = models.IntegerField(default=1)
 
     def __str__(self):
         return f"Commande #{self.pk} - {self.client.nom} "
 
 
-class Panier(models.Model):
+class Paniers(models.Model):
     client = models.OneToOneField(Utilisateur, on_delete=models.CASCADE)
     employer = models.ForeignKey(Utilisateur, on_delete=models.CASCADE, null=True, related_name='commande_employers')
     ordre = models.ManyToManyField(Commande)
-    date_commande = models.DateTimeField(null=True, blank=True)
-    commander = models.BooleanField(default=False)
+    date_commande_client = models.DateTimeField(null=True, blank=True)
+    date_confirmation_commande = models.DateTimeField(null=True, blank=True)
     montant_total = models.DecimalField(max_digits=12, decimal_places=2, null=True)
-    confirmer = models.BooleanField(default=False)
+    confirmation_panier = models.BooleanField(default=False)
+    confirmation_employer = models.BooleanField(default=False)
     statut = models.CharField(
         max_length=50,
         choices=[
@@ -192,7 +193,11 @@ class Panier(models.Model):
 
     def save(self, *args, **kwargs):
         # Met à jour la date_commande lors de la confirmation
-        if self.confirmer and not self.date_commande:
-            self.date_commande = timezone.now()
+
+        if self.confirmation_panier and not self.date_commande_client:
+            self.date_commande_client = timezone.now()
+
+        if self.confirmation_employer and not self.date_confirmation_commande:
+            self.date_confirmation_commande = timezone.now()
 
         super().save(*args, **kwargs)

@@ -43,11 +43,18 @@
 
             <div class="d-none d-lg-block">
                 <a href="{% url 'Model:connexion'%}" class="bi-person custom-icon me-3"></a>
+                {% if user.is_authenticated %}
+                    {% with panier=user.paniers_set.first %}
+                        {% if panier and not panier.confirmation_panier %}
+                            <a href="{% url 'vitrine:panier_confirme' %}" class="bi-bag custom-icon"></a>
+                        {% endif %}
+                    {% endwith %}
+                {% endif %}
 
-{#                {% if request.user.paniers %}#}
-{#                    <a href="{% url 'vitrine:panier_confirme'%}" class="bi-bag custom-icon"></a>#}
-{#                {% endif %}#}
-                <a href="{% url 'vitrine:panier_confirme'%}" class="bi-bag custom-icon"></a>
+
+
+
+
                 <a href="{% url 'Model:Deconnexion'%}" class="bi-person custom-icon me-3"></a>
 
 

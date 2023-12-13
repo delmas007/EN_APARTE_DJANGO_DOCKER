@@ -1,91 +1,98 @@
-	{% extends 'base.html' %}
+{% extends 'base.html' %}
 {% load static %}
-
 {% block content %}
     {% include 'header.html' %}
-    {% include 'panier.html' %}
     {% if panier_utilisateur.ordre.all %}
-<form class="bg0 p-t-75 p-b-85 mt-5" method="post" action="{% url 'vitrine:panier_confirme'%}">
-    {% csrf_token %}
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
-					<div class="m-l-25 m-r--38 m-lr-0-xl">
-						<div class="wrap-table-shopping-cart">
-							<table class="table-shopping-cart">
-								<tr class="table_head">
-									<th class="column-1">Produit</th>
-									<th class="column-2"></th>
-									<th class="column-3">Prix</th>
-									<th class="column-4">Quantité</th>
-									<th class="column-5">Total</th>
-								</tr>
-
-                                {% for commande in panier_utilisateur.ordre.all %}
-                                    <tr class="table_row">
-                                        <td class="column-1">
-                                            <div class="how-itemcart1">
-                                                <img src="{{ commande.produits.image.url }}" alt="{{ commande.produits.nom }}">
-                                            </div>
-                                        </td>
-                                        <td class="column-2">{{ commande.produits.nom }}</td>
-                                        <td class="column-3">${{ commande.produits.get_prix_reduit }}</td>
-                                        <td class="column-4">
-                                            <div class="wrap-num-product flex-w m-l-auto m-r-0">
-                                                <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-                                                    <i class="fs-16 zmdi zmdi-minus"></i>
-                                                </div>
-
-                                                <input class="mtext-104 cl3 txt-center num-product" type="number" name="quantite-{{ commande.id }}" value="{{ commande.quantite }}">
-
-                                                <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-                                                    <i class="fs-16 zmdi zmdi-plus"></i>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="column-5">${{ commande.total_commande }}</td>
-
-
+        <form class="bg0 p-t-75 p-b-85 mt-5" method="post" action="{% url 'vitrine:panier_confirme'%}">
+            {% csrf_token %}
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
+                        <div class="m-l-25 m-r--38 m-lr-0-xl">
+                            <div class="wrap-table-shopping-cart">
+                                <table class="table-shopping-cart">
+                                    <tr class="table_head">
+                                        <th class="column-1">Produit</th>
+                                        <th class="column-2"></th>
+                                        <th class="column-3">Prix</th>
+                                        <th class="column-4">Quantité</th>
+                                        <th class="column-5">Total</th>
+                                        <th class="column-6">Actions</th>
                                     </tr>
-                                {% endfor %}
-							</table>
-						</div>
-					</div>
-				</div>
 
-				<div class="col-sm-10 col-lg-7 col-xl-5 m-lr-auto m-b-50">
-					<div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
-						<h4 class="mtext-109 cl2 p-b-30">
-							TOTAUX DU PANIER
-						</h4>
+                                    {% for commande in panier_utilisateur.ordre.all %}
+                                        <tr class="table_row">
+                                            <td class="column-1">
+                                                <div class="how-itemcart1">
+                                                    <img src="{{ commande.produits.image.url }}" alt="{{ commande.produits.nom }}">
+                                                </div>
+                                            </td>
+                                            <td class="column-2">{{ commande.produits.nom }}</td>
+                                            <td class="column-3">{{ commande.produits.get_prix_reduit }} </td>
+                                            <td class="column-4">
+                                                <div class="wrap-num-product flex-w m-l-auto m-r-0">
+                                                    <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+                                                        <i class="fs-16 zmdi zmdi-minus"></i>
+                                                    </div>
 
-						<div class="flex-w flex-t p-t-27 p-b-33">
-							<div class="size-208">
-								<span class="mtext-101 cl2">
-									Total:
-								</span>
-							</div>
+                                                    <input class="mtext-104 cl3 txt-center num-product" type="number" name="quantite-{{ commande.id }}" value="{{ commande.quantite }}">
 
-							<div class="size-209 p-t-1">
-								<span class="mtext-110 cl2">
-									{{ panier_utilisateur.calculer_montant_total }}
-								</span>
-							</div>
-						</div>
-                        <div>
-                            <button type="submit" name="mise_a_jour" class="flex-c-m stext-101 cl2 size-116 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-b-20">
-                                Mise a jour du panier
-                            </button>
+                                                    <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+                                                        <i class="fs-16 zmdi zmdi-plus"></i>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="column-5">${{ commande.total_commande }}</td>
+                                            <td class="column-6 pe-3">
+                                                <a href="{% url 'vitrine:supprimer_element_panier' commande.id %}">Supprimer</a>
 
-                            <button type="submit" name="confirmer_commande" class="  flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
-                                Confirmer la commande
-                            </button>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
                         </div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</form>
+                    </div>
+
+                    <div class="col-sm-10 col-lg-7 col-xl-5 m-lr-auto m-b-50">
+                        <div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
+                            <h4 class="mtext-109 cl2 p-b-30">
+                                TOTAUX DU PANIER
+                            </h4>
+
+                            <div class="flex-w flex-t p-t-27 p-b-33">
+                                <div class="size-208">
+                            <span class="mtext-101 cl2">
+                                Total:
+                            </span>
+                                </div>
+
+                                <div class="size-209 p-t-1">
+                            <span class="mtext-110 cl2">
+                                {{ panier_utilisateur.calculer_montant_total }}
+                            </span>
+                                </div>
+                            </div>
+                            <div>
+                                <button type="submit" name="mise_a_jour" class="flex-c-m stext-101 cl2 size-116 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-b-20">
+                                    Mise a jour du panier
+                                </button>
+                                <button type="submit"  class="flex-c-m stext-101 cl2 size-116 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-b-20">
+                                    <a href="{% url 'vitrine:supprimer_panier' %}">Supprimer le panier</a>
+                                </button>
+                                <button type="submit" name="confirmer_commande" class="  flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer ">
+                                    Confirmer la commande
+                                </button>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        aaaaa
     {% else %}
         <p>Votre panier est vide.</p>
     {% endif %}

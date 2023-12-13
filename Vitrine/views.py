@@ -8,10 +8,17 @@ from Model.models import Produit, Commande, Paniers
 
 
 def panier(request):
+    if not request.user.is_authenticated:
+        return redirect('Accueil')
+    # Récupérez le panier utilisateur avec confirmation_panier=False
     panier_utilisateur = Paniers.objects.filter(client=request.user, confirmation_panier=False).first()
+    print(1)
 
+    # Si le panier existe
     if panier_utilisateur:
+        print(2)
         if request.method == 'POST':
+            print(3)
             if 'mise_a_jour' in request.POST:
                 for commande in panier_utilisateur.ordre.all():
                     nouvelle_quantite = request.POST.get(f'quantite-{commande.id}')
@@ -25,14 +32,23 @@ def panier(request):
                 panier_utilisateur.montant_total = montant_total
                 panier_utilisateur.save()
                 return redirect('vitrine:panier_confirme')
-
+        print(4)
         return render(request, 'PanierContent.html', {'panier_utilisateur': panier_utilisateur})
     else:
-        return render(request, 'PanierContent.html')
+        print(5)
+        return render(request, 'PanierContent.html', {'panier_utilisateur': panier_utilisateur})
 
-def suppprimer_panier(request):
-    panie = request.user.
 
+def supprimer_element_panier(request, commande_id):
+    commande = get_object_or_404(Commande, id=commande_id)
+    commande.delete()
+    return redirect('vitrine:panier_confirme')
+
+
+def supprimer_panier(request):
+    panier_utilisateur = Paniers.objects.filter(client=request.user, confirmation_panier=False).first()
+    panier_utilisateur.delete()
+    return redirect('Accueil')
 
 
 def liste_tous_produits(request):

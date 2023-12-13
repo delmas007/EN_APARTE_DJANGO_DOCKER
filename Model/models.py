@@ -164,9 +164,9 @@ class Produit(models.Model):
 
 
 class Commande(models.Model):
-    client = models.ForeignKey(Utilisateur, on_delete=models.CASCADE, null=True,
+    client = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True,
                                related_name='commande_client')
-    produits = models.ForeignKey(Produit, on_delete=models.CASCADE, null=True, )
+    produits = models.ForeignKey(Produit, on_delete=models.SET_NULL, null=True, )
     quantite = models.IntegerField(default=1)
 
     def __str__(self):
@@ -178,8 +178,8 @@ class Commande(models.Model):
 
 
 class Paniers(models.Model):
-    client = models.OneToOneField(Utilisateur, on_delete=models.CASCADE)
-    employer = models.ForeignKey(Utilisateur, on_delete=models.CASCADE, null=True, related_name='commande_employers')
+    client = models.ForeignKey('Utilisateur', on_delete=models.SET_NULL, null=True)
+    employer = models.ForeignKey('Utilisateur', on_delete=models.SET_NULL, null=True, related_name='commande_employers')
     ordre = models.ManyToManyField(Commande)
     date_commande_client = models.DateTimeField(null=True, blank=True)
     date_confirmation_commande = models.DateTimeField(null=True, blank=True)
@@ -203,8 +203,6 @@ class Paniers(models.Model):
         return total
 
     def save(self, *args, **kwargs):
-        # Met à jour la date_commande lors de la confirmation
-
         if self.confirmation_panier and not self.date_commande_client:
             self.date_commande_client = timezone.now()
 
@@ -215,3 +213,7 @@ class Paniers(models.Model):
             self.date_reception_commande = timezone.now()
 
         super().save(*args, **kwargs)
+
+    def supprimer_panier(self):
+        self.ordre.all().delete()
+        self.delete()

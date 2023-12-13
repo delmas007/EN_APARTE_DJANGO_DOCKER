@@ -47,7 +47,10 @@ def supprimer_element_panier(request, commande_id):
 
 def supprimer_panier(request):
     panier_utilisateur = Paniers.objects.filter(client=request.user, confirmation_panier=False).first()
-    panier_utilisateur.delete()
+
+    if panier_utilisateur:
+        panier_utilisateur.supprimer_panier()
+
     return redirect('Accueil')
 
 
@@ -115,13 +118,34 @@ def produit_details(request, produit_id):
 def ajouter_panier(request, produit_id):
     user = request.user
     product = get_object_or_404(Produit, pk=produit_id)
-    panier, _ = Paniers.objects.get_or_create(client=user)
-    commande, cree = Commande.objects.get_or_create(client=user, produits=product)
+
+    # Vérifiez si l'utilisateur a un panier non confirmé
+    panier_non_confirme = Paniers.objects.filter(client=user, confirmation_panier=False).first()
+
+    if panier_non_confirme:
+        panier = panier_non_confirme
+        print("Utilisation du panier non confirmé existant.")
+    else:
+        # Création d'un nouveau panier avec confirmation_panier=False
+        panier = Paniers.objects.create(client=user)
+        print("Création d'un nouveau panier avec confirmation_panier=False.")
+
+    # Création d'une nouvelle commande
+    commande, cree = Commande.objects.get_or_create(client=user, produits=product, client__paniers__confirmation_panier=False,paniers=panier)
 
     if cree:
-        panier.ordre.add(commande)
-        panier.save()
+        if panier.ordre.exists():
+            panier.ordre.add(commande)
+            panier.save()
+            print("Nouvel ordre créé.")
+        else:
+            panier.ordre.add(commande)
+            panier.save()
+            print("Commande ajoutée à l'ordre existant.")
+        print("Nouveau panier et commande créés.")
     else:
         commande.quantite += 1
         commande.save()
+        print("Quantité de commande mise à jour.")
+
     return redirect(reverse("vitrine:Produit_details", kwargs={"produit_id": produit_id}))

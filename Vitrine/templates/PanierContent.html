@@ -2,7 +2,6 @@
 {% load static %}
 {% block content %}
     {% include 'header.html' %}
-    {% if panier_utilisateur.ordre.all %}
         <form class="bg0 p-t-75 p-b-85 mt-5" method="post" action="{% url 'vitrine:panier_confirme'%}">
             {% csrf_token %}
             <div class="container">
@@ -92,8 +91,4 @@
                 </div>
             </div>
         </form>
-        aaaaa
-    {% else %}
-        <p>Votre panier est vide.</p>
-    {% endif %}
 {% endblock %}

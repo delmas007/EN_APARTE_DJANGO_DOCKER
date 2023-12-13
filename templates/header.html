@@ -44,10 +44,10 @@
             <div class="d-none d-lg-block">
                 <a href="{% url 'Model:connexion'%}" class="bi-person custom-icon me-3"></a>
 
-                {% if request.user.paniers %}
-                    <a href="{% url 'vitrine:panier_confirme'%}" class="bi-bag custom-icon"></a>
-                {% endif %}
-
+{#                {% if request.user.paniers %}#}
+{#                    <a href="{% url 'vitrine:panier_confirme'%}" class="bi-bag custom-icon"></a>#}
+{#                {% endif %}#}
+                <a href="{% url 'vitrine:panier_confirme'%}" class="bi-bag custom-icon"></a>
                 <a href="{% url 'Model:Deconnexion'%}" class="bi-person custom-icon me-3"></a>
 
 

@@ -1,7 +1,7 @@
 from django import forms
 
 
-from Model.models import Produit
+from Model.models import Produi
 
 
 class UserRegistrationFormee(forms.ModelForm):

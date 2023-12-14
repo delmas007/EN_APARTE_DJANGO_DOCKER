@@ -28,6 +28,7 @@
             }
             input[type="number"] {
                 width: 100%; /* Ajustez la largeur selon vos besoins */
+                height: 200px;
                 padding: 15px;
                 font-size: 16px;
                 border: 1px solid #ccc;
@@ -48,20 +49,20 @@
                         <div class="col-lg-10 col-12">
                             <h1>
                                 <span class="d-block text-warning">Nous vous fournissons</span>
-                                <span class="d-block text-dark">Articles à la mode</span>
+                                <span class="d-block text-dark">Des produits de qualités</span>
                             </h1>
                         </div>
                     </div>
                 </div>
             </header>
 
-            <section class="product-detail section-padding">
+            <section class="product-detail section-padding "    >
                 <div class="container">
                     <div class="row">
 
                         <div class="col-lg-6 col-12">
                             <div class="product-thumb">
-                                <img src="{{ produit.image.url }}" class="img-fluid product-image" alt="">
+                                <img src="{{ produit.image.url }}" class="img-fluid product-image" alt="" >
                             </div>
                         </div>
 
@@ -69,7 +70,6 @@
                             <div class="product-info d-flex">
                                 <div>
                                     <h2 class="product-title mb-0">{{ produit.nom }}</h2>
-                                    <p class="product-p">{{ produit.description }}</p>
                                 </div>
 
                                 {% if produit.promotion and produit.prix_reduit %}

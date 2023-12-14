@@ -4,6 +4,82 @@
 {% block content%}
     
     <body>
+    <style>
+        .product-card {
+            display: flex;
+            flex-direction: row;
+            margin: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            max-width: 500px;
+        }
+
+        .product-img {
+            flex: 1;
+        }
+
+        .product-info {
+            flex: 1;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .btn-add-to-cart {
+            background-color: #FF9B50;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: auto;
+        }
+
+        .btn-add-to-cart:hover {
+            background-color: darkgoldenrod;
+        }
+
+        .ligne {
+            margin-top: 20px;
+        }
+
+        h4 {
+            color: #FFB000;
+        }
+
+        .product-promotion {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #FF9B50;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .product-price-original {
+            text-decoration: line-through;
+            color: #999;
+            margin-right: 5px;
+        }
+        .category-select {
+            margin-right: 10px;
+        }
+
+        .products-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .product-thumb img {
+            height: 200px; /* Ajustez la hauteur souhaitée */
+            width: 100%;   /* Pour s'assurer que l'image remplit la largeur de son conteneur */
+            object-fit: cover; /* Pour couvrir la zone de manière proportionnée */
+        }
+    </style>
 
         <section class="preloader">
             <div class="spinner">
@@ -18,7 +94,7 @@
 
             <section class="slick-slideshow">   
                 <div class="slick-custom">
-                    <img src=" {% static 'images/slide-03.jpg' %}" class="img-fluid" alt="">
+                    <img src=" {% static 'images/beaute-spa (1).jpg' %}" class="img-fluid" alt="">
 
                     <div class="slick-bottom">
                         <div class="container">
@@ -34,7 +110,7 @@
                 </div>
 
                 <div class="slick-custom">
-                    <img src="{% static 'images/slide-01.jpg' %}" class="img-fluid" alt="">
+                    <img src="{% static 'images/femme-se-detendre-dans-spa.jpg' %}" class="img-fluid" alt="">
 
                     <div class="slick-bottom">
                         <div class="container">
@@ -50,7 +126,7 @@
                 </div>
 
                 <div class="slick-custom">
-                    <img src=" {% static 'images/slide-02.jpg' %}" class="img-fluid" alt="">
+                    <img src=" {% static 'images/concept-spa-femme-creme-au-visage (1).jpg' %}" class="img-fluid" alt="">
 
                     <div class="slick-bottom">
                         <div class="container">
@@ -187,85 +263,52 @@
                         <div class="col-12 text-center">
                             <h2 class="mb-5">Produits populaires</h2>
                         </div>
-
-                        <div class="col-lg-4 col-12 mb-3">
-                            <div class="product-thumb">
-                                <a href="product-detail.html">
-                                    <img src="{% static 'images/product/evan-mcdougall-qnh1odlqOmk-unsplash.jpeg' %}" class="img-fluid product-image" alt="">
-                                </a>
-
-                                <div class="product-top d-flex">
-                                    <span class="product-alert me-auto">New Arrival</span>
-
-                                    <a href="#" class="bi-heart-fill product-icon"></a>
-                                </div>
-
-                                <div class="product-info d-flex">
-                                    <div>
-                                        <h5 class="product-title mb-0">
-                                            <a href="product-detail.html" class="product-title-link">Tree pot</a>
-                                        </h5>
-
-                                        <p class="product-p">Original package design from house</p>
+                        {% if tous_les_produits %}
+                            {% for produit in tous_les_produits %}
+                                <div class="col-lg-4 col-12 mb-3">
+                                    <div class="product-thumb">
+                                        <a href="{% url 'vitrine:Produit_details' produit.id %}">
+                                            {% if produit.promotion and produit.prix_reduit %}
+                                                <div class="product-promotion">-{{ produit.pourcentage_promotion }}%</div>
+                                            {% endif %}
+                                            <img src="{{ produit.image.url }}" class="img-fluid product-image" alt="">
+                                        </a>
+                                        <div class="product-top d-flex">
+                                            {% if produit.promotion and produit.prix_reduit %}
+                                                <span class="product-alert me-auto">En promotion</span>
+                                            {% endif %}
+                                        </div>
+                                        <div class="product-info d-flex">
+                                            <div>
+                                                <h5 class="product-title mb-0">
+                                                    <a href="{% url 'vitrine:Produit_details' produit.id %}" class="product-title-link">{{ produit.nom }}</a>
+                                                </h5>
+                                            </div>
+                                            {% if produit.promotion and produit.prix_reduit %}
+                                                <small class="product-price text-muted ms-auto">
+                                                    <span class="h3 text-warning" style="text-decoration:none ">{{ produit.prix_reduit }} FCFA</span><br>
+                                                    <span class="product-price-original">{{ produit.prix }} FCFA </span>
+                                                </small>
+                                            {% elif  produit.promotion and not produit.prix_reduit  %}
+                                                <small class="product-price text-muted ms-auto">
+                                                    <span class="h3 text-warning" style="text-decoration:none ">{{ produit.prix }} FCFA</span><br>
+                                                </small>
+                                            {% elif not produit.promotion  %}
+                                                <small class="product-price text-muted ms-auto">
+                                                    <span class="h3 text-warning" style="text-decoration:none ">{{ produit.prix }} FCFA</span><br>
+                                                </small>
+                                            {% endif %}
+                                        </div>
                                     </div>
-
-                                    <small class="product-price text-muted ms-auto mt-auto mb-5">$25</small>
                                 </div>
-                            </div>
+                            {% endfor %}
+                        {% else %}
+                        <div class="col-12 "style="margin-bottom: 189px">
+                            <h2 class="mb-5">Aucun produit pour l'instant</h2>
                         </div>
-
-                        <div class="col-lg-4 col-12 mb-3">
-                            <div class="product-thumb">
-                                <a href="product-detail.html">
-                                    <img src="{% static 'images/product/jordan-nix-CkCUvwMXAac-unsplash.jpeg' %}" class="img-fluid product-image" alt="">
-                                </a>
-
-                                <div class="product-top d-flex">
-                                    <span class="product-alert">Low Price</span>
-
-                                    <a href="#" class="bi-heart-fill product-icon ms-auto"></a>
-                                </div>
-
-                                <div class="product-info d-flex">
-                                    <div>
-                                        <h5 class="product-title mb-0">
-                                            <a href="product-detail.html" class="product-title-link">Fashion Set</a>
-                                        </h5>
-
-                                        <p class="product-p">Costume Package</p>
-                                    </div>
-
-                                    <small class="product-price text-muted ms-auto mt-auto mb-5">$35</small>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4 col-12">
-                            <div class="product-thumb">
-                                <a href="product-detail.html">
-                                    <img src="{% static 'images/product/nature-zen-3Dn1BZZv3m8-unsplash.jpeg' %}" class="img-fluid product-image" alt="">
-                                </a>
-
-                                <div class="product-top d-flex">
-                                    <a href="#" class="bi-heart-fill product-icon ms-auto"></a>
-                                </div>
-
-                                <div class="product-info d-flex">
-                                    <div>
-                                        <h5 class="product-title mb-0">
-                                            <a href="product-detail.html" class="product-title-link">Juice Drinks</a>
-                                        </h5>
-
-                                        <p class="product-p">Nature made another world</p>
-                                    </div>
-
-                                    <small class="product-price text-muted ms-auto mt-auto mb-5">$45</small>
-                                </div>
-                            </div>
-                        </div>
-
+                        {% endif %}
                         <div class="col-12 text-center">
-                            <a href="products.html" class="view-all">View All Products</a>
+                            <a href="{% url 'vitrine:liste_tous_produits' %}" class="view-all">View All Products</a>
                         </div>
 
                     </div>

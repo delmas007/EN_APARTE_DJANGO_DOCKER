@@ -1,3 +1,5 @@
+from random import sample
+
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
@@ -55,14 +57,7 @@ def supprimer_panier(request):
 
 
 def liste_tous_produits(request):
-    # Récupérer tous les produits
     tous_les_produits = Produit.objects.all()
-    # for produit in tous_les_produits:
-    #     # Vérifier s'il y a une promotion
-    #     if produit.promotion:
-    #         produit.prix_reduits = produit.prix - (produit.prix * produit.pourcentage_promotion / 100)
-    #     else:
-    #         produit.prix_reduits = produit.prix
 
     context = {'tous_les_produits': tous_les_produits}
     return render(request, 'products.html', context)
@@ -93,7 +88,13 @@ def commander_produit(request):
 
 
 def Accueil(request):
-    return render(request, 'index.html')
+    tous_les_produits = Produit.objects.all()
+
+    # Sélectionner trois éléments aléatoires
+    produits_aleatoires = sample(list(tous_les_produits), 3)
+
+    context = {'tous_les_produits': produits_aleatoires}
+    return render(request, 'index.html', context)
 
 
 def Contact(request):

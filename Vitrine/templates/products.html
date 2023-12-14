@@ -97,7 +97,8 @@
                             <h2 class="mb-5">Nos différents produits</h2>
                         </div>
                         {% for produit in tous_les_produits %}
-                            <div class="col-lg-4 col-12 mb-3 mt-md-5">
+                            <div class="col-lg-4 col-12 mb-3 mt-md-5
+">
                                 <div class="product-thumb">
                                     <a href="{% url 'vitrine:Produit_details' produit.id %}">
                                         {% if produit.promotion and produit.prix_reduit %}

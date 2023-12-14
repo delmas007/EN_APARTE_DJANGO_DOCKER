@@ -56,7 +56,6 @@
                                       <thead>
                                       <tr>
                                           <th>Vendeur</th>
-                                          <th>Nom produit</th>
                                           <th>Description</th>
                                           <th>Prix</th>
                                           <th>Image</th>
@@ -68,7 +67,6 @@
                                       {% if produits %}
                                           {% for produit in produits %}
                                               <tr>
-                                                  <td>{{ produit.employer }}</td>
                                                   <td>{{ produit.nom }}</td>
                                                   <td>{{ produit.description }}</td>
                                                   <td>{{ produit.get_prix_reduit }}</td>

@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
@@ -36,17 +38,16 @@ def liste_paniers_traitements_D(request):
     return render(request, 'panier_T_D.html', context)
 
 @login_required
-def liste_commandes_receptionnees(request):
+def liste_commandes_receptionnees_D(request):
     if not request.user.roles or request.user.roles.role != 'ADMIN':
         return redirect('Accueil')
     commandes_receptionnees = Paniers.objects.filter(
-        employer=request.user,
         reception_commande=True,
         date_reception_commande__date=date.today()
     )
 
     context = {'commandes_receptionnees': commandes_receptionnees}
-    return render(request, 'panier_E.html', context)
+    return render(request, 'panier_E_D.html', context)
 
 
 @csrf_protect

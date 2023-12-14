@@ -3,10 +3,28 @@
 {% include 'css.html' %}
 {% block content%}
     <body>
-    {% include 'header.html' %}
+    <style>
 
-    <div class="container">
-        <div class="row justify-content-center">
+        }
+    </style>
+{% include 'header.html' %}
+
+    <section class="">
+        <div class="slick-custom">
+            <img src=" {% static 'images/calendrier.jpg' %}" class="img-fluid" alt="" style="height:500px">
+            <div class="slick-bottom">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 col-10">
+                            <h1 class="slick-title">Rendez-vous</h1>
+                            <p class="lead text-white mt-lg-3 mb-lg-5">Prenez votre rendez-vous pour profiter de nos services.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container rendezVous mt-5">
+        <div class="row justify-content-center" style="top:0">
             <div class="col-md-6">
                 <form method="POST" id="appointmentForm">
                     {% csrf_token %}
@@ -29,7 +47,7 @@
                             {{form.errors}}
                         </small>
                     {% endif %}
-                    <button type="submit" class="btn btn-success">Prendre rendez-vous</button>
+                    <button type="submit" class="btn " style="margin-top:10px; background-color:#ffc30e;color:white">Prendre rendez-vous</button>
 
                     <div id="error-message" class="error">Disponibilité: Lundi-Vendredi 8H-18H</div>
                 </form>
@@ -81,5 +99,7 @@
             </div>
         </div>
     </div>
+    </section>
+
     </body>
 {% endblock %}

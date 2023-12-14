@@ -1,0 +1,145 @@
+{% extends 'base_f.html' %}
+{% load static %}
+{% block content%}
+
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+
+      <!-- Main Sidebar Container -->
+
+        {% include 'slide_D.html' %}
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+          <div class="container-fluid">
+            <div class="row mb-2">
+              <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Réservation en attente...</h1>
+              </div><!-- /.col -->
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item"><a href="{% url 'admins:filtrer_Commande' %}">Home</a></li>
+                  <li class="breadcrumb-item active">Rendez-vous</li>
+                </ol>
+              </div><!-- /.col -->
+            </div><!-- /.row -->
+          </div><!-- /.container-fluid -->
+        </div>
+          <!-- Main content -->
+          <section class="content">
+              <div class="container-fluid">
+                  <div class="row">
+                      <!-- left column -->
+                      <div class="col-md-12">
+                          <!-- jquery validation -->
+                          <div class="card card-success">
+                              <!-- /.card-header -->
+                              <!-- form start -->
+                              <form method="get" action="{% url 'admins:filtrer_Commande' %}" id="quickForm">
+                                  {% csrf_token %}
+                                  <div class="card-body">
+                                      <div class="form-group">
+                                          <label for="date">Date </label>
+                                          <input type="date" name="date" class="form-control" value="{{ date_filtre }}" id="date">
+                                      </div>
+                                      <div class="form-group">
+                                          <label for="vendeur">vendeur </label>
+                                          <input type="text" name="vendeur" class="form-control" id="vendeur" value="{{ vendeur_filtre }}" placeholder="Nom vendeur" >
+                                      </div>
+                                      <div class="form-group">
+                                          <label for="client">Client </label>
+                                          <input type="text" name="client" class="form-control" id="client" value="{{ client_filtre }}" placeholder="Nom client" >
+                                      </div>
+                                  </div>
+                                  <!-- /.card-body -->
+                                  <div class="card-footer">
+                                      <!-- <button type="submit" class="btn btn-success">Submit</button> -->
+                                      <input type="submit" class="btn btn-success" value="Save">
+                                  </div>
+                              </form>
+                          </div>
+                          <!-- /.card -->
+                      </div>
+                      <!--/.col (left) -->
+                      <!-- right column -->
+                      <div class="col-md-6">
+
+                      </div>
+                      <!--/.col (right) -->
+                  </div>
+                  <!-- /.row -->
+              </div><!-- /.container-fluid -->
+          </section>
+        <!-- /.content-header -->
+          <section class="content">
+              <div class="container-fluid">
+                  <div class="row">
+                      <div class="col-12">
+                          <div class="card">
+                              <div class="card-header">
+                                  <h3 class="card-title">All categories</h3>
+                              </div>
+                              <!-- /.card-header -->
+                              <div class="card-body">
+                                  <table id="example1" class="table table-bordered table-striped">
+                                      <thead>
+                                      <tr>
+                                          <th>Client</th>
+                                          <th>Employer</th>
+                                          <th>Mail</th>
+                                          <th>Numero</th>
+                                          <th>Adresse</th>
+                                          <th>article et quantiter</th>
+                                          <th>Prix total</th>
+                                          <th>Date commande client</th>
+                                          <th>Date confirmation commande</th>
+                                          <th>date reception commande</th>
+                                      </tr>
+                                      </thead>
+                                      <tbody>
+                                      {% if tous_Paniers %}
+                                          {% for tous_Panier in tous_Paniers %}
+                                              <tr>
+                                                  <td>{{ tous_Panier.client.nom }} {{ tous_Panier.client.prenom }}</td>
+                                                  <td>{{ tous_Panier.employer.nom }} {{ tous_Panier.employer.prenom }}</td>
+                                                  <td>{{ tous_Panier.client.email }}</td>
+                                                  <td>{{ tous_Panier.client.contact }}</td>
+                                                  <td>{{ tous_Panier.client.commune }}</td>
+                                                  <td>
+                                                      <ul>
+                                                          {% for commande in tous_Panier.ordre.all %}
+                                                              <li>{{ commande.produits.nom }} - Quantité: {{ commande.quantite }} - Prix unitaire: {{ commande.produits.get_prix_reduit }}</li>
+                                                          {% endfor %}
+                                                      </ul>
+                                                  </td>
+                                                  <td>{{ tous_Panier.montant_total }}</td>
+                                                  <td>{{ tous_Panier.date_commande_client }}</td>
+                                                  <td>{{ tous_Panier.date_confirmation_commande }}</td>
+                                                  <td>{{ tous_Panier.date_reception_commande }}</td>
+                                              </tr>
+                                          {% endfor %}
+                                      {% else %}
+                                          <tr>
+                                              <td colspan="10">Aucun rendez-vous trouvé</td>
+                                          </tr>
+                                      {% endif %}
+                                      </tbody>
+
+                                  </table>
+                              </div>
+                              <!-- /.card-body -->
+                          </div>
+                          <!-- /.card -->
+                      </div>
+                      <!-- /.col -->
+                  </div>
+                  <!-- /.row -->
+              </div>
+              <!-- /.container-fluid -->
+          </section>
+      </div>
+    </div>
+</body>
+{% endblock %}

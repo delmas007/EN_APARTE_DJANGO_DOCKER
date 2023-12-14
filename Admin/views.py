@@ -5,7 +5,15 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from Admin.forms import UserRegistrationForme
 from Employer.forms import ConfirmationReservationForm
-from Model.models import Rendez_vous, Roles, Utilisateur
+from Model.models import Rendez_vous, Roles, Utilisateur, Produit
+
+
+@login_required
+def liste_produits_D(request):
+    if not request.user.roles or request.user.roles.role != 'ADMIN':
+        return redirect('Accueil')
+    produits = Produit.objects.all()
+    return render(request, 'list_PO_D.html', {'produits': produits})
 
 
 @csrf_protect
@@ -30,6 +38,8 @@ def inscription_D(request):
     form = UserRegistrationForme()
     context['form'] = form
     return render(request, 'employer_D.html', context=context)
+
+
 # Create your views here.
 
 @login_required
@@ -63,6 +73,7 @@ def desactive_amp(request, employer_id):
     employer.save()
 
     return redirect('admins:Compte_employer')
+
 
 @login_required
 def filtrer_rendez_vous(request):

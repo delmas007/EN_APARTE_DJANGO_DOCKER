@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from Admin.forms import UserRegistrationForme
 from Employer.forms import ConfirmationReservationForm
-from Model.models import Rendez_vous, Roles, Utilisateur, Produit
+from Model.models import Rendez_vous, Roles, Utilisateur, Produit, Paniers
 
 
 @login_required
@@ -14,6 +14,39 @@ def liste_produits_D(request):
         return redirect('Accueil')
     produits = Produit.objects.all()
     return render(request, 'list_PO_D.html', {'produits': produits})
+
+
+@login_required
+def liste_paniers_confirmes_D(request):
+    if not request.user.roles or request.user.roles.role != 'ADMIN':
+        return redirect('Accueil')
+    paniers_confirmes = Paniers.objects.filter(confirmation_panier=True, confirmation_employer=False)
+
+    context = {'paniers_confirmes': paniers_confirmes}
+    return render(request, 'panier_C_D.html', context)
+
+
+@login_required
+def liste_paniers_traitements_D(request):
+    if not request.user.roles or request.user.roles.role != 'ADMIN':
+        return redirect('Accueil')
+    paniers_traitements = Paniers.objects.filter(confirmation_employer=True, reception_commande=False)
+
+    context = {'paniers_traitements': paniers_traitements}
+    return render(request, 'panier_T.html', context)
+
+@login_required
+def liste_commandes_receptionnees(request):
+    if not request.user.roles or request.user.roles.role != 'ADMIN':
+        return redirect('Accueil')
+    commandes_receptionnees = Paniers.objects.filter(
+        employer=request.user,
+        reception_commande=True,
+        date_reception_commande__date=date.today()
+    )
+
+    context = {'commandes_receptionnees': commandes_receptionnees}
+    return render(request, 'panier_E.html', context)
 
 
 @csrf_protect

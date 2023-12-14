@@ -1,7 +1,8 @@
 
 from django.urls import path
 from .views import rendez_vous_aujourdhui, reservations_en_attente_D, reservations_confirmer_D, filtrer_rendez_vous, \
-    inscription_D, active_emp, desactive_amp, employer_compte, liste_produits_D, liste_paniers_confirmes_D
+    inscription_D, active_emp, desactive_amp, employer_compte, liste_produits_D, liste_paniers_confirmes_D, \
+    liste_paniers_traitements_D
 
 app_name = 'admins'
 urlpatterns = [
@@ -15,4 +16,5 @@ urlpatterns = [
     path('Compte_employer/', employer_compte, name='Compte_employer'),
     path('Liste_produits/', liste_produits_D, name='List_produit'),
     path('liste_paniers_confirmes/', liste_paniers_confirmes_D, name='liste_paniers_confirmes'),
+    path('liste_paniers_traitements/', liste_paniers_traitements_D, name='liste_paniers_traitements'),
 ]

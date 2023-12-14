@@ -33,7 +33,7 @@ def liste_paniers_traitements_D(request):
     paniers_traitements = Paniers.objects.filter(confirmation_employer=True, reception_commande=False)
 
     context = {'paniers_traitements': paniers_traitements}
-    return render(request, 'panier_T.html', context)
+    return render(request, 'panier_T_D.html', context)
 
 @login_required
 def liste_commandes_receptionnees(request):

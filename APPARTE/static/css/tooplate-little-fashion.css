@@ -12,7 +12,7 @@ https://www.tooplate.com/view/2127-little-fashion
 -----------------------------------------*/
 :root {
   --white-color:                #FFFFFF;
-  --primary-color:              #FF4400;
+  --primary-color:              #FFC107;
   --section-bg-color:           #f0f8ff;
   --dark-color:                 #000000;
   --grey-color:                 #d0d1d1;
@@ -124,11 +124,11 @@ a {
 }
 
 a:hover {
-  color: var(--primary-color);
+  color: #FFC107;
 }
 
 .text-primary {
-  color: var(--primary-color) !important;
+  color: #FFC107 !important;
 }
 
 ::selection {

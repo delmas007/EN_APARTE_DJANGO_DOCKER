@@ -15,19 +15,23 @@ from vendeur.forms import UserRegistrationFormee, UserRegistrationFor
 def ajouter_produit(request):
     if not request.user.roles or request.user.roles.role != 'VENDEUR':
         return redirect('Accueil')
+
     context = {}
+
     if request.method == 'POST':
+        # Associez l'utilisateur connecté à la partie employer du formulaire
         form = UserRegistrationFormee(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            messages.success(request, 'Produit ajouter avec succès !')
+            produit = form.save(commit=False)
+            produit.employer = request.user
+            produit.save()
+            messages.success(request, 'Produit ajouté avec succès !')
         else:
             context['errors'] = form.errors
 
     form = UserRegistrationFormee()
     context['form'] = form
     return render(request, 'produit_A.html', context=context)
-
 
 @login_required
 def liste_produits(request):
@@ -44,6 +48,7 @@ def modifier_produit(request, produit_id):
     produit = get_object_or_404(Produit, id=produit_id)
 
     if request.method == 'POST':
+
         form = UserRegistrationFor(request.POST, request.FILES, instance=produit)
         if form.is_valid():
             form.save()

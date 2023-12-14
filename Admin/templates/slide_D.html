@@ -30,6 +30,7 @@
             {% url 'admins:liste_paniers_confirmes' as admin_liste_paniers_confirmes_url %}
             {% url 'admins:liste_paniers_traitements' as admin_liste_paniers_traitements_url %}
             {% url 'admins:liste_commandes_receptionnees' as admin_liste_commandes_receptionnees_url %}
+            {% url 'admins:filtrer_Commande' as admin_filtrer_Commande_url %}
 
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item has-treeview {% if request.path == admin_reservation_url or request.path == admin_reservation_confirmer_url %}menu-open{% endif %}">
@@ -128,8 +129,8 @@
                     </ul>
 
                 </li>
-                <li class="nav-item has-treeview {% if request.path == admin_List_produit_url or request.path == admin_liste_paniers_confirmes_url or request.path == admin_liste_paniers_traitements_url or request.path == admin_liste_commandes_receptionnees_url %}menu-open{% endif %}">
-                    <a href="#" class="nav-link {% if request.path == admin_List_produit_url or request.path == admin_liste_paniers_confirmes_url or request.path == admin_liste_paniers_traitements_url or request.path == admin_liste_commandes_receptionnees_url %}active{% endif %}">
+                <li class="nav-item has-treeview {% if request.path == admin_liste_paniers_confirmes_url or request.path == admin_liste_paniers_traitements_url or request.path == admin_liste_commandes_receptionnees_url or request.path == admin_filtrer_Commande_url %}menu-open{% endif %}">
+                    <a href="#" class="nav-link {% if request.path == admin_liste_paniers_confirmes_url or request.path == admin_liste_paniers_traitements_url or request.path == admin_liste_commandes_receptionnees_url or request.path == admin_filtrer_Commande_url %}active{% endif %}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Commande
@@ -157,6 +158,14 @@
                             <a href="{{ admin_liste_commandes_receptionnees_url }}" class="nav-link {% if request.path == admin_liste_commandes_receptionnees_url %}active{% endif %}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Receptionné</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ admin_filtrer_Commande_url }}" class="nav-link {% if request.path == admin_filtrer_Commande_url %}active{% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Historique</p>
                             </a>
                         </li>
                     </ul>

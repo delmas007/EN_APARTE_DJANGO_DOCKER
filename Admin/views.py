@@ -1,6 +1,8 @@
 from datetime import date
 
 from django.contrib.auth.decorators import login_required
+from django.db.models import DateField
+from django.db.models.functions import Cast
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_protect
@@ -9,6 +11,40 @@ from Admin.forms import UserRegistrationForme
 from Employer.forms import ConfirmationReservationForm
 from Model.models import Rendez_vous, Roles, Utilisateur, Produit, Paniers
 
+
+
+@login_required
+def filtrer_Commande(request):
+    if not request.user.roles or request.user.roles.role != 'ADMIN':
+        return redirect('Accueil')
+    # Obtenez la liste de tous les rendez-vous
+    tous_Paniers = Paniers.objects.filter(reception_commande=True)
+
+    # Gestion des filtres
+    date_filtre = request.GET.get('date', '')
+    vendeur_filtre = request.GET.get('vendeur', '')
+    client_filtre = request.GET.get('client', '')
+
+    # Appliquer les filtres
+    if date_filtre:
+        tous_Paniers = tous_Paniers.annotate(
+            date_only=Cast('date_reception_commande', output_field=DateField())
+        ).filter(date_only=date_filtre)
+    if vendeur_filtre:
+        tous_Paniers = tous_Paniers.filter(employer__nom__icontains=vendeur_filtre)
+    if client_filtre:
+        tous_Paniers = tous_Paniers.filter(client__nom__icontains=client_filtre)
+    print(f"Date filtre: {date_filtre}")
+    print(f"Vendeur filtre: {vendeur_filtre}")
+    print(f"Client filtre: {client_filtre}")
+
+    context = {
+        'tous_Paniers': tous_Paniers,
+        'date_filtre': date_filtre,
+        'vendeur_filtre': vendeur_filtre,
+        'client_filtre': client_filtre,
+    }
+    return render(request, 't_D.html', context)
 
 @login_required
 def liste_produits_D(request):

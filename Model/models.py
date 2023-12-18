@@ -1,11 +1,14 @@
 from datetime import timedelta
 from decimal import Decimal
 from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
+from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import pre_save
 from django.template.defaultfilters import floatformat
 from django.utils import timezone
 from django.dispatch import receiver
+
+from APPARTE import settings
 
 # Create your models here.
 sex = (
@@ -140,6 +143,7 @@ def update_dates_heures_rendez_vous(sender, instance, **kwargs):
 
 
 class Produit(models.Model):
+    employer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name='produits_ajoutes')
     nom = models.CharField(max_length=255)
     description = models.TextField()
     prix = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
@@ -155,12 +159,58 @@ class Produit(models.Model):
             return Decimal(str(self.prix))
 
     def save(self, *args, **kwargs):
+        action = 'modification' if self.pk else 'ajout'
         if self.promotion and self.pourcentage_promotion:
             self.prix_reduit = self.prix - (self.prix * self.pourcentage_promotion / 100)
         else:
             self.prix_reduit = None  # Remettre à None si pas de promotion
 
         super().save(*args, **kwargs)
+        ProduitLog.objects.create(
+            produit=self,
+            action=action,
+            utilisateur=self.employer
+        )
+
+    def delete(self, *args, **kwargs):
+        # Sauvegarde des informations avant la suppression du produit
+        produit_log = ProduitLog.objects.create(
+            produit=self,
+            action='suppression',
+            utilisateur=self.employer
+        )
+
+        super().delete(*args, **kwargs)
+
+
+class ProduitLog(models.Model):
+    ACTION_CHOICES = [
+        ('ajout', 'Ajout'),
+        ('modification', 'Modification'),
+        ('suppression', 'Suppression'),
+    ]
+
+    produit = models.ForeignKey('Produit', on_delete=models.SET_NULL, null=True, related_name='produit_logs')
+    action = models.CharField(max_length=50, choices=ACTION_CHOICES)
+    timestamp = models.DateTimeField(default=timezone.now)
+    utilisateur = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+
+    # Ajout des champs pour conserver le nom et le prix
+    nom_produit = models.CharField(max_length=255, null=True)
+    prix_produit = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+
+    # Ajoutez d'autres champs pour enregistrer les détails de l'action si nécessaire
+
+    def save(self, *args, **kwargs):
+        # Sauvegarde des informations avant l'action
+        if self.action in ['ajout', 'modification']:
+            self.nom_produit = self.produit.nom
+            self.prix_produit = self.produit.prix
+
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f'{self.get_action_display()} sur {self.nom_produit} par {self.utilisateur.username}'
 
 
 class Commande(models.Model):

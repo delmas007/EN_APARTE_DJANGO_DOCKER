@@ -10,30 +10,6 @@ from Model.models import Roles, Produit, Paniers
 from vendeur.forms import UserRegistrationFormee, UserRegistrationFor
 
 
-class NotificationsView(View):
-    def get(self, request, *args, **kwargs):
-        # Obtenez la date d'aujourd'hui
-        today = datetime.now()
-
-        # Obtenez les produits pour chaque statut avec la date de réception correspondante
-        produits_en_attente = Paniers.objects.filter(statut='En attente').count()
-        produits_en_cours = Paniers.objects.filter(statut='En cours de traitement').count()
-        produits_expedies = Paniers.objects.filter(statut='Expédiée').count()
-        p = 1
-
-        # Calculez le nombre total de produits
-        total_produits = produits_en_attente + produits_en_cours + produits_expedies
-
-        # Renvoyez ces valeurs dans le contexte pour les utiliser dans le template
-        context = {
-            'produits_en_attente': produits_en_attente,
-            'produits_en_cours': produits_en_cours,
-            'produits_expedies': produits_expedies,
-            'total_produits': total_produits,
-            'p' : 1
-        }
-
-        return render(request, 'nav_VE.html', context)
 # Create your views here.
 @csrf_protect
 @login_required
@@ -41,7 +17,25 @@ def ajouter_produit(request):
     if not request.user.roles or request.user.roles.role != 'VENDEUR':
         return redirect('Accueil')
 
-    context = {}
+    today = datetime.now()
+
+    # Obtenez les produits pour chaque statut avec la date de réception correspondante
+    produits_en_attente = Paniers.objects.filter(statut='En attente', confirmation_panier=True).count()
+    produits_en_cours = Paniers.objects.filter(statut='En cours de traitement', employer=request.user).count()
+    produits_expedies = Paniers.objects.filter(statut='Expédiée', date_reception_commande__date=today,
+                                               employer=request.user).count()
+    p = 1
+
+    # Calculez le nombre total de produits
+    total_produits = produits_en_attente + produits_en_cours + produits_expedies
+
+    # Renvoyez ces valeurs dans le contexte pour les utiliser dans le template
+    context = {
+        'produits_en_attente': produits_en_attente,
+        'produits_en_cours': produits_en_cours,
+        'produits_expedies': produits_expedies,
+        'total_produits': total_produits,
+    }
 
     if request.method == 'POST':
         # Associez l'utilisateur connecté à la partie employer du formulaire
@@ -58,12 +52,33 @@ def ajouter_produit(request):
     context['form'] = form
     return render(request, 'produit_A.html', context=context)
 
+
 @login_required
 def liste_produits(request):
     if not request.user.roles or request.user.roles.role != 'VENDEUR':
         return redirect('Accueil')
     produits = Produit.objects.all()
-    return render(request, 'list_PO.html', {'produits': produits})
+    today = datetime.now()
+
+    # Obtenez les produits pour chaque statut avec la date de réception correspondante
+    produits_en_attente = Paniers.objects.filter(statut='En attente', confirmation_panier=True).count()
+    produits_en_cours = Paniers.objects.filter(statut='En cours de traitement', employer=request.user).count()
+    produits_expedies = Paniers.objects.filter(statut='Expédiée', date_reception_commande__date=today,
+                                               employer=request.user).count()
+    p = 1
+
+    # Calculez le nombre total de produits
+    total_produits = produits_en_attente + produits_en_cours + produits_expedies
+
+    # Renvoyez ces valeurs dans le contexte pour les utiliser dans le template
+    context = {
+        'produits_en_attente': produits_en_attente,
+        'produits_en_cours': produits_en_cours,
+        'produits_expedies': produits_expedies,
+        'total_produits': total_produits,
+        'produits': produits
+    }
+    return render(request, 'list_PO.html', context)
 
 
 @login_required
@@ -81,7 +96,28 @@ def modifier_produit(request, produit_id):
     else:
         form = UserRegistrationFormee(instance=produit)
 
-    return render(request, 'produit_M.html', {'form': form, 'produit': produit})
+    today = datetime.now()
+
+    # Obtenez les produits pour chaque statut avec la date de réception correspondante
+    produits_en_attente = Paniers.objects.filter(statut='En attente', confirmation_panier=True).count()
+    produits_en_cours = Paniers.objects.filter(statut='En cours de traitement', employer=request.user).count()
+    produits_expedies = Paniers.objects.filter(statut='Expédiée', date_reception_commande__date=today,
+                                               employer=request.user).count()
+    p = 1
+
+    # Calculez le nombre total de produits
+    total_produits = produits_en_attente + produits_en_cours + produits_expedies
+
+    # Renvoyez ces valeurs dans le contexte pour les utiliser dans le template
+    context = {
+        'produits_en_attente': produits_en_attente,
+        'produits_en_cours': produits_en_cours,
+        'produits_expedies': produits_expedies,
+        'total_produits': total_produits,
+        'form': form, 'produit': produit
+    }
+
+    return render(request, 'produit_M.html', context)
 
 
 @login_required
@@ -99,7 +135,26 @@ def liste_produitss(request):
     if not request.user.roles or request.user.roles.role != 'VENDEUR':
         return redirect('Accueil')
     produits = Produit.objects.all()
-    context = {'produits': produits}
+    today = datetime.now()
+
+    # Obtenez les produits pour chaque statut avec la date de réception correspondante
+    produits_en_attente = Paniers.objects.filter(statut='En attente', confirmation_panier=True).count()
+    produits_en_cours = Paniers.objects.filter(statut='En cours de traitement', employer=request.user).count()
+    produits_expedies = Paniers.objects.filter(statut='Expédiée', date_reception_commande__date=today,
+                                               employer=request.user).count()
+
+    # Calculez le nombre total de produits
+    total_produits = produits_en_attente + produits_en_cours + produits_expedies
+
+    # Renvoyez ces valeurs dans le contexte pour les utiliser dans le template
+    context = {
+        'produits_en_attente': produits_en_attente,
+        'produits_en_cours': produits_en_cours,
+        'produits_expedies': produits_expedies,
+        'total_produits': total_produits,
+        'produits': produits
+    }
+
     return render(request, 'promotion_V.html', context)
 
 
@@ -134,9 +189,28 @@ def toggle_promotion(request, produit_id):
 
 @login_required
 def liste_paniers_confirmes(request):
-    paniers_confirmes = Paniers.objects.filter(confirmation_panier=True , confirmation_employer=False)
+    paniers_confirmes = Paniers.objects.filter(confirmation_panier=True, confirmation_employer=False)
 
-    context = {'paniers_confirmes': paniers_confirmes}
+    today = datetime.now()
+
+    # Obtenez les produits pour chaque statut avec la date de réception correspondante
+    produits_en_attente = Paniers.objects.filter(statut='En attente', confirmation_panier=True).count()
+    produits_en_cours = Paniers.objects.filter(statut='En cours de traitement', employer=request.user).count()
+    produits_expedies = Paniers.objects.filter(statut='Expédiée', date_reception_commande__date=today,
+                                               employer=request.user).count()
+
+    # Calculez le nombre total de produits
+    total_produits = produits_en_attente + produits_en_cours + produits_expedies
+
+    # Renvoyez ces valeurs dans le contexte pour les utiliser dans le template
+    context = {
+        'produits_en_attente': produits_en_attente,
+        'produits_en_cours': produits_en_cours,
+        'produits_expedies': produits_expedies,
+        'total_produits': total_produits,
+        'paniers_confirmes': paniers_confirmes
+    }
+
     return render(request, 'panier_C.html', context)
 
 
@@ -158,13 +232,32 @@ def confirmer_statut_panier(request, panier_id):
 
     return redirect('vendeur:liste_paniers_confirmes')
 
+
 @login_required
 def liste_paniers_traitements(request):
     if not request.user.roles or request.user.roles.role != 'VENDEUR':
         return redirect('Accueil')
-    paniers_traitements = Paniers.objects.filter(employer=request.user,confirmation_employer=True, reception_commande= False)
+    paniers_traitements = Paniers.objects.filter(employer=request.user, confirmation_employer=True,
+                                                 reception_commande=False)
+    today = datetime.now()
 
-    context = {'paniers_traitements': paniers_traitements}
+    # Obtenez les produits pour chaque statut avec la date de réception correspondante
+    produits_en_attente = Paniers.objects.filter(statut='En attente', confirmation_panier=True).count()
+    produits_en_cours = Paniers.objects.filter(statut='En cours de traitement', employer=request.user).count()
+    produits_expedies = Paniers.objects.filter(statut='Expédiée', date_reception_commande__date=today,
+                                               employer=request.user).count()
+
+    # Calculez le nombre total de produits
+    total_produits = produits_en_attente + produits_en_cours + produits_expedies
+
+    # Renvoyez ces valeurs dans le contexte pour les utiliser dans le template
+    context = {
+        'produits_en_attente': produits_en_attente,
+        'produits_en_cours': produits_en_cours,
+        'produits_expedies': produits_expedies,
+        'total_produits': total_produits,
+        'paniers_traitements': paniers_traitements
+    }
     return render(request, 'panier_T.html', context)
 
 
@@ -185,6 +278,7 @@ def confirmer_statut_traitements(request, panier_id):
 
     return redirect('vendeur:liste_paniers_traitements')
 
+
 @login_required
 def liste_commandes_receptionnees(request):
     if not request.user.roles or request.user.roles.role != 'VENDEUR':
@@ -195,5 +289,23 @@ def liste_commandes_receptionnees(request):
         date_reception_commande__date=date.today()
     )
 
-    context = {'commandes_receptionnees': commandes_receptionnees}
+    today = datetime.now()
+
+    # Obtenez les produits pour chaque statut avec la date de réception correspondante
+    produits_en_attente = Paniers.objects.filter(statut='En attente', confirmation_panier=True).count()
+    produits_en_cours = Paniers.objects.filter(statut='En cours de traitement', employer=request.user).count()
+    produits_expedies = Paniers.objects.filter(statut='Expédiée', date_reception_commande__date=today,
+                                               employer=request.user).count()
+
+    # Calculez le nombre total de produits
+    total_produits = produits_en_attente + produits_en_cours + produits_expedies
+
+    # Renvoyez ces valeurs dans le contexte pour les utiliser dans le template
+    context = {
+        'produits_en_attente': produits_en_attente,
+        'produits_en_cours': produits_en_cours,
+        'produits_expedies': produits_expedies,
+        'total_produits': total_produits,
+        'commandes_receptionnees': commandes_receptionnees
+    }
     return render(request, 'panier_E.html', context)

@@ -84,7 +84,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'enAparte',
         'USER': 'postgres',
-        'PASSWORD': 'delmas',
+        'PASSWORD': '09102079Darius',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -133,3 +133,11 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SESSION_ENGINE = "django.contrib.sessions.backends.db"
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'alidouwrm@gmail.com'
+EMAIL_HOST_PASSWORD = 'nuau mlcc accq lsrl'
+

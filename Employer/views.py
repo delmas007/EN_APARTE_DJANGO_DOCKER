@@ -1,7 +1,9 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect, get_object_or_404
 from Employer.forms import ConfirmationReservationForm
 from Model.models import Rendez_vous, Produit
+from django.conf import settings
 
 
 # noinspection PyPackageRequirements
@@ -80,6 +82,10 @@ def reservations_en_attente(request):
 
             # Mettez à jour le champ de confirmation
             reservation.confirmation = True
+            sujet = 'Bravo!'
+            message = 'Votre reservervation a ete confirmer avec succes'
+            destinataires = ['alidouwrm@gmail.com']
+            send_mail(sujet, message, settings.DEFAULT_FROM_EMAIL, destinataires)
 
             # Si la réservation est confirmée, enregistrez l'id de l'utilisateur connecté comme client
             if reservation.confirmation:
@@ -101,5 +107,3 @@ def reservations_en_attente(request):
         context['form'] = form
 
     return render(request, 'indexe.html', context)
-
-

@@ -1,10 +1,11 @@
 from random import sample
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
-from django.views.decorators.http import require_POST
 
 from Model.models import Produit, Commande, Paniers
 
@@ -132,7 +133,8 @@ def ajouter_panier(request, produit_id):
         print("Création d'un nouveau panier avec confirmation_panier=False.")
 
     # Création d'une nouvelle commande
-    commande, cree = Commande.objects.get_or_create(client=user, produits=product, client__paniers__confirmation_panier=False,paniers=panier)
+    commande, cree = Commande.objects.get_or_create(client=user, produits=product,
+                                                    client__paniers__confirmation_panier=False, paniers=panier)
 
     if cree:
         if panier.ordre.exists():
@@ -150,3 +152,25 @@ def ajouter_panier(request, produit_id):
         print("Quantité de commande mise à jour.")
 
     return redirect(reverse("vitrine:Produit_details", kwargs={"produit_id": produit_id}))
+
+
+def EnvoyerFormulaire(request):
+    if request.method == 'POST':
+        # Récupérer les données du formulaire
+
+        nom = request.POST.get('name')
+        prenom = request.POST.get('prenom')
+        email = request.POST.get('email')  # Récupérer l'email soumis
+        objet = request.POST.get('Objet')
+        message = request.POST.get('message')
+        contenu_message = f"De : {nom} {prenom}\nAdresse e-mail : {email}\n\n{message}"
+        send_mail(
+            subject=objet,
+            message=contenu_message,
+            from_email='votre_adresse_email@gmail.com',
+            recipient_list=['alidouwrm@gmail.com'],
+            fail_silently=False,
+        )
+        messages.success(request, 'Formulaire soumis avec succès!')
+        return redirect('vitrine:Contact')
+

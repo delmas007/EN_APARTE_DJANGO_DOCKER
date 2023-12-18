@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .views import Accueil, Contact, Faq, About, liste_tous_produits, produit_details, \
-    ajouter_panier, commander_produit, panier, supprimer_element_panier, supprimer_panier
+    ajouter_panier, commander_produit, panier, supprimer_element_panier, supprimer_panier, EnvoyerFormulaire
 
 app_name = 'vitrine'
 
@@ -17,6 +17,7 @@ urlpatterns = [
     path('Panier/', panier, name='panier_confirme'),
     path('supprimer_element_panier/<int:commande_id>/', supprimer_element_panier, name='supprimer_element_panier'),
     path('supprimer_panier/', supprimer_panier, name='supprimer_panier'),
+    path('EnvoyerFormulaire/', EnvoyerFormulaire, name='EnvoyerFormulaire'),
 ]
 
 

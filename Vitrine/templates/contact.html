@@ -4,6 +4,37 @@
 {% block content%}
     
     <body>
+    <style>
+        .messages {
+            list-style: none;
+            padding: 0;
+        }
+
+        .messages li {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+
+        .warning {
+            background-color: #fff3cd;
+            border-color: #ffeeba;
+            color: #856404;
+        }
+
+    </style>
 
         <section class="preloader">
             <div class="spinner">
@@ -15,6 +46,7 @@
 
             {% include 'header.html' %}
             {% include 'panier.html' %}
+
             <header class="site-header section-padding-img site-header-image">
                 <div class="container">
                     <div class="row">
@@ -30,7 +62,6 @@
 
                 <img src="{% static 'images/banner-02.jpg'%}" class="header-image img-fluid" alt="">
             </header>
-
             <section class="contact section-padding">
                 <div class="container">
                     <div class="row">
@@ -38,41 +69,43 @@
                         <div class="col-lg-6 col-12">
                             <h2 class="mb-4 ">Renseignez <span class="text-warning">Vous</span></h2>
 
-                            <form class="contact-form me-lg-5 pe-lg-3" role="form">
+                            <!-- contact.html -->
 
+                            <form class="contact-form me-lg-5 pe-lg-3" role="form" method="post" action="{% url 'vitrine:EnvoyerFormulaire' %}">
+                                {% csrf_token %}
                                 <div class="form-floating">
                                     <input type="text" name="name" id="name" class="form-control" placeholder="Full name" required>
-
                                     <label for="name">Nom</label>
                                 </div>
                                 <div class="form-floating" style="margin-top:20px">
                                     <input type="text" name="prenom" id="prenom" class="form-control" placeholder="Prenom" required>
-
                                     <label for="name">Prénom</label>
                                 </div>
-
                                 <div class="form-floating my-4">
                                     <input type="email" name="email" id="email" pattern="[^ @]*@[^ @]*" class="form-control" placeholder="Email address" required>
-
                                     <label for="email">Adresse E-mail</label>
                                 </div>
-                                
                                 <div class="form-floating my-4">
-                                    <input type="Objet" name="Objet" id="Objet"class="form-control" placeholder="Objet" required>
-
+                                    <input type="text" name="Objet" id="Objet" class="form-control" placeholder="Objet" required>
                                     <label for="Objet">Objet</label>
                                 </div>
-
                                 <div class="form-floating mb-4">
                                     <textarea id="message" name="message" class="form-control" placeholder="Leave a comment here" required style="height: 160px"></textarea>
-
                                     <label for="message">Votre message ici...</label>
                                 </div>
-
                                 <div class="col-lg-5 col-6">
                                     <button type="submit" class="form-control">Envoyer</button>
                                 </div>
+                                {% if messages %}
+                                    <ul class="messages">
+                                        {% for message in messages %}
+                                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
                             </form>
+
+
                         </div>
 
                         <div class="col-lg-6 col-12 mt-5 ms-auto">
@@ -122,7 +155,5 @@
                 </div>
             </section>
         </main>
-
-
     </body>
 {% endblock %}

@@ -103,9 +103,17 @@
 {#                                <div class="col-lg-6 col-12 mt-4 mt-lg-0">#}
 {#                                    <button type="submit" class="btn custom-btn cart-btn" onclick="commanderProduit({{ produit.id }})">Commander</button>#}
 {#                                </div>#}
-                                <div class="col-lg-12 col-12 mt-4 mt-lg-0">
-                                    <a href="{% url 'vitrine:panier' produit.id %}" class="btn custom-btn cart-btn">AJOUTER AU PANIER</a>
-                                </div>
+                                {% if user.is_authenticated %}
+                                    <div class="col-lg-12 col-12 mt-4 mt-lg-0">
+                                        <a href="{% url 'vitrine:panier' produit.id %}" class="btn custom-btn cart-btn">AJOUTER AU PANIER</a>
+                                    </div>
+                                {% else %}
+                                    <div class="col-lg-12 col-12 mt-4 mt-lg-0">
+                                        <a href="#" class="btn custom-btn cart-btn" style="pointer-events: none;" disabled>VEUILLEZ-VOUS CONNECTER</a>
+                                    </div>
+
+                                {% endif %}
+
                             </div>
                         </div>
 

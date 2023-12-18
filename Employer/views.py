@@ -1,6 +1,9 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect, get_object_or_404
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+
 from Employer.forms import ConfirmationReservationForm
 from Model.models import Rendez_vous, Produit
 from django.conf import settings
@@ -13,10 +16,11 @@ def reservations_confirmer(request):
         return redirect('Accueil')
     rendez_vous = Rendez_vous.objects.filter(confirmation=True, en_attente=False, fin=False, employer=request.user.id)
     reservations_en_attentes = Rendez_vous.objects.filter(en_attente=True, confirmation=False).count()
-    reservations_confirmerr = Rendez_vous.objects.filter(en_attente=False, confirmation=True, fin=False, employer=request.user.id).count()
+    reservations_confirmerr = Rendez_vous.objects.filter(en_attente=False, confirmation=True, fin=False,
+                                                         employer=request.user.id).count()
 
     # Calculez le nombre total de réservations
-    total_reservations = reservations_en_attente + reservations_confirmerr
+    total_reservations = reservations_en_attentes + reservations_confirmerr
 
     # Renvoyez ces valeurs dans le contexte pour les utiliser dans le template
     context = {
@@ -58,7 +62,8 @@ def reservations_en_attente(request):
     reservations = Rendez_vous.objects.filter(en_attente=True, confirmation=False)
 
     reservations_en_attentes = Rendez_vous.objects.filter(en_attente=True, confirmation=False).count()
-    reservations_confirmerr = Rendez_vous.objects.filter(en_attente=False, confirmation=True, fin=False, employer=request.user.id).count()
+    reservations_confirmerr = Rendez_vous.objects.filter(en_attente=False, confirmation=True, fin=False,
+                                                         employer=request.user.id).count()
 
     # Calculez le nombre total de réservations
     total_reservations = reservations_en_attentes + reservations_confirmerr
@@ -82,10 +87,8 @@ def reservations_en_attente(request):
 
             # Mettez à jour le champ de confirmation
             reservation.confirmation = True
-            sujet = 'Bravo!'
-            message = 'Votre reservervation a ete confirmer avec succes'
-            destinataires = ['alidouwrm@gmail.com']
-            send_mail(sujet, message, settings.DEFAULT_FROM_EMAIL, destinataires)
+
+            send_confirmation_email(reservation.client.email, reservation,request.user)
 
             # Si la réservation est confirmée, enregistrez l'id de l'utilisateur connecté comme client
             if reservation.confirmation:
@@ -107,3 +110,14 @@ def reservations_en_attente(request):
         context['form'] = form
 
     return render(request, 'indexe.html', context)
+
+
+def send_confirmation_email(client_email, reservation,employer):
+    subject = 'Confirmation de rendez-vous EN APARTE'
+    message = render_to_string('email.txt', {'reservation': reservation,'employer':employer})
+    plain_message = strip_tags(message)
+    recipient_list = [client_email]
+
+    send_mail(subject, plain_message, settings.DEFAULT_FROM_EMAIL, recipient_list, fail_silently=False)
+
+

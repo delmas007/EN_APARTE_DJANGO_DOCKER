@@ -1,0 +1,18 @@
+﻿Objet : Confirmation de rendez-vous
+
+Cher(e) {{ reservation.client.nom }} {{ reservation.client.prenom }} ,
+
+    Nous vous confirmons votre rendez-vous pour le {{ reservation.date_rendez_vous }} de {{ reservation.heure_rendez_vous }} avec {{ employer.nom }}
+{{ employer.prenom }} le contact {{ employer.contact }} pour plus information.
+
+    Nous vous remercions pour votre confiance et nous avons hâte de vous accueillir.
+
+Cordialement,
+
+    EN APARTE
+
+
+
+
+
+

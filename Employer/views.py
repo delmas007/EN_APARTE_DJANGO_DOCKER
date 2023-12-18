@@ -87,11 +87,8 @@ def reservations_en_attente(request):
 
             # Mettez à jour le champ de confirmation
             reservation.confirmation = True
-            sujet = 'Bravo!'
-            message = 'Votre reservervation a ete confirmer avec succes'
-            destinataires = [reservation.client.email]
-            # send_mail(sujet, message, settings.DEFAULT_FROM_EMAIL, destinataires)
-            send_confirmation_email(reservation.client.email, reservation)
+
+            send_confirmation_email(reservation.client.email, reservation,request.user)
 
             # Si la réservation est confirmée, enregistrez l'id de l'utilisateur connecté comme client
             if reservation.confirmation:
@@ -115,9 +112,9 @@ def reservations_en_attente(request):
     return render(request, 'indexe.html', context)
 
 
-def send_confirmation_email(client_email, reservation):
+def send_confirmation_email(client_email, reservation,employer):
     subject = 'Confirmation de rendez-vous EN APARTE'
-    message = render_to_string('email.txt', {'reservation': reservation})
+    message = render_to_string('email.txt', {'reservation': reservation,'employer':employer})
     plain_message = strip_tags(message)
     recipient_list = [client_email]
 

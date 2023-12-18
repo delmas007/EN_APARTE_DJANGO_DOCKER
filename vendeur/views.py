@@ -4,11 +4,36 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_protect
-
+from django.views import View
+from datetime import datetime, timedelta
 from Model.models import Roles, Produit, Paniers
 from vendeur.forms import UserRegistrationFormee, UserRegistrationFor
 
 
+class NotificationsView(View):
+    def get(self, request, *args, **kwargs):
+        # Obtenez la date d'aujourd'hui
+        today = datetime.now()
+
+        # Obtenez les produits pour chaque statut avec la date de réception correspondante
+        produits_en_attente = Paniers.objects.filter(statut='En attente').count()
+        produits_en_cours = Paniers.objects.filter(statut='En cours de traitement').count()
+        produits_expedies = Paniers.objects.filter(statut='Expédiée').count()
+        p = 1
+
+        # Calculez le nombre total de produits
+        total_produits = produits_en_attente + produits_en_cours + produits_expedies
+
+        # Renvoyez ces valeurs dans le contexte pour les utiliser dans le template
+        context = {
+            'produits_en_attente': produits_en_attente,
+            'produits_en_cours': produits_en_cours,
+            'produits_expedies': produits_expedies,
+            'total_produits': total_produits,
+            'p' : 1
+        }
+
+        return render(request, 'nav_VE.html', context)
 # Create your views here.
 @csrf_protect
 @login_required

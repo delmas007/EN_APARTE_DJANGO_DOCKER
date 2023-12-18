@@ -125,8 +125,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 AUTH_USER_MODEL = 'Model.Utilisateur'
-LOGIN_REDIRECT_URL = 'Model:Rendez_vous'
-LOGOUT_REDIRECT_URL = 'Model:connexion'
+LOGOUT_REDIRECT_URL = 'Accueil'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 # Default primary key field type

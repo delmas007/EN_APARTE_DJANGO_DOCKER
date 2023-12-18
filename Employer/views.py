@@ -10,7 +10,20 @@ def reservations_confirmer(request):
     if not request.user.roles or request.user.roles.role != 'EMPLOYER':
         return redirect('Accueil')
     rendez_vous = Rendez_vous.objects.filter(confirmation=True, en_attente=False, fin=False, employer=request.user.id)
-    return render(request, 'indexe2.html', {'rendez_vous': rendez_vous})
+    reservations_en_attentes = Rendez_vous.objects.filter(en_attente=True, confirmation=False).count()
+    reservations_confirmerr = Rendez_vous.objects.filter(en_attente=False, confirmation=True, fin=False, employer=request.user.id).count()
+
+    # Calculez le nombre total de réservations
+    total_reservations = reservations_en_attente + reservations_confirmerr
+
+    # Renvoyez ces valeurs dans le contexte pour les utiliser dans le template
+    context = {
+        'reservations_en_attente': reservations_en_attentes,
+        'reservations_confirmerr': reservations_confirmerr,
+        'total_reservations': total_reservations,
+        'rendez_vous': rendez_vous
+    }
+    return render(request, 'indexe2.html', context)
 
 
 @login_required
@@ -42,6 +55,20 @@ def reservations_en_attente(request):
 
     reservations = Rendez_vous.objects.filter(en_attente=True, confirmation=False)
 
+    reservations_en_attentes = Rendez_vous.objects.filter(en_attente=True, confirmation=False).count()
+    reservations_confirmerr = Rendez_vous.objects.filter(en_attente=False, confirmation=True, fin=False, employer=request.user.id).count()
+
+    # Calculez le nombre total de réservations
+    total_reservations = reservations_en_attentes + reservations_confirmerr
+
+    # Renvoyez ces valeurs dans le contexte pour les utiliser dans le template
+    context = {
+        'reservations_en_attente': reservations_en_attentes,
+        'reservations_confirmerr': reservations_confirmerr,
+        'total_reservations': total_reservations,
+        'reservations': reservations,
+    }
+
     if request.method == 'POST':
         form = ConfirmationReservationForm(request.POST)
 
@@ -71,7 +98,8 @@ def reservations_en_attente(request):
             return redirect('employer:reservation')
     else:
         form = ConfirmationReservationForm()
+        context['form'] = form
 
-    return render(request, 'indexe.html', {'reservations': reservations, 'form': form})
+    return render(request, 'indexe.html', context)
 
 

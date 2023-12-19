@@ -86,6 +86,7 @@
                                       <thead>
                                       <tr>
                                           <th>Date</th>
+                                          <th>Heure de rendez-vous</th>
                                           <th>Heure de début</th>
                                           <th>Heure de fin</th>
                                           <th>Durée</th>
@@ -100,6 +101,7 @@
                                           {% for rendez_vous in tous_les_rendez_vous %}
                                               <tr>
                                                   <td>{{ rendez_vous.date_rendez_vous }}</td>
+                                                  <td>{{ rendez_vous.horaire.heure }}</td>
                                                   <td>{{ rendez_vous.heure_debut_rendez_vous }}</td>
                                                   <td>{{ rendez_vous.heure_fin_rendez_vous }}</td>
                                                   <td>{{ rendez_vous.duree_rendez_vous }}</td>

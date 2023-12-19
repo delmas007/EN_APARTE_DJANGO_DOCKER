@@ -51,7 +51,7 @@
                                       {% for reservation in reservations %}
                                           <tr>
                                               <td>{{ reservation.client.nom }} {{ reservation.client.prenom }}</td>
-                                              <td>{{ reservation.date_rendez_vous }}</td>
+                                              <td>{{ reservation.horaire.heure }}</td>
                                               <td>{{ reservation.heure_rendez_vous }}</td>
                                               <td>{{ reservation.service.type }}</td>
                                               <td>{{ reservation.service.prix }}</td>

@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
-from Admin.forms import UserRegistrationForme, ServiceForm
+from Admin.forms import UserRegistrationForme, ServiceForm, ServiceForme
 from Employer.forms import ConfirmationReservationForm
 from Model.models import Rendez_vous, Roles, Utilisateur, Produit, Paniers, ProduitLog, Service
 
@@ -290,3 +290,30 @@ def supprimer_service(request, service_id):
     service = get_object_or_404(Service, pk=service_id)
     service.delete()
     return redirect('admins:liste_services')
+
+
+def liste_services_mode(request):
+    services = Service.objects.all()
+    context = {'services': services}
+    return render(request, 'mod_list.html', context)
+
+
+@login_required
+def modifier_service(request, service_id):
+    if not request.user.roles or request.user.roles.role != 'ADMIN':
+        return redirect('Accueil')
+    service = get_object_or_404(Service, id=service_id)
+
+    if request.method == 'POST':
+
+        form = ServiceForme(request.POST, instance=service)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Service modifier avec succès !')
+    else:
+        form = ServiceForme(instance=service)
+    context = {
+        'form': form, 'service': service
+    }
+
+    return render(request, 'mod.html', context)

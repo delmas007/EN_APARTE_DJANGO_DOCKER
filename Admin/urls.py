@@ -3,7 +3,7 @@ from django.urls import path
 from .views import rendez_vous_aujourdhui, reservations_en_attente_D, reservations_confirmer_D, filtrer_rendez_vous, \
     inscription_D, active_emp, desactive_amp, employer_compte, liste_produits_D, liste_paniers_confirmes_D, \
     liste_paniers_traitements_D, liste_commandes_receptionnees_D, filtrer_Commande, produit_log_list, ajout_service, \
-    liste_services, supprimer_service
+    liste_services, supprimer_service, modifier_service, liste_services_mode
 
 app_name = 'admins'
 urlpatterns = [
@@ -24,4 +24,6 @@ urlpatterns = [
     path('ajout-service/', ajout_service, name='ajout_service'),
     path('liste-services/', liste_services, name='liste_services'),
     path('supprimer-service/<int:service_id>/', supprimer_service, name='supprimer_service'),
+    path('liste-services-modifier/', liste_services_mode, name='liste_services_mode'),
+    path('modifier_service/<int:service_id>/', modifier_service, name='modifier_service'),
 ]

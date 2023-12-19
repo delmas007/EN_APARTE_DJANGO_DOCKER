@@ -143,8 +143,8 @@ def update_dates_heures_rendez_vous(sender, instance, **kwargs):
 
 
 class Service(models.Model):
-    type = models.CharField(max_length=255)
-    description = models.TextField()
+    type = models.CharField(max_length=255,null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
     prix = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
 

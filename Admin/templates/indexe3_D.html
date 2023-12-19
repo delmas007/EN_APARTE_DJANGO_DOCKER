@@ -89,6 +89,8 @@
                                           <th>Heure de début</th>
                                           <th>Heure de fin</th>
                                           <th>Durée</th>
+                                          <th>Service</th>
+                                          <th>Prix</th>
                                           <th>Client</th>
                                           <th>Employé</th>
                                       </tr>
@@ -101,6 +103,8 @@
                                                   <td>{{ rendez_vous.heure_debut_rendez_vous }}</td>
                                                   <td>{{ rendez_vous.heure_fin_rendez_vous }}</td>
                                                   <td>{{ rendez_vous.duree_rendez_vous }}</td>
+                                                  <td>{{ rendez_vous.service.type }}</td>
+                                                  <td>{{ rendez_vous.service.prix }}</td>
                                                   <td>{{ rendez_vous.client.nom }} {{ rendez_vous.client.prenom }}</td>
                                                   <td>{{ rendez_vous.employer.nom }} {{ rendez_vous.employer.prenom }}</td>
                                               </tr>

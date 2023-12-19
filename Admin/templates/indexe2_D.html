@@ -43,7 +43,8 @@
                                       <th>employer</th>
                                       <th>Date de rendez-vous</th>
                                       <th>Heure de rendez-vous</th>
-                                      <th>Type de massage</th>
+                                      <th>Service</th>
+                                      <th>Prix</th>
                                   </tr>
                                   </thead>
                                   <tbody>
@@ -54,7 +55,8 @@
                                               <td>{{ reservation.employer.nom }} {{ reservation.employer.prenom }}</td>
                                               <td>{{ reservation.date_rendez_vous }}</td>
                                               <td>{{ reservation.heure_rendez_vous }}</td>
-                                              <td>{{ reservation.type_massage }}</td>
+                                              <td>{{ reservation.service.type }}</td>
+                                              <td>{{ reservation.service.prix }}</td>
                                           </tr>
                                       {% endfor %}
                                   {% else %}

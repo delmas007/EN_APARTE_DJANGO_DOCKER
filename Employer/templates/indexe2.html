@@ -44,7 +44,8 @@
                                   <thead>
                                   <tr>
                                       <th>Nom du Client</th>
-                                      <th>Type de massage</th>
+                                      <th>Service</th>
+                                      <th>Prix</th>
                                       <th>Date</th>
                                       <th>Debut</th>
                                       <th>Fin</th>
@@ -55,7 +56,8 @@
                                       {% for rdv in rendez_vous %}
                                           <tr>
                                               <td>{{ rdv.client.nom }} {{ rdv.client.prenom }}</td>
-                                              <td>{{ rdv.get_type_massage_display }}</td>
+                                              <td>{{ rdv.service.type }}</td>
+                                              <td>{{ rdv.service.prix }}</td>
                                               <td>{{ rdv.Date_prise_rendez_vous }}</td>
                                                       <td>
                                                           <form method="post" action="{% url 'employer:debut_rendez_vous' rdv.id %}">

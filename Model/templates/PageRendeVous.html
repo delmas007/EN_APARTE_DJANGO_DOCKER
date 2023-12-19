@@ -8,6 +8,26 @@
             <span class="sk-inner-circle"></span>
         </div>
     </section>
+    <style>
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            overflow-x: auto;
+
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            width: 33.33%;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 {% include 'header.html' %}
 
     <section class="">
@@ -52,6 +72,7 @@
 
                     <div id="error-message" class="error">Disponibilité: Lundi-Vendredi 8H-18H</div>
                 </form>
+
 
                 <script>
                     function generateEvenHours() {
@@ -100,6 +121,32 @@
             </div>
         </div>
     </div>
+        <h2 style="text-align: center">Prestation</h2>
+
+        <center>
+            <table>
+                <thead>
+                <tr>
+                    <th>Nom de Service</th>
+                    <th>Type services</th>
+                    <th>Prix</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Service 1</td>
+                    <td>Type 1</td>
+                    <td>50$</td>
+                </tr>
+                <tr>
+                    <td>Service 2</td>
+                    <td>Type 2</td>
+                    <td>75$</td>
+                </tr>
+                <!-- Ajoutez d'autres lignes selon vos besoins -->
+                </tbody>
+            </table>
+        </center>
     </section>
 
     </body>

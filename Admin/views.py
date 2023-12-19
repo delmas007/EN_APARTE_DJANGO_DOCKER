@@ -9,8 +9,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from Admin.forms import UserRegistrationForme
 from Employer.forms import ConfirmationReservationForm
-from Model.models import Rendez_vous, Roles, Utilisateur, Produit, Paniers
-
+from Model.models import Rendez_vous, Roles, Utilisateur, Produit, Paniers, ProduitLog
 
 
 @login_required
@@ -34,9 +33,6 @@ def filtrer_Commande(request):
         tous_Paniers = tous_Paniers.filter(employer__nom__icontains=vendeur_filtre)
     if client_filtre:
         tous_Paniers = tous_Paniers.filter(client__nom__icontains=client_filtre)
-    print(f"Date filtre: {date_filtre}")
-    print(f"Vendeur filtre: {vendeur_filtre}")
-    print(f"Client filtre: {client_filtre}")
 
     context = {
         'tous_Paniers': tous_Paniers,
@@ -45,6 +41,30 @@ def filtrer_Commande(request):
         'client_filtre': client_filtre,
     }
     return render(request, 't_D.html', context)
+
+@login_required
+def produit_log_list(request):
+    if not request.user.roles or request.user.roles.role != 'ADMIN':
+        return redirect('Accueil')
+    # Récupération des données depuis le modèle ProduitLog
+    produit_logs = ProduitLog.objects.all()
+
+    # Filtrage en fonction de la saisie de l'utilisateur
+    action_filter = request.GET.get('action', None)
+    user_filter = request.GET.get('user', None)
+    date_filter = request.GET.get('date', None)
+
+    if action_filter:
+        produit_logs = produit_logs.filter(action=action_filter)
+    if user_filter:
+        produit_logs = produit_logs.filter(utilisateur__username=user_filter)
+    if date_filter:
+        produit_logs = produit_logs.filter(timestamp__date=date_filter)
+
+    context = {
+        'produit_logs': produit_logs,
+    }
+    return render(request, 'H_P.html', context)
 
 @login_required
 def liste_produits_D(request):

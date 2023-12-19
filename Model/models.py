@@ -143,7 +143,8 @@ def update_dates_heures_rendez_vous(sender, instance, **kwargs):
 
 
 class Produit(models.Model):
-    employer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name='produits_ajoutes')
+    employer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True,
+                                 related_name='produits_ajoutes')
     nom = models.CharField(max_length=255)
     description = models.TextField()
     prix = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
@@ -169,7 +170,9 @@ class Produit(models.Model):
         ProduitLog.objects.create(
             produit=self,
             action=action,
-            utilisateur=self.employer
+            utilisateur=self.employer,
+            nom_produit=self.nom,
+            prix_produit=self.prix,
         )
 
     def delete(self, *args, **kwargs):
@@ -177,7 +180,9 @@ class Produit(models.Model):
         produit_log = ProduitLog.objects.create(
             produit=self,
             action='suppression',
-            utilisateur=self.employer
+            utilisateur=self.employer,
+            nom_produit=self.nom,
+            prix_produit=self.prix,
         )
 
         super().delete(*args, **kwargs)
@@ -193,24 +198,22 @@ class ProduitLog(models.Model):
     produit = models.ForeignKey('Produit', on_delete=models.SET_NULL, null=True, related_name='produit_logs')
     action = models.CharField(max_length=50, choices=ACTION_CHOICES)
     timestamp = models.DateTimeField(default=timezone.now)
-    utilisateur = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
-
-    # Ajout des champs pour conserver le nom et le prix
+    utilisateur = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True)
     nom_produit = models.CharField(max_length=255, null=True)
     prix_produit = models.DecimalField(max_digits=10, decimal_places=2, null=True)
 
     # Ajoutez d'autres champs pour enregistrer les détails de l'action si nécessaire
 
-    def save(self, *args, **kwargs):
-        # Sauvegarde des informations avant l'action
-        if self.action in ['ajout', 'modification']:
-            self.nom_produit = self.produit.nom
-            self.prix_produit = self.produit.prix
-
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     # Sauvegarde des informations avant l'action
+    #     if self.action in ['ajout', 'modification']:
+    #         self.nom_produit = self.produit.nom
+    #         self.prix_produit = self.produit.prix
+    #
+    #     super().save(*args, **kwargs)
 
     def __str__(self):
-        return f'{self.get_action_display()} sur {self.nom_produit} par {self.utilisateur.username}'
+        return f'{self.get_action_display()} sur {self.nom_produit} par {self.utilisateur.nom}'
 
 
 class Commande(models.Model):

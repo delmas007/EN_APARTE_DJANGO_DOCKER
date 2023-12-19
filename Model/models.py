@@ -101,6 +101,9 @@ class Service(models.Model):
 class horaire(models.Model):
     heure = models.CharField(max_length=255, blank=False)
 
+    def __str__(self):
+        return self.heure
+
 
 class Rendez_vous(models.Model):
     TYPE_MASSAGE_CHOICES = [

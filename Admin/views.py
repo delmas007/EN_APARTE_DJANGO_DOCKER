@@ -7,9 +7,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
-from Admin.forms import UserRegistrationForme, ServiceForm, ServiceForme
+from Admin.forms import UserRegistrationForme, ServiceForm, ServiceForme, HoraireForm
 from Employer.forms import ConfirmationReservationForm
-from Model.models import Rendez_vous, Roles, Utilisateur, Produit, Paniers, ProduitLog, Service
+from Model.models import Rendez_vous, Roles, Utilisateur, Produit, Paniers, ProduitLog, Service, horaire
 
 
 @login_required
@@ -312,3 +312,31 @@ def modifier_service(request, service_id):
     }
 
     return render(request, 'mod.html', context)
+
+
+def ajout_horaire(request):
+    context = {}
+    if request.method == 'POST':
+        form = HoraireForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'horaire ajouter avec succès !')
+            # return redirect('admins:ajout_service')  # Rediriger vers la liste des services ou une autre page
+        else:
+            context['errors'] = form.errors
+
+    form = HoraireForm()
+    context['form'] = form
+    return render(request, 'horaire_A.html', context)
+
+
+def liste_horaire(request):
+    horair = horaire.objects.all()
+    context = {'horaires': horair}
+    return render(request, 'sup_h.html', context)
+
+
+def supprimer_horaire(request, horaire_id):
+    horair = get_object_or_404(horaire, pk=horaire_id)
+    horair.delete()
+    return redirect('admins:liste_horaire')

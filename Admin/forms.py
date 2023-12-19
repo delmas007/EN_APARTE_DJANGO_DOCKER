@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django import forms
-from Model.models import Utilisateur, Rendez_vous, Service
+from Model.models import Utilisateur, Rendez_vous, Service, horaire
 
 
 class UserRegistrationForme(UserCreationForm):
@@ -136,3 +136,21 @@ class ServiceForme(forms.ModelForm):
     class Meta:
         model = Service
         fields = ['type', 'description', 'prix']
+
+
+class HoraireForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['heure'].widget.attrs.update({
+            'type': "text",
+            'class': "form-control",
+            'style': "color: black;",
+            'id': "heure",
+            'name': 'heure',
+            'required': True,
+            'placeholder': "8H00-10H00",
+        })
+
+    class Meta:
+        model = horaire
+        fields = ['heure']

@@ -1,0 +1,98 @@
+{% extends 'lien_DD.html' %}
+{% load static %}
+{% block content%}
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+    {% include 'nav_D.html' %}
+  <!-- Navbar -->
+    {% include 'slide_D.html' %}
+
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- left column -->
+          <div class="col-md-12">
+            <!-- jquery validation -->
+            <div class="card card-secondary">
+              <div class="card-header">
+                <h3 class="card-title">Add horaire</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form id="quickForm" method="POST" action="{% url 'admins:ajout_horaire' %}">
+
+                  {% csrf_token %}
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="type">service</label>
+                      {{ form.heure}}
+                  </div>
+                </div>
+
+
+                <!-- /.card-body -->
+                <div class="card-footer">
+                  <input type="submit" class="btn btn-secondary" value="Save">
+                </div>
+                  {% for field, errors in errors.items %}
+                      {% for error in errors %}
+                          <div class="alert alert-dark" role="alert">
+                              <strong>Erreur dans le champ {{ field|title }} :</strong> {{ error }}
+                          </div>
+                      {% endfor %}
+                  {% endfor %}
+                  {% if messages %}
+                      {% for message in messages %}
+                          <div class="alert alert-primary" id="message-alert">
+                              {{ message }}
+                          </div>
+                      {% endfor %}
+                      <script>
+                          setTimeout(function() {
+                              document.getElementById('message-alert').style.display = 'none';
+                          }, 5000);  // 10000 milliseconds (10 seconds)
+                      </script>
+                  {% endif %}
+
+              </form>
+            </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2014-2020 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Version</b> 3.1.0-pre
+            </div>
+        </footer>
+    </section>
+
+  </div>
+      <aside class="control-sidebar control-sidebar-dark">
+  </aside>
+</div>
+
+</body>
+{% endblock %}

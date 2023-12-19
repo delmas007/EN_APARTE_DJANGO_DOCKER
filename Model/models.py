@@ -4,7 +4,6 @@ from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import pre_save
-from django.template.defaultfilters import floatformat
 from django.utils import timezone
 from django.dispatch import receiver
 
@@ -99,6 +98,10 @@ class Service(models.Model):
         return self.type
 
 
+class horaire(models.Model):
+    heure = models.CharField(max_length=255, blank=False)
+
+
 class Rendez_vous(models.Model):
     TYPE_MASSAGE_CHOICES = [
         ('massage', 'Massage'),
@@ -127,6 +130,7 @@ class Rendez_vous(models.Model):
 
     type_massage = models.CharField(max_length=255, choices=TYPE_MASSAGE_CHOICES, null=True)
     service = models.ForeignKey(Service, on_delete=models.SET_NULL, null=True)
+    horaire = models.ForeignKey(horaire, on_delete=models.SET_NULL, null=True)
 
 
 @receiver(pre_save, sender=Rendez_vous)

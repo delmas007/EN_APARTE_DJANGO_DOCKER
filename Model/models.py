@@ -105,7 +105,7 @@ class horaire(models.Model):
     disponibilite = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.heure if self.disponibilite else ''
+        return self.heure
 
 
 

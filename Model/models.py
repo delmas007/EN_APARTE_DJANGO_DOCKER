@@ -93,30 +93,23 @@ class Service(models.Model):
     type = models.CharField(max_length=255, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     prix = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    disponibilite = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.type
+        if self.disponibilite:
+            return self.type
 
 
 class horaire(models.Model):
     heure = models.CharField(max_length=255, blank=False)
+    disponibilite = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.heure
+        return self.heure if self.disponibilite else ''
+
 
 
 class Rendez_vous(models.Model):
-    TYPE_MASSAGE_CHOICES = [
-        ('massage', 'Massage'),
-        ('coiffure', 'Coiffure'),
-        ('soins_peau', 'Soins de peau'),
-    ]
-    TIME = [
-        ('8H00-10H00', '8H00-10H00'),
-        ('10H00-12H00', '10H00-12H00'),
-        ('14H00-16H00', '14H00-16H00'),
-        ('16H00-18H00', '16H00-18H00'),
-    ]
     date_rendez_vous = models.DateField(blank=True, null=True)
     en_attente = models.BooleanField(default=True)
     confirmation = models.BooleanField(default=False)
@@ -129,9 +122,6 @@ class Rendez_vous(models.Model):
     client = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True, related_name='rendez_vous_clients')
     employer = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True,
                                  related_name='rendez_vous_employers')
-    heure_rendez_vous = models.CharField(blank=True, null=True, choices=TIME, max_length=250)
-
-    type_massage = models.CharField(max_length=255, choices=TYPE_MASSAGE_CHOICES, null=True)
     service = models.ForeignKey(Service, on_delete=models.SET_NULL, null=True)
     horaire = models.ForeignKey(horaire, on_delete=models.SET_NULL, null=True)
 

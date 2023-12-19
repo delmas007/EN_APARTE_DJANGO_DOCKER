@@ -17,7 +17,7 @@
             {% include 'panier.html' %}
             <header class="site-header section-padding d-flex justify-content-center align-items-center" style="background-color:#ffffff">
                 <div class="container">
-                    <div class="row">
+                    <div class="row d-flex" style="margin-top: 50px">
 
                         <div class="col-lg-10 col-12">
                             <h1>
@@ -25,9 +25,12 @@
                                 <span class="d-block text-dark">et nos réponses</span>
                             </h1>
                         </div>
+                        <div class="col">
+                            <img src="{% static 'images/faq.jpg'%}" class="header-image img-fluid" alt="" height="100%">
+                        </div>
                     </div>
                 </div>
-                <img src="{% static 'images/faq.jpg'%}" class="header-image img-fluid" alt="">
+
             </header>
 
             <section class="faq section-padding">

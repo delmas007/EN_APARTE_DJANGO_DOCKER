@@ -120,7 +120,7 @@ class XYZ_DateInput(forms.DateInput):
 class RendezVousForm(forms.ModelForm):
     class Meta:
         model = Rendez_vous
-        fields = ['date_rendez_vous', 'heure_rendez_vous', 'type_massage', 'service']
+        fields = ['date_rendez_vous', 'heure_rendez_vous', 'type_massage', 'service','horaire']
 
         widgets = {
             'date_rendez_vous': XYZ_DateInput(attrs={
@@ -134,18 +134,24 @@ class RendezVousForm(forms.ModelForm):
             'name': 'time',
             'class': 'form-control',
             'id': 'id_heure_rendez_vous',  # Utilisez l'ID généré par Django
-            'required': 'True'
+            'required': True
         })
         self.fields['type_massage'].widget.attrs.update({
             'name': 'reason',
             'class': 'form-control',
             'id': 'id_type_massage',  # Utilisez l'ID généré par Django
-            'required': 'True'
+            'required': True
         })
         self.fields['service'].widget.attrs.update({
             'name': 'reason',
             'class': 'form-control',
-            'id': 'id_type_massage',  # Utilisez l'ID généré par Django
-            'required': 'True'
+            'id': 'service',  # Utilisez l'ID généré par Django
+            'required': True
+        })
+        self.fields['horaire'].widget.attrs.update({
+            'name': 'reason',
+            'class': 'form-control',
+            'id': 'horaire',  # Utilisez l'ID généré par Django
+            'required': True
         })
 

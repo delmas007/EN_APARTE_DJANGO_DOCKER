@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from Admin.forms import UserRegistrationForme, ServiceForm
 from Employer.forms import ConfirmationReservationForm
-from Model.models import Rendez_vous, Roles, Utilisateur, Produit, Paniers, ProduitLog
+from Model.models import Rendez_vous, Roles, Utilisateur, Produit, Paniers, ProduitLog, Service
 
 
 @login_required
@@ -270,7 +270,7 @@ def ajout_service(request):
         form = ServiceForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Employer ajouter avec succès !')
+            messages.success(request, 'Service ajouter avec succès !')
             # return redirect('admins:ajout_service')  # Rediriger vers la liste des services ou une autre page
         else:
             context['errors'] = form.errors
@@ -280,3 +280,13 @@ def ajout_service(request):
     return render(request, 'service_A.html', context)
 
 
+def liste_services(request):
+    services = Service.objects.all()
+    context = {'services': services}
+    return render(request, 'sup.html', context)
+
+
+def supprimer_service(request, service_id):
+    service = get_object_or_404(Service, pk=service_id)
+    service.delete()
+    return redirect('admins:liste_services')

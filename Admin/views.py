@@ -266,7 +266,6 @@ def ajout_service(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Service ajouter avec succès !')
-            # return redirect('admins:ajout_service')  # Rediriger vers la liste des services ou une autre page
         else:
             context['errors'] = form.errors
 

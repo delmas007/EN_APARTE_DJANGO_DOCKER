@@ -33,6 +33,11 @@
             border-color: #ffeeba;
             color: #856404;
         }
+        @media (max-width: 767px) {
+            .contact-info {
+                margin-bottom: 1rem;
+            }
+        }
 
     </style>
 
@@ -64,7 +69,7 @@
             </header>
             <section class="contact section-padding">
                 <div class="container">
-                    <div class="row">
+                    <div class="row d-flex">
                         
                         <div class="col-lg-6 col-12">
                             <h2 class="mb-4 ">Renseignez <span class="text-warning">Vous</span></h2>
@@ -114,47 +119,42 @@
                         </div>
 
                         <div class="col-lg-6 col-12 mt-5 ms-auto">
-                            <div class="row">
-                                <div class="col-6 border-end contact-info">
+                            <div class="row d-flex">
+                                <div class="col-6 border-end contact-info mb-3">
                                     <h6 class="mb-3">E-mail</h6>
-
                                     <a href="mailto:hello@company.com" class="custom-link">
-                                        enapanteabidjan@gmail.com
+                                        <span style="font-size: 8px; margin-left: auto;">enapanteabidjan@gmail.com</span>
                                         <i class="bi-arrow-right ms-2"></i>
                                     </a>
                                 </div>
 
-                                <div class="col-6 contact-info">
-                                	<h6 class="mb-3">Telephone</h6>
-
+                                <div class="col-6 contact-info mb-3">
+                                    <h6 class="mb-3">Telephone</h6>
                                     <a href="mailto:studio@company.com" class="custom-link">
                                         0789999981
                                         <i class="bi-arrow-right ms-2"></i>
                                     </a>
                                 </div>
 
+
                                 <div class="col-6 border-top border-end contact-info">
                                     <h6 class="mb-3">Localisation</h6>
-
                                     <p class="text-muted">Abidjan</p>
+
                                 </div>
 
                                 <div class="col-6 border-top contact-info">
                                     <h6 class="mb-3">Nos réseaux sociaux</h6>
-
                                     <ul class="social-icon">
-
                                         <li><a href="#" class="social-icon-link bi-messenger"></a></li>
-
                                         <li><a href="#" class="social-icon-link bi-youtube"></a></li>
-
                                         <li><a href="#" class="social-icon-link bi-instagram"></a></li>
-
                                         <li><a href="#" class="social-icon-link bi-whatsapp"></a></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
+
 
                     </div>
                 </div>

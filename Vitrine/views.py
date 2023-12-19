@@ -34,6 +34,7 @@ def panier(request):
                 panier_utilisateur.confirmation_panier = True
                 panier_utilisateur.montant_total = montant_total
                 panier_utilisateur.save()
+                messages.success(request, 'Commande effecuer avec succès!')
                 return redirect('vitrine:panier_confirme')
         print(4)
         return render(request, 'PanierContent.html', {'panier_utilisateur': panier_utilisateur})
@@ -92,7 +93,7 @@ def Accueil(request):
     tous_les_produits = Produit.objects.all()
 
     # Sélectionner trois éléments aléatoires
-    produits_aleatoires = sample(list(tous_les_produits), 3)
+    produits_aleatoires = sample(list(tous_les_produits), 0)
 
     context = {'tous_les_produits': produits_aleatoires}
     return render(request, 'index.html', context)

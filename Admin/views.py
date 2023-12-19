@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
-from Admin.forms import UserRegistrationForme
+from Admin.forms import UserRegistrationForme, ServiceForm
 from Employer.forms import ConfirmationReservationForm
 from Model.models import Rendez_vous, Roles, Utilisateur, Produit, Paniers, ProduitLog
 
@@ -42,6 +42,7 @@ def filtrer_Commande(request):
     }
     return render(request, 't_D.html', context)
 
+
 @login_required
 def produit_log_list(request):
     if not request.user.roles or request.user.roles.role != 'ADMIN':
@@ -65,6 +66,7 @@ def produit_log_list(request):
         'produit_logs': produit_logs,
     }
     return render(request, 'H_P.html', context)
+
 
 @login_required
 def liste_produits_D(request):
@@ -92,6 +94,7 @@ def liste_paniers_traitements_D(request):
 
     context = {'paniers_traitements': paniers_traitements}
     return render(request, 'panier_T_D.html', context)
+
 
 @login_required
 def liste_commandes_receptionnees_D(request):
@@ -260,14 +263,20 @@ def rendez_vous_aujourdhui(request):
     context = {'rendez_vous_aujourdhui': rendez_vous_aujourdhui}
     return render(request, 'rendez_vous_auj.html', context)
 
+
 def ajout_service(request):
+    context = {}
     if request.method == 'POST':
         form = ServiceForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('liste_services')  # Rediriger vers la liste des services ou une autre page
-    else:
-        form = ServiceForm()
+            messages.success(request, 'Employer ajouter avec succès !')
+            # return redirect('admins:ajout_service')  # Rediriger vers la liste des services ou une autre page
+        else:
+            context['errors'] = form.errors
 
-    context = {'form': form}
-    return render(request, 'ajout_service.html', context)
+    form = ServiceForm()
+    context['form'] = form
+    return render(request, 'service_A.html', context)
+
+

@@ -77,10 +77,33 @@ class UserRegistrationForme(UserCreationForm):
 
     class Meta:
         model = Utilisateur
-        fields = ('email', 'nom', 'prenom', 'contact', 'commune', 'sexe','roles')
+        fields = ('email', 'nom', 'prenom', 'contact', 'commune', 'sexe', 'roles')
 
 
 class ServiceForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['type'].widget.attrs.update({
+            'type': "text",
+            'class': "form-control",
+            'style': "color: black;",
+            'id': "type",
+            'name': 'type',
+        })
+        self.fields['description'].widget.attrs.update({
+            'type': "text",
+            'class': "form-control",
+            'id': "description",
+            'name': 'description',
+        })
+        self.fields['prix'].widget.attrs.update({
+            'type': "number",
+            'class': "form-control",
+            'id': "prix",
+            'required': True,
+            'name': 'prix',
+        })
+
     class Meta:
         model = Service
         fields = ['type', 'description', 'prix']

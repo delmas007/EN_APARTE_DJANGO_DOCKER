@@ -11,32 +11,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='commande',
-            name='confirmer',
-        ),
-        migrations.RemoveField(
-            model_name='commande',
-            name='date_commande',
-        ),
-        migrations.RemoveField(
-            model_name='commande',
-            name='employer',
-        ),
-        migrations.RemoveField(
-            model_name='commande',
-            name='montant_total',
-        ),
-        migrations.RemoveField(
-            model_name='commande',
-            name='statut',
-        ),
-        migrations.AddField(
-            model_name='commande',
-            name='produits',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='Model.produit'),
-        ),
-        migrations.DeleteModel(
-            name='LigneCommande',
-        ),
+
     ]

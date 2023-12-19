@@ -63,6 +63,11 @@
                         <label for="reason">Services souhaité :</label>
                         {{ form.type_massage }}
                     </div>
+
+                    <div class="form-group">
+                        <label for="reason">Services :</label>
+                        {{ form.service }}
+                    </div>
                     {% if form.errors %}
                         <small style="color: red;">
                             {{form.errors}}
@@ -127,22 +132,25 @@
             <table>
                 <thead>
                 <tr>
-                    <th>Nom de Service</th>
+                    <th>Service</th>
                     <th>Type services</th>
                     <th>Prix</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>Service 1</td>
-                    <td>Type 1</td>
-                    <td>50$</td>
-                </tr>
-                <tr>
-                    <td>Service 2</td>
-                    <td>Type 2</td>
-                    <td>75$</td>
-                </tr>
+                {% if services %}
+                    {% for service in services %}
+                        <tr>
+                            <td>{{ service.type }}</td>
+                            <td>{{ service.description }}</td>
+                            <td>{{ service.prix }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="3">Aucun service disponible</td>
+                    </tr>
+                {% endif %}
                 </tbody>
             </table>
         </center>

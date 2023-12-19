@@ -118,12 +118,7 @@ def inscription_D(request):
     if request.method == 'POST':
         form = UserRegistrationForme(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-
-            client_role = Roles.objects.get(role=Roles.EMPLOYER)
-            user.roles = client_role
-
-            user.save()
+            user = form.save()
             messages.success(request, 'Employer ajouter avec succès !')
         else:
             context['errors'] = form.errors

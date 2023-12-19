@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_protect
 
 from Model.forms import ConnexionForm, UserRegistrationForm, RendezVousForm
-from Model.models import Roles
+from Model.models import Roles, Service
 
 
 # Create your views here.
@@ -47,6 +47,7 @@ def inscription(request):
 
 @csrf_protect
 def Rendez_vous(request):
+    services = Service.objects.all()
     if request.method == 'POST':
         form = RendezVousForm(request.POST)
         if form.is_valid():
@@ -56,7 +57,7 @@ def Rendez_vous(request):
             return redirect('votre_vue_de_confirmation')
     else:
         form = RendezVousForm()
-    return render(request, 'PageRendeVous.html', {'form': form})
+    return render(request, 'PageRendeVous.html', {'form': form, 'services': services})
 
 
 class Deconnexion(LogoutView):

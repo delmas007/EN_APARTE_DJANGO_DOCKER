@@ -107,7 +107,7 @@
                                 {% if messages %}
                                     <ul class="messages" style="list-style: none;padding: 0;">
                                         {% for messages in messages %}
-                                            <li{% if messages.tags %} class="{{ messages.tags }}"{% endif %} style=" margin: 10px 0; padding: 10px; border-radius: 5px;">{{ messages }}</li>
+                                            <li{% if messages.tags %} class="{{ messages.tags }}"{% endif %} id="message-alert" style=" margin: 10px 0; padding: 10px; border-radius: 5px;">{{ messages }}</li>
                                         {% endfor %}
                                         <script>
                                             setTimeout(function() {

@@ -42,7 +42,8 @@
                                       <th>Nom client</th>
                                       <th>Date de rendez-vous</th>
                                       <th>Heure de rendez-vous</th>
-                                      <th>Type de massage</th>
+                                      <th>Type de service</th>
+                                      <th>prix</th>
                                   </tr>
                                   </thead>
                                   <tbody>
@@ -52,7 +53,8 @@
                                               <td>{{ reservation.client.nom }} {{ reservation.client.prenom }}</td>
                                               <td>{{ reservation.date_rendez_vous }}</td>
                                               <td>{{ reservation.heure_rendez_vous }}</td>
-                                              <td>{{ reservation.type_massage }}</td>
+                                              <td>{{ reservation.service.type }}</td>
+                                              <td>{{ reservation.service.prix }}</td>
                                           </tr>
                                       {% endfor %}
                                   {% else %}

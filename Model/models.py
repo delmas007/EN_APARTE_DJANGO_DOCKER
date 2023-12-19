@@ -90,6 +90,15 @@ class Utilisateur(AbstractBaseUser):
         return self.nom
 
 
+class Service(models.Model):
+    type = models.CharField(max_length=255, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    prix = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+
+    def __str__(self):
+        return self.type
+
+
 class Rendez_vous(models.Model):
     TYPE_MASSAGE_CHOICES = [
         ('massage', 'Massage'),
@@ -117,6 +126,7 @@ class Rendez_vous(models.Model):
     heure_rendez_vous = models.CharField(blank=True, null=True, choices=TIME, max_length=250)
 
     type_massage = models.CharField(max_length=255, choices=TYPE_MASSAGE_CHOICES, null=True)
+    service = models.ForeignKey(Service, on_delete=models.SET_NULL, null=True)
 
 
 @receiver(pre_save, sender=Rendez_vous)
@@ -140,12 +150,6 @@ def update_dates_heures_rendez_vous(sender, instance, **kwargs):
 
         # Affecter la valeur à duree_rendez_vous
         instance.duree_rendez_vous = duree_timedelta
-
-
-class Service(models.Model):
-    type = models.CharField(max_length=255,null=True, blank=True)
-    description = models.TextField(null=True, blank=True)
-    prix = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
 
 class Produit(models.Model):

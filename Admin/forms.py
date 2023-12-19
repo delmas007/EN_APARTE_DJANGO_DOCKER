@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django import forms
-from Model.models import Utilisateur, Rendez_vous
+from Model.models import Utilisateur, Rendez_vous, Service
 
 
 class UserRegistrationForme(UserCreationForm):
@@ -80,3 +80,7 @@ class UserRegistrationForme(UserCreationForm):
         fields = ('email', 'nom', 'prenom', 'contact', 'commune', 'sexe','roles')
 
 
+class ServiceForm(forms.ModelForm):
+    class Meta:
+        model = Service
+        fields = ['type', 'description', 'prix']

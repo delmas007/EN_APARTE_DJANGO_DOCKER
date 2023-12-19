@@ -34,8 +34,8 @@
             {% url 'admins:produit_log_list' as admin_produit_log_list_url %}
 
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <li class="nav-item has-treeview {% if request.path == admin_reservation_url or request.path == admin_reservation_confirmer_url or request.path == admin_filtrer_rendez_vous_url %}menu-open{% endif %}">
-                    <a href="#" class="nav-link {% if request.path == admin_reservation_url or request.path == admin_reservation_confirmer_url or request.path == admin_filtrer_rendez_vous_url %}active{% endif %}">
+                <li class="nav-item has-treeview {% if request.path == admin_reservation_url or request.path == admin_reservation_confirmer_url or request.path == admin_rendez_vous_aujourdhui_url %}menu-open{% endif %}">
+                    <a href="#" class="nav-link {% if request.path == admin_reservation_url or request.path == admin_reservation_confirmer_url or request.path == admin_rendez_vous_aujourdhui_url %}active{% endif %}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Rendez-vous
@@ -112,8 +112,8 @@
                     </ul>
 
                 </li>
-                <li class="nav-item has-treeview {% if request.path == admin_liste_paniers_confirmes_url or request.path == admin_liste_paniers_traitements_url or request.path == admin_liste_commandes_receptionnees_url or request.path == admin_filtrer_Commande_url %}menu-open{% endif %}">
-                    <a href="#" class="nav-link {% if request.path == admin_liste_paniers_confirmes_url or request.path == admin_liste_paniers_traitements_url or request.path == admin_liste_commandes_receptionnees_url or request.path == admin_filtrer_Commande_url %}active{% endif %}">
+                <li class="nav-item has-treeview {% if request.path == admin_liste_paniers_confirmes_url or request.path == admin_liste_paniers_traitements_url or request.path == admin_liste_commandes_receptionnees_url  %}menu-open{% endif %}">
+                    <a href="#" class="nav-link {% if request.path == admin_liste_paniers_confirmes_url or request.path == admin_liste_paniers_traitements_url or request.path == admin_liste_commandes_receptionnees_url  %}active{% endif %}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Commande
@@ -144,17 +144,10 @@
                             </a>
                         </li>
                     </ul>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ admin_filtrer_Commande_url }}" class="nav-link {% if request.path == admin_filtrer_Commande_url %}active{% endif %}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Historique</p>
-                            </a>
-                        </li>
-                    </ul>
+
                 </li>
-                <li class="nav-item has-treeview {% if request.path == admin_rendez_vous_aujourdhui_url or admin_produit_log_list_url  %}menu-open{% endif %}">
-                    <a href="#" class="nav-link {% if request.path == admin_rendez_vous_aujourdhui_url or admin_produit_log_list_url  %}active{% endif %}">
+                <li class="nav-item has-treeview {% if request.path == admin_filtrer_rendez_vous_url or request.path == admin_produit_log_list_url or request.path == admin_filtrer_Commande_url  %}menu-open{% endif %}">
+                    <a href="#" class="nav-link {% if request.path == admin_filtrer_rendez_vous_url or request.path == admin_produit_log_list_url or request.path == admin_filtrer_Commande_url  %}active{% endif %}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Historique
@@ -174,6 +167,12 @@
                                 <p>Produit</p>
                             </a>
                         </li>
+                            <li class="nav-item">
+                                <a href="{{ admin_filtrer_Commande_url }}" class="nav-link {% if request.path == admin_filtrer_Commande_url %}active{% endif %}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Commande</p>
+                                </a>
+                            </li>
                     </ul>
                 </li>
             </ul>

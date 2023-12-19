@@ -142,6 +142,12 @@ def update_dates_heures_rendez_vous(sender, instance, **kwargs):
         instance.duree_rendez_vous = duree_timedelta
 
 
+class Service(models.Model):
+    type = models.CharField(max_length=255)
+    description = models.TextField()
+    prix = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+
+
 class Produit(models.Model):
     employer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True,
                                  related_name='produits_ajoutes')

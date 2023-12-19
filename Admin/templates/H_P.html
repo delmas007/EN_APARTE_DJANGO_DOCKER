@@ -36,7 +36,7 @@
                           <div class="card card-success">
                               <!-- /.card-header -->
                               <!-- form start -->
-                              <form method="get" action="{% url 'admins:filtrer_rendez_vous' %}" id="quickForm">
+                              <form method="get" action="{% url 'admins:produit_log_list' %}" id="quickForm">
                                   {% csrf_token %}
                                   <div class="card-body">
                                       <div class="form-group">
@@ -48,9 +48,16 @@
                                           <input type="text" name="user" class="form-control" id="user" value="{{ request.GET.user }}" placeholder="Nom vendeur" >
                                       </div>
                                       <div class="form-group">
-                                          <label for="action">action </label>
-                                          <input type="text" name="action" class="form-control" id="action" value="{{ request.GET.action }}" placeholder="Nom client" >
+                                          <label for="action">Action</label>
+                                          <select name="action" class="form-control" id="action">
+                                              <option value="">Sélectionner une action</option>
+                                              <option value="ajout" {% if request.GET.action == 'ajout' %}selected{% endif %}>ajout</option>
+                                              <option value="modification" {% if request.GET.action == 'modification' %}selected{% endif %}>modification</option>
+                                              <option value="suppression" {% if request.GET.action == 'suppression' %}selected{% endif %}>suppression</option>
+                                          </select>
                                       </div>
+
+
                                   </div>
                                   <!-- /.card-body -->
                                   <div class="card-footer">
@@ -78,7 +85,6 @@
                       <div class="col-12">
                           <div class="card">
                               <div class="card-header">
-                                  <h3 class="card-title">All categories</h3>
                               </div>
                               <!-- /.card-header -->
                               <div class="card-body">

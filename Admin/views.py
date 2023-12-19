@@ -259,3 +259,15 @@ def rendez_vous_aujourdhui(request):
 
     context = {'rendez_vous_aujourdhui': rendez_vous_aujourdhui}
     return render(request, 'rendez_vous_auj.html', context)
+
+def ajout_service(request):
+    if request.method == 'POST':
+        form = ServiceForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('liste_services')  # Rediriger vers la liste des services ou une autre page
+    else:
+        form = ServiceForm()
+
+    context = {'form': form}
+    return render(request, 'ajout_service.html', context)

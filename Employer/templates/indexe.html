@@ -55,10 +55,9 @@
                                           <tr>
                                               <td>{{ reservation.client.nom }} {{ reservation.client.prenom }}</td>
                                               <td>{{ reservation.date_rendez_vous }}</td>
-                                              <td>{{ reservation.heure_rendez_vous }}</td>
+                                              <td>{{ reservation.horaire }}</td>
                                               <td>{{ reservation.service.type }}</td>
                                               <td>{{ reservation.service.prix }}</td>
-                                              <td>{{ reservation.type_massage }}</td>
                                               <td>
                                                   <form method="post" action="{% url 'employer:reservation' %}">
                                                       {% csrf_token %}

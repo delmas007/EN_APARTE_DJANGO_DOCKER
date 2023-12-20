@@ -126,6 +126,21 @@ class Rendez_vous(models.Model):
                                  related_name='rendez_vous_employers')
     service = models.ForeignKey(Service, on_delete=models.SET_NULL, null=True)
     horaire = models.ForeignKey(horaire, on_delete=models.SET_NULL, null=True)
+    etat = models.CharField(max_length=255,null=True,blank=True)
+
+    def save(self, *args, **kwargs):
+        # Calculez l'état lors de la sauvegarde du modèle
+        if self.en_attente:
+            self.etat = "Reservation pas encore accepter"
+        elif self.debut and not self.fin:
+            self.etat = "en cours..."
+        elif self.fin:
+            self.etat = "Terminé"
+        elif not self.debut:
+            self.etat = "Pas encore commencé"
+
+        super().save(*args, **kwargs)
+
 
 
 @receiver(pre_save, sender=Rendez_vous)

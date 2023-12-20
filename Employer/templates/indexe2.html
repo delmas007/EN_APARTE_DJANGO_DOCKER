@@ -47,6 +47,7 @@
                                       <th>Service</th>
                                       <th>Prix</th>
                                       <th>Date</th>
+                                      <th>Heure</th>
                                       <th>Debut</th>
                                       <th>Fin</th>
                                   </tr>
@@ -59,6 +60,7 @@
                                               <td>{{ rdv.service.type }}</td>
                                               <td>{{ rdv.service.prix }}</td>
                                               <td>{{ rdv.Date_prise_rendez_vous }}</td>
+                                              <td>{{ rdv.horaire }}</td>
                                                       <td>
                                                           <form method="post" action="{% url 'employer:debut_rendez_vous' rdv.id %}">
                                                               {% csrf_token %}
@@ -76,7 +78,7 @@
                                       {% endfor %}
                                   {% else %}
                                       <tr>
-                                          <td colspan="5">Aucun Rendez-vous prevu.</td>
+                                          <td colspan="7">Aucun Rendez-vous prevu.</td>
                                       </tr>
                                   {% endif %}
                                   </tbody>

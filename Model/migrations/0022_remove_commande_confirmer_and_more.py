@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('Model', '0021_horaire_remove_commande_confirmer_and_more'),
+        ('Model', '0017_produitlog_remove_commande_confirmer_and_more'),
     ]
 
     operations = [

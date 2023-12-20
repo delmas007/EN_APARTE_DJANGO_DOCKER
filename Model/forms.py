@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django import forms
-from Model.models import Utilisateur, Rendez_vous
+from Model.models import Utilisateur, Rendez_vous, horaire, Service
 
 
 class ConnexionForm(AuthenticationForm):
@@ -130,15 +130,54 @@ class RendezVousForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        service_disponibles = Service.objects.filter(disponibilite=True)
+
+        # Récupérer les horaires déjà sélectionnés pour ce rendez-vous (si édité)
+        service_selectionne = None
+        if self.instance and self.instance.service:
+            service_selectionne = self.instance.service
+
+        # Filtrer les heures disponibles en fonction de l'horaire sélectionné (s'il existe)
+        service_disponibles = service_disponibles.exclude(pk=service_selectionne.pk) if service_selectionne else service_disponibles
+
+        # Mettre à jour les choix du champ 'horaire'
+        self.fields['service'].queryset = service_disponibles
+
+        # Mettre à jour les attributs du widget pour le champ 'horaire'
+        self.fields['service'].widget.attrs.update({
+            'class': 'form-control',
+            'id': 'service',
+            'required': True
+        })
+
         self.fields['service'].widget.attrs.update({
             'name': 'reason',
             'class': 'form-control',
             'id': 'service',  # Utilisez l'ID généré par Django
             'required': True
         })
+
+
+        # Horaire
+        heures_disponibles = horaire.objects.filter(disponibilite=True)
+
+        # Récupérer les horaires déjà sélectionnés pour ce rendez-vous (si édité)
+        horaire_selectionne = None
+        if self.instance and self.instance.horaire:
+            horaire_selectionne = self.instance.horaire
+
+        # Filtrer les heures disponibles en fonction de l'horaire sélectionné (s'il existe)
+        heures_disponibles = heures_disponibles.exclude(pk=horaire_selectionne.pk) if horaire_selectionne else heures_disponibles
+
+        # Mettre à jour les choix du champ 'horaire'
+        self.fields['horaire'].queryset = heures_disponibles
+
+        # Mettre à jour les attributs du widget pour le champ 'horaire'
         self.fields['horaire'].widget.attrs.update({
-            'name': 'reason',
             'class': 'form-control',
-            'id': 'horaire',  # Utilisez l'ID généré par Django
+            'id': 'horaire',
             'required': True
         })
+
+

@@ -3,11 +3,6 @@
 {% include 'css.html' %}
 {% block content%}
     <body>
-    <section class="preloader">
-        <div class="spinner">
-            <span class="sk-inner-circle"></span>
-        </div>
-    </section>
     <style>
         table {
             width: 80%;
@@ -30,6 +25,27 @@
     </style>
 {% include 'header.html' %}
 
+    <style>
+
+        .success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+
+        .warning {
+            background-color: #fff3cd;
+            border-color: #ffeeba;
+            color: #856404;
+        }
+    </style>
+
     <section class="">
         <div class="slick-custom">
             <img src=" {% static 'images/calendrier.jpg' %}" class="img-fluid" alt="" style="height:500px">
@@ -47,7 +63,7 @@
         <div class="container rendezVous mt-5">
         <div class="row justify-content-center" style="top:0">
             <div class="col-md-6">
-                <form method="POST" id="appointmentForm">
+                <form method="POST" id="appointmentForm" action="{% url 'Model:Rendez_vous' %}">
                     {% csrf_token %}
                     <div class="mb-4">
                         <label for="date" class="block text-gray-700 text-sm font-bold mb-2">Date :</label>
@@ -56,21 +72,35 @@
 
                     <div class="form-group">
                         <label for="time">Horaire :</label>
-                            {{ form.horaire }}
+                        {{ form.horaire }}
                     </div>
 
                     <div class="form-group">
                         <label for="reason">Services :</label>
                         {{ form.service }}
                     </div>
+
                     {% if form.errors %}
                         <small style="color: red;">
-                            {{form.errors}}
+                            {{ form.errors }}
                         </small>
                     {% endif %}
+
                     <button type="submit" class="btn " style="margin-top:10px; background-color:#ffc30e;color:white">Prendre rendez-vous</button>
 
                     <div id="error-message" class="error">Disponibilité: Lundi-Vendredi 8H-18H</div>
+                    {% if messages %}
+                        <ul class="messages" style="list-style: none;padding: 0;">
+                            {% for messages in messages %}
+                                <li{% if messages.tags %} class="{{ messages.tags }}"{% endif %} id="message-alert" style=" margin: 10px 0; padding: 10px; border-radius: 5px;">{{ messages }}</li>
+                            {% endfor %}
+                            <script>
+                                setTimeout(function() {
+                                    document.getElementById('message-alert').style.display = 'none';
+                                }, 5000);
+                            </script>
+                        </ul>
+                    {% endif %}
                 </form>
 
 

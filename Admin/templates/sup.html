@@ -56,7 +56,7 @@
                                           <th>Service</th>
                                           <th>Description</th>
                                           <th>Prix</th>
-                                          <th>Supprimer</th>
+                                          <th>disponibilite</th>
                                       </tr>
                                       </thead>
                                       <tbody>
@@ -67,10 +67,17 @@
                                                   <td>{{ service.description }}</td>
                                                   <td>{{ service.prix }}</td>
                                                   <td>
-                                                      <form method="post" action="{% url 'admins:supprimer_service' service.id %}">
-                                                          {% csrf_token %}
-                                                          <button type="submit" class="btn btn-danger">Supprimer</button>
-                                                      </form>
+                                                      {% if not service.disponibilite %}
+                                                          <form action="{% url 'admins:supprimer_service' service.id %}" method="post">
+                                                              {% csrf_token %}
+                                                              <button type="submit" class="btn btn-success" name="toggle_promotion" {% if service.disponibilite %}disabled{% endif %}>Activer le service</button>
+                                                          </form>
+                                                      {% else %}
+                                                          <form action="{% url 'admins:supprimer_service' service.id %}" method="post">
+                                                              {% csrf_token %}
+                                                              <button type="submit" class="btn btn-danger" name="toggle_promotion" {% if not service.disponibilite %}disabled{% endif %}>Désactiver le service</button>
+                                                          </form>
+                                                      {% endif %}
                                                   </td>
                                                   </tr>
                                           {% endfor %}

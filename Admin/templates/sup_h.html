@@ -63,12 +63,19 @@
                                               <tr>
                                                   <td>{{ horaire.heure }}</td>
                                                   <td>
-                                                      <form method="post" action="{% url 'admins:supprimer_horaire' horaire.id %}">
-                                                          {% csrf_token %}
-                                                          <button type="submit" class="btn btn-danger">Supprimer</button>
-                                                      </form>
+                                                      {% if not horaire.disponibilite %}
+                                                          <form action="{% url 'admins:supprimer_horaire' horaire.id %}" method="post">
+                                                              {% csrf_token %}
+                                                              <button type="submit" class="btn btn-success" name="toggle_promotion" {% if horaire.disponibilite %}disabled{% endif %}>Activer l'horaire</button>
+                                                          </form>
+                                                      {% else %}
+                                                          <form action="{% url 'admins:supprimer_horaire' horaire.id %}" method="post">
+                                                              {% csrf_token %}
+                                                              <button type="submit" class="btn btn-danger" name="toggle_promotion" {% if not horaire.disponibilite %}disabled{% endif %}>Désactiver l'horaire</button>
+                                                          </form>
+                                                      {% endif %}
                                                   </td>
-                                                  </tr>
+                                              </tr>
                                           {% endfor %}
                                       {% else %}
                                           <tr>

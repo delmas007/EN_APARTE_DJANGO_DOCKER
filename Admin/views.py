@@ -282,7 +282,11 @@ def liste_services(request):
 
 def supprimer_service(request, service_id):
     service = get_object_or_404(Service, pk=service_id)
-    service.delete()
+    if request.method == 'POST':
+        if 'toggle_promotion' in request.POST:
+            service.disponibilite = not service.disponibilite
+
+    service.save()
     return redirect('admins:liste_services')
 
 
@@ -337,5 +341,9 @@ def liste_horaire(request):
 
 def supprimer_horaire(request, horaire_id):
     horair = get_object_or_404(horaire, pk=horaire_id)
-    horair.delete()
+    if request.method == 'POST':
+        if 'toggle_promotion' in request.POST:
+            horair.disponibilite = not horair.disponibilite
+
+    horair.save()
     return redirect('admins:liste_horaire')

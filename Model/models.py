@@ -1,3 +1,4 @@
+import uuid
 from datetime import timedelta
 from decimal import Decimal
 from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
@@ -57,6 +58,7 @@ class Roles(models.Model):
 
 
 class Utilisateur(AbstractBaseUser):
+    mon_uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     email = models.EmailField(
         unique=True,
         max_length=255,

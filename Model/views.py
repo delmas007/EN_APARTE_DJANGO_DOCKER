@@ -36,10 +36,8 @@ class Connexion(LoginView):
 def activate(request, uidb64, token):
     User = get_user_model()
     try:
-        print(f'user de {force_str(urlsafe_base64_decode(uidb64))}')
         uid = force_str(urlsafe_base64_decode(uidb64))
-        user = Utilisateur.objects.get(nom=uid)
-        print(f'fi {user}')
+        user = Utilisateur.objects.get(mon_uuid=uid)
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
 
@@ -56,11 +54,11 @@ def activate(request, uidb64, token):
 
 def activateEmail(request, user, to_email):
     mail_subject = "Activate your user account."
-    print(f'user {user.nom}')
+    print(f'user {user.mon_uuid}')
     message = render_to_string("template_activate_account.html", {
         'user': user.get_email_field_name,
         'domain': get_current_site(request).domain,
-        'uid': urlsafe_base64_encode(force_bytes(user.nom)),
+        'uid': urlsafe_base64_encode(force_bytes(user.mon_uuid)),
         'token': account_activation_token.make_token(user),
         "protocol": 'https' if request.is_secure() else 'http'
     })

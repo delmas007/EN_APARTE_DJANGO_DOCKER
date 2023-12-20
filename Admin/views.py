@@ -244,17 +244,6 @@ def rendez_vous_aujourdhui(request):
         date_rendez_vous=today
     )
 
-    # Calculez l'état de chaque rendez-vous
-    for rendez_vous in rendez_vous_aujourdhui:
-        if rendez_vous.en_attente:
-            rendez_vous.etat = "Reservation pas encore accepter"
-        elif rendez_vous.debut == True and rendez_vous.fin == False:
-            rendez_vous.etat = "en cours..."
-        elif rendez_vous.fin:
-            rendez_vous.etat = "Terminé"
-        elif not rendez_vous.debut:
-            rendez_vous.etat = "Pas encore commencé"
-
     context = {'rendez_vous_aujourdhui': rendez_vous_aujourdhui}
     return render(request, 'rendez_vous_auj.html', context)
 

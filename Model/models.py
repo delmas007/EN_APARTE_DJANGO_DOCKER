@@ -126,7 +126,7 @@ class Rendez_vous(models.Model):
     client = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True, related_name='rendez_vous_clients')
     employer = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True,
                                  related_name='rendez_vous_employers')
-    service = models.ForeignKey(Service, on_delete=models.SET_NULL, null=True)
+    service = models.ForeignKey(Service, on_delete=models.SET_NULL, null=True,related_name='services')
     horaire = models.ForeignKey(horaire, on_delete=models.SET_NULL, null=True)
     etat = models.CharField(max_length=255,null=True,blank=True)
 

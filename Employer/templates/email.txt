@@ -2,14 +2,24 @@
 
 Cher(e) {{ reservation.client.nom }} {{ reservation.client.prenom }} ,
 
-    Nous vous confirmons votre rendez-vous pour le {{ reservation.date_rendez_vous }} de {{ reservation.heure_rendez_vous }} avec {{ employer.nom }}
-{{ employer.prenom }} le contact {{ employer.contact }} pour plus information.
+Nous sommes ravis de confirmer votre rendez-vous chez EN APARTE. Voici les détails de votre rendez-vous :
 
-    Nous vous remercions pour votre confiance et nous avons hâte de vous accueillir.
+- Date : {{ reservation.date_rendez_vous }}
+- Heure de début : {{ reservation.heure_debut_rendez_vous }}
+- Durée prévue : {{ reservation.duree_rendez_vous }}
+- Service : {{ reservation.service.type }}
+- Prix : {{ reservation.service.prix }}
+- Avec : {{ reservation.employer.nom }} {{ reservation.employer.prenom }}
+- Contact de l'employé : {{ reservation.employer.contact }}
+
+Votre rendez-vous est confirmé, et nous sommes impatients de vous accueillir. En cas de besoin, n'hésitez pas à nous contacter au 0789999981 .
+
+Merci pour votre confiance en EN APARTE. Nous sommes là pour rendre votre expérience exceptionnelle.
 
 Cordialement,
 
-    EN APARTE
+L'équipe EN APARTE
+
 
 
 

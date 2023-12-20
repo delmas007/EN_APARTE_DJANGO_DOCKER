@@ -96,10 +96,7 @@ def reservations_en_attente(request):
                 reservation.en_attente = False
 
             reservation.save()
-            if confirmation:
-                print(f"Réservation {reservation_id} confirmée par {request.user}")
-            else:
-                print(f"Réservation {reservation_id} refusée par {request.user}")
+
 
             # Ajoutez d'autres logiques pour le refus de la réservation si nécessaire
             # ...

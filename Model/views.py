@@ -57,7 +57,7 @@ def activateEmail(request, user, to_email):
     mail_subject = "Activate your user account."
     print(f'user {user.mon_uuid}')
     message = render_to_string("template_activate_account.html", {
-        'user': user.get_email_field_name,
+        'user': user,
         'domain': get_current_site(request).domain,
         'uid': urlsafe_base64_encode(force_bytes(user.mon_uuid)),
         'token': account_activation_token.make_token(user),

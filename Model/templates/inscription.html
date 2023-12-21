@@ -10,16 +10,17 @@
                 <span class="sk-inner-circle"></span>
             </div>
         </section>
+        {% include 'header.html' %}
 
         <main>
 
-            <section class="sign-in-form section-padding">
+            <section class="sign-in-form section-padding" style="margin-top: 60px">
                 <div class="container">
                     <div class="row">
 
                         <div class="col-lg-8 mx-auto col-12">
 
-                            <h1 class="hero-title text-center mb-5">Sign Up</h1>
+                            <h1 class="hero-title text-center mb-5">Inscription</h1>
 
                             <div class="row">
                                 <div class="col-lg-8 col-11 mx-auto">
@@ -39,21 +40,21 @@
                                         <div class="form-floating mt-4">
                                             {{ form.email}}
 
-                                            <label for="email">Email address</label>
+                                            <label for="email">Adresse Email </label>
                                         </div>
 
                                         <div class="form-floating my-4">
 
                                             {{ form.password1}}
-                                            <label for="confirm_password">Password</label>
+                                            <label for="confirm_password">Mot de passe</label>
                                             
-                                            <p class="text-center">* shall include 0-9 a-z A-Z in 4 to 10 characters</p>
+                                            <p class="text-center">* doit inclure 0-9 a-z A-Z in 4 to 10 characters</p>
                                         </div>
                                         <div class="form-floating my-4">
 
                                             {{ form.password2}}
 
-                                            <label for="confirm_password">Password Confirmation</label>
+                                            <label for="confirm_password">Confirmer le mot de passe </label>
                                         </div>
 
                                         <div class="form-floating " >
@@ -97,10 +98,10 @@
 
 
                                         <button type="submit" class="btn custom-btn form-control mt-4 mb-3">
-                                            Create account
+                                            Créer
                                         </button>
 
-                                        <p class="text-center">Already have an account? Please <a href="connexion.html">Sign In</a></p>
+                                        <p class="text-center">Vous avez déjà un compte ? <a href="{% url 'Model:connexion' %}">Veuillez vous connecter</a></p>
 
                                     </form>
                                 </div>

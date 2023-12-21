@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.contrib import messages
 from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -96,15 +97,18 @@ def inscription(request):
 @csrf_protect
 def Rendez_vous(request):
     services = Service.objects.all()
+
     if request.method == 'POST':
         form = RendezVousForm(request.POST)
         if form.is_valid():
             rendez_vous = form.save(commit=False)
             rendez_vous.client = request.user
             rendez_vous.save()
-            return redirect('votre_vue_de_confirmation')
+            messages.success(request, 'Votre rendez-vous a été pris avec succès. Merci !')
+            return redirect('Model:Rendez_vous')
     else:
         form = RendezVousForm()
+
     return render(request, 'PageRendeVous.html', {'form': form, 'services': services})
 
 

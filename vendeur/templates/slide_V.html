@@ -30,7 +30,9 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item has-treeview {% if request.path == vendeur_ajouter_un_produit_url or request.path == vendeur_liste_produits_url or request.path == vendeur_liste_produitss_url %}menu-open{% endif %}">
                     <a href="#" class="nav-link {% if request.path == vendeur_ajouter_un_produit_url or request.path == vendeur_liste_produits_url or request.path == vendeur_liste_produitss_url %}active{% endif %}">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" fill="currentColor" class="bi bi-basket-fill" viewBox="0 0 16 16">
+                            <path d="M5.071 1.243a.5.5 0 0 1 .858.514L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H15v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9H.5a.5.5 0 0 1-.5-.5v-2A.5.5 0 0 1 .5 6h1.717L5.07 1.243zM3.5 10.5a.5.5 0 1 0-1 0v3a.5.5 0 0 0 1 0zm2.5 0a.5.5 0 1 0-1 0v3a.5.5 0 0 0 1 0zm2.5 0a.5.5 0 1 0-1 0v3a.5.5 0 0 0 1 0zm2.5 0a.5.5 0 1 0-1 0v3a.5.5 0 0 0 1 0zm2.5 0a.5.5 0 1 0-1 0v3a.5.5 0 0 0 1 0z"/>
+                        </svg>
                         <p>
                             Produit
                             <i class="right fas fa-angle-left"></i>
@@ -63,7 +65,9 @@
                 </li>
                 <li class="nav-item has-treeview {% if request.path == vendeur_liste_paniers_confirmes_url or request.path == vendeur_liste_paniers_traitements_url or request.path == vendeur_liste_commandes_receptionnees_url  %}menu-open{% endif %}">
                     <a href="#" class="nav-link {% if request.path == vendeur_liste_paniers_confirmes_url or request.path == vendeur_liste_paniers_traitements_url or request.path == vendeur_liste_commandes_receptionnees_url  %}active{% endif %}">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                        </svg>
                         <p>
                             Commande
                             <i class="right fas fa-angle-left"></i>

@@ -91,7 +91,10 @@ def inscription(request):
             user.save()
             return redirect('Model:connexion')
         else:
-            context['form'] = form  # Passez le formulaire de retour au modèle avec les erreurs
+            context['form'] = form
+            return render(request, 'inscription.html', context=context)
+
+            # Passez le formulaire de retour au modèle avec les erreurs
 
     form = UserRegistrationForm()
     context['form'] = form

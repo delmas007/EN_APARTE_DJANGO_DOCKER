@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
@@ -88,7 +88,7 @@ def reservations_en_attente(request):
             # Mettez à jour le champ de confirmation
             reservation.confirmation = True
 
-            send_confirmation_email(reservation.client.email, reservation,request.user)
+            send_confirmation_email(reservation.client.email, reservation, request.user)
 
             # Si la réservation est confirmée, enregistrez l'id de l'utilisateur connecté comme client
             if reservation.confirmation:
@@ -96,7 +96,6 @@ def reservations_en_attente(request):
                 reservation.en_attente = False
 
             reservation.save()
-
 
             # Ajoutez d'autres logiques pour le refus de la réservation si nécessaire
             # ...
@@ -109,12 +108,12 @@ def reservations_en_attente(request):
     return render(request, 'indexe.html', context)
 
 
-def send_confirmation_email(client_email, reservation,employer):
+def send_confirmation_email(client_email, reservation, employer):
     subject = 'Confirmation de rendez-vous EN APARTE'
-    message = render_to_string('email.txt', {'reservation': reservation,'employer':employer})
+    message = render_to_string('email.txt', {'reservation': reservation, 'employer': employer})
     plain_message = strip_tags(message)
     recipient_list = [client_email]
 
-    send_mail(subject, plain_message, settings.DEFAULT_FROM_EMAIL, recipient_list, fail_silently=False)
-
-
+    email = EmailMultiAlternatives(subject=subject, body=plain_message, to=recipient_list)
+    email.attach_alternative(message, "text/html")
+    email.send()

@@ -16,7 +16,6 @@ from django.core.mail import EmailMessage
 from Model.tokens import account_activation_token
 
 
-
 # Create your views here.
 
 class Connexion(LoginView):
@@ -45,17 +44,17 @@ def activate(request, uidb64, token):
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
-        messages.success(request, "Thank you for your email confirmation. Now you can log in to your account.")
+        messages.success(request, "Merci de votre confirmation par courriel. Vous pouvez maintenant vous connecter à "
+                                  "votre compte.")
         return redirect('Model:connexion')
     else:
-        messages.error(request, "Activation link is invalid or user not found!")
+        messages.error(request, "Le lien d’activation est invalide !")
 
-    return redirect('Accueil')
+    return redirect('Model:connexion')
 
 
 def activateEmail(request, user, to_email):
-    mail_subject = "Activate your user account."
-    print(f'user {user.mon_uuid}')
+    mail_subject = "Activez votre compte utilisateur."
     message = render_to_string("template_activate_account.html", {
         'user': user,
         'domain': get_current_site(request).domain,
@@ -65,10 +64,12 @@ def activateEmail(request, user, to_email):
     })
     email = EmailMessage(mail_subject, message, to=[to_email])
     if email.send():
-        messages.success(request, f'Dear <b>{user.nom}</b>, please go to your email <b>{to_email}</b> inbox and click on \
-                received activation link to confirm and complete the registration. <b>Note:</b> Check your spam folder.')
+        messages.success(request, f'Cher <b>{user.nom}</b>, veuillez accéder à votre boîte de réception <b>{to_email}"'
+                                  f'</b> et cliquer sur le lien d’activation reçu pour confirmer et compléter '
+                                  f'l’enregistrement. <b>Remarque :</b>  Vérifiez votre dossier spam.')
     else:
-        messages.error(request, f'Problem sending email to {to_email}, check if you typed it correctly.')
+        messages.error(request,
+                       f'Problème d’envoi du courriel à {to_email}, vérifiez si vous l’avez saisi correctement.')
 
 
 @csrf_protect
@@ -78,7 +79,6 @@ def inscription(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            print(user.get_email_field_name)
             client_role = Roles.objects.get(role=Roles.CLIENT)
             user.roles = client_role
             user.is_active = False
@@ -91,6 +91,7 @@ def inscription(request):
     form = UserRegistrationForm()
     context['form'] = form
     return render(request, 'inscription.html', context=context)
+
 
 @csrf_protect
 def Rendez_vous(request):

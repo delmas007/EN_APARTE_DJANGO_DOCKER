@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.utils.html import strip_tags
 from django.views.decorators.csrf import csrf_protect
 from Model.forms import ConnexionForm, UserRegistrationForm, RendezVousForm
 from Model.models import Roles, Service, Utilisateur
@@ -12,8 +13,8 @@ from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
-from django.core.mail import EmailMessage
-
+from django.core.mail import EmailMessage,EmailMultiAlternatives
+from django.templatetags.static import static
 from Model.tokens import account_activation_token
 
 
@@ -56,14 +57,18 @@ def activate(request, uidb64, token):
 
 def activateEmail(request, user, to_email):
     mail_subject = "Activez votre compte utilisateur."
-    message = render_to_string("template_activate_account.html", {
+    message = render_to_string("new-email.html", {
         'user': user,
         'domain': get_current_site(request).domain,
         'uid': urlsafe_base64_encode(force_bytes(user.mon_uuid)),
         'token': account_activation_token.make_token(user),
-        "protocol": 'https' if request.is_secure() else 'http'
+        "protocol": 'https' if request.is_secure() else 'http',
+        'logo': get_current_site(request).domain + static('image/photo_2023-12-14_15-44-58.ico')
     })
-    email = EmailMessage(mail_subject, message, to=[to_email])
+    plain_message = strip_tags(message)
+    email = EmailMultiAlternatives(subject =mail_subject,body = plain_message, to=[to_email])
+    email.attach_alternative(message, "text/html")
+    email.send()
     if email.send():
         messages.success(request, f'Cher <b>{user.nom}</b>, veuillez accéder à votre boîte de réception <b>{to_email}"'
                                   f'</b> et cliquer sur le lien d’activation reçu pour confirmer et compléter '

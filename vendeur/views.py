@@ -2,7 +2,10 @@ from datetime import date
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.mail import EmailMultiAlternatives
 from django.shortcuts import render, redirect, get_object_or_404
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 from django.views.decorators.csrf import csrf_protect
 from django.views import View
 from datetime import datetime, timedelta
@@ -230,7 +233,27 @@ def confirmer_statut_panier(request, panier_id):
     else:
         messages.warning(request, 'Le statut du panier a déjà été confirmé.')
 
+    send_confirmation_email(panier.client.email, panier)
+
+    for commande in panier.ordre.all():
+        print(f"Produit: {{commande.produits.nom}}, Quantité: {{commande.quantite}}, Prix unitaire: {commande.produits.get_prix_reduit}")
+        print(f"Sous-total: {commande.quantite * commande.produits.prix}")
+
+# Imprimer le prix total
+    print(f"Prix total du panier: {{panier.montant_total}}")
+
     return redirect('vendeur:liste_paniers_confirmes')
+
+
+def send_confirmation_email(client_email, panier):
+    subject = 'Confirmation de commande EN APARTE'
+    message = render_to_string('email_C.html', {'panier': panier})
+    plain_message = strip_tags(message)
+    recipient_list = [client_email]
+
+    email = EmailMultiAlternatives(subject=subject, body=plain_message, to=recipient_list)
+    email.attach_alternative(message, "text/html")
+    email.send()
 
 
 @login_required

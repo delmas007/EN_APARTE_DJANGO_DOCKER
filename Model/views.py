@@ -148,7 +148,7 @@ def password_reset_request(request):
                 if email.send():
                     messages.success(request,
                                      """
-                                     <h2>Réinitialisation du mot de passe envoyée</h2><hr>
+                                     <h4>Réinitialisation du mot de passe envoyée</h4><hr>
                                      <p>
                                          Nous vous avons envoyé les instructions par e-mail pour définir votre mot de passe. Si un compte existe avec l’e-mail que vous avez entré,
                                           vous devriez les recevoir sous peu. <br>Si vous ne recevez pas le courriel, veuillez vous assurer d’avoir saisi l’adresse e-mail avec 

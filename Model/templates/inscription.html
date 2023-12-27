@@ -48,7 +48,7 @@
                                             {{ form.password1}}
                                             <label for="confirm_password">Mot de passe</label>
                                             
-                                            <p class="text-center">* doit inclure 0-9 a-z A-Z in 4 to 10 characters</p>
+                                            <p class="text-center"><span class="text-danger">*</span> Superieur 8 caracteres</p>
                                         </div>
                                         <div class="form-floating my-4">
 
@@ -89,7 +89,7 @@
                                             Créer
                                         </button>
 
-                                        <p class="text-center">Vous avez déjà un compte ? <a href="{% url 'Model:connexion' %}">Veuillez vous connecter</a></p>
+                                        <p class="text-center">Vous avez déjà un compte ? <a href="{% url 'Model:connexion' %}">Connectez-vous</a></p>
 
                                     </form>
                                 </div>

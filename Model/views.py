@@ -1,11 +1,12 @@
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.contrib.auth.views import LoginView, LogoutView
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.html import strip_tags
 from django.views.decorators.csrf import csrf_protect
-from Model.forms import ConnexionForm, UserRegistrationForm, RendezVousForm
+from Model.forms import ConnexionForm, UserRegistrationForm, RendezVousForm, PasswordResetForme, ChangerMotDePasse
 from Model.models import Roles, Service, Utilisateur
 from django.contrib import messages
 
@@ -13,7 +14,7 @@ from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
-from django.core.mail import EmailMessage,EmailMultiAlternatives
+from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.templatetags.static import static
 from Model.tokens import account_activation_token
 
@@ -66,7 +67,7 @@ def activateEmail(request, user, to_email):
         'logo': get_current_site(request).domain + static('image/photo_2023-12-14_15-44-58.ico')
     })
     plain_message = strip_tags(message)
-    email = EmailMultiAlternatives(subject =mail_subject,body = plain_message, to=[to_email])
+    email = EmailMultiAlternatives(subject=mail_subject, body=plain_message, to=[to_email])
     email.attach_alternative(message, "text/html")
     email.send()
     if email.send():
@@ -123,3 +124,76 @@ def Rendez_vous(request):
 
 class Deconnexion(LogoutView):
     pass
+
+
+def password_reset_request(request):
+    if request.method == 'POST':
+        form = PasswordResetForme(request.POST)
+        if form.is_valid():
+            user_email = form.cleaned_data['email']
+            associated_user = get_user_model().objects.filter(Q(email=user_email)).first()
+            if associated_user:
+                subject = "Password Reset request"
+                message = render_to_string("reinitialisation.html", {
+                    'user': associated_user,
+                    'domain': get_current_site(request).domain,
+                    'uid': urlsafe_base64_encode(force_bytes(associated_user.mon_uuid)),
+                    'token': account_activation_token.make_token(associated_user),
+                    "protocol": 'https' if request.is_secure() else 'http'
+                })
+                plain_message = strip_tags(message)
+                email = EmailMultiAlternatives(subject=subject, body=plain_message, to=[associated_user.email])
+                email.attach_alternative(message, "text/html")
+                email.send()
+                if email.send():
+                    messages.success(request,
+                                     """
+                                     <h2>Réinitialisation du mot de passe envoyée</h2><hr>
+                                     <p>
+                                         Nous vous avons envoyé les instructions par e-mail pour définir votre mot de passe. Si un compte existe avec l’e-mail que vous avez entré,
+                                          vous devriez les recevoir sous peu. <br>Si vous ne recevez pas le courriel, veuillez vous assurer d’avoir saisi l’adresse e-mail avec 
+                                          laquelle vous vous êtes inscrit(e) et vérifiez votre dossier spam.
+                                     </p>
+                                     """
+                                     )
+                else:
+                    messages.error(request, "Problème d’envoi de l’e-mail de réinitialisation du mot de passe, "
+                                            "<b>PROBLÈME SERVEUR</b>")
+
+            return redirect('Model:connexion')
+
+    form = PasswordResetForme()
+    return render(
+        request=request,
+        template_name="email.html",
+        context={"form": form}
+    )
+
+
+def passwordResetConfirm(request, uidb64, token):
+    User = get_user_model()
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(mon_uuid=uid)
+    except:
+        user = None
+
+    if user is not None and account_activation_token.check_token(user, token):
+        if request.method == 'POST':
+            form = ChangerMotDePasse(user, request.POST)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Votre mot de passe a été défini. Vous pouvez continuer et <b>vous "
+                                          "connecter </b> maintenant.")
+                return redirect('Model:connexion')
+            else:
+                for error in list(form.errors.values()):
+                    messages.error(request, error)
+
+        form = ChangerMotDePasse(user)
+        return render(request, 'password.html', {'form': form})
+    else:
+        messages.error(request, "Le lien a expiré")
+
+    messages.error(request, 'Quelque chose a mal tourné, rediriger vers la page d’accueil')
+    return redirect("Accueil")

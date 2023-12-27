@@ -175,3 +175,6 @@ def EnvoyerFormulaire(request):
         messages.success(request, 'Formulaire soumis avec succès!')
         return redirect('vitrine:Contact')
 
+
+def Acces_interdit(request):
+    return render(request, "Acces_interdit.html")

@@ -13,7 +13,7 @@ from django.conf import settings
 @login_required
 def reservations_confirmer(request):
     if not request.user.roles or request.user.roles.role != 'EMPLOYER':
-        return redirect('Accueil')
+        return redirect('vitrine:Acces_interdit')
     rendez_vous = Rendez_vous.objects.filter(confirmation=True, en_attente=False, fin=False, employer=request.user.id)
     reservations_en_attentes = Rendez_vous.objects.filter(en_attente=True, confirmation=False).count()
     reservations_confirmerr = Rendez_vous.objects.filter(en_attente=False, confirmation=True, fin=False,
@@ -57,7 +57,7 @@ def fin_rendez_vous(request, rendez_vous_id):
 @login_required
 def reservations_en_attente(request):
     if not request.user.roles or request.user.roles.role != 'EMPLOYER':
-        return redirect('Accueil')
+        return redirect('vitrine:Acces_interdit')
 
     reservations = Rendez_vous.objects.filter(en_attente=True, confirmation=False)
 

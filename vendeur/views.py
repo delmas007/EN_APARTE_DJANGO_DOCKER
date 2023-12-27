@@ -15,7 +15,7 @@ from vendeur.forms import UserRegistrationFormee, UserRegistrationFor
 
 # Create your views here.
 @csrf_protect
-@login_required
+@login_required(login_url='')
 def ajouter_produit(request):
     if not request.user.roles or request.user.roles.role != 'VENDEUR':
         return redirect('Accueil')

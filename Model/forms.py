@@ -1,4 +1,4 @@
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, SetPasswordForm, PasswordResetForm
 from django import forms
 from Model.models import Utilisateur, Rendez_vous, horaire, Service
 
@@ -139,7 +139,8 @@ class RendezVousForm(forms.ModelForm):
             service_selectionne = self.instance.service
 
         # Filtrer les heures disponibles en fonction de l'horaire sélectionné (s'il existe)
-        service_disponibles = service_disponibles.exclude(pk=service_selectionne.pk) if service_selectionne else service_disponibles
+        service_disponibles = service_disponibles.exclude(
+            pk=service_selectionne.pk) if service_selectionne else service_disponibles
 
         # Mettre à jour les choix du champ 'horaire'
         self.fields['service'].queryset = service_disponibles
@@ -158,7 +159,6 @@ class RendezVousForm(forms.ModelForm):
             'required': True
         })
 
-
         # Horaire
         heures_disponibles = horaire.objects.filter(disponibilite=True)
 
@@ -168,7 +168,8 @@ class RendezVousForm(forms.ModelForm):
             horaire_selectionne = self.instance.horaire
 
         # Filtrer les heures disponibles en fonction de l'horaire sélectionné (s'il existe)
-        heures_disponibles = heures_disponibles.exclude(pk=horaire_selectionne.pk) if horaire_selectionne else heures_disponibles
+        heures_disponibles = heures_disponibles.exclude(
+            pk=horaire_selectionne.pk) if horaire_selectionne else heures_disponibles
 
         # Mettre à jour les choix du champ 'horaire'
         self.fields['horaire'].queryset = heures_disponibles
@@ -181,3 +182,22 @@ class RendezVousForm(forms.ModelForm):
         })
 
 
+class ChangerMotDePasse(SetPasswordForm):
+    class Meta:
+        model = Utilisateur
+        fields = ['new_password1', 'new_password2']
+
+
+class PasswordResetForme(PasswordResetForm):
+    def __init__(self, *args, **kwargs):
+        super(PasswordResetForm, self).__init__(*args, **kwargs)
+        self.fields['Email'].widget.attrs.update({
+            'type': "email",
+            'class': "form-control",
+            'style': "color: black;",
+            'id': "email",
+            'placeholder': "name@example.com",
+            'required': '',
+            'pattern': '[^ @]*@[^ @]*',
+            'name': 'email',
+        })

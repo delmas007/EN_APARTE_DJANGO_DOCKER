@@ -48,7 +48,7 @@
                                     <button type="submit" class="btn custom-btn form-control mt-4 mb-3">
                                         Se connecter
                                     </button>
-
+                                    <p class="text-center mb-3">Avez vous oublier votre mode passe ? <a href="{% url 'Model:password_reset' %}">Reinitialisez-le maintenant</a></p>
                                     <p class="text-center mb-3">Vous n’avez pas de compte ? <a href="{% url 'Model:inscription' %}">créer un</a></p>
 
                                     {% include 'messaging.html' %}

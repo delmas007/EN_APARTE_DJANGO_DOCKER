@@ -183,6 +183,25 @@ class RendezVousForm(forms.ModelForm):
 
 
 class ChangerMotDePasse(SetPasswordForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['new_password1'].widget.attrs.update({
+            'type': "password",
+            'name': 'password',
+            'class': "form-control ",
+            'style': "color: black;",
+            'id': "password",
+            'placeholder': "Password",
+        })
+        self.fields['new_password2'].widget.attrs.update({
+            'type': "password",
+            'name': 'password',
+            'class': "form-control ",
+            'style': "color: black;",
+            'id': "password",
+            'placeholder': "Confirme Password",
+    })
+
     class Meta:
         model = Utilisateur
         fields = ['new_password1', 'new_password2']
@@ -191,7 +210,7 @@ class ChangerMotDePasse(SetPasswordForm):
 class PasswordResetForme(PasswordResetForm):
     def __init__(self, *args, **kwargs):
         super(PasswordResetForm, self).__init__(*args, **kwargs)
-        self.fields['Email'].widget.attrs.update({
+        self.fields['email'].widget.attrs.update({
             'type': "email",
             'class': "form-control",
             'style': "color: black;",

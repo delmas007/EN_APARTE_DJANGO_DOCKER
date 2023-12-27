@@ -93,7 +93,7 @@ def Accueil(request):
     tous_les_produits = Produit.objects.all()
 
     # Sélectionner trois éléments aléatoires
-    produits_aleatoires = sample(list(tous_les_produits), 0)
+    produits_aleatoires = sample(list(tous_les_produits), 3)
 
     context = {'tous_les_produits': produits_aleatoires}
     return render(request, 'index.html', context)

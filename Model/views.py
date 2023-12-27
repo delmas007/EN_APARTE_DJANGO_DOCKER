@@ -92,6 +92,7 @@ def inscription(request):
             user.save()
             return redirect('Model:connexion')
         else:
+
             context['form'] = form
             return render(request, 'inscription.html', context=context)
 

@@ -86,9 +86,15 @@
                         </small>
                     {% endif %}
 
-                    <button type="submit" class="btn " style="margin-top:10px; background-color:#ffc30e;color:white">Prendre rendez-vous</button>
+                    {% if user.is_authenticated %}
+                        <button type="submit" class="btn" style="margin-top:10px; background-color:#ffc30e;color:white">Prendre rendez-vous</button>
+                    {% else %}
+                        <button type="button" class="btn" style="margin-top:10px; background-color:gray; color:white" disabled>
+                            Pour prendre rendez-vous (Veuillez vous connecter)
+                        </button>
+                    {% endif %}
 
-                    <div id="error-message" class="error">Disponibilité: Lundi-Vendredi 8H-18H</div>
+                    <div id="error-message" class="error mt-3">Disponibilité: Lundi-Vendredi 8H-18H</div>
                     {% if messages %}
                         <ul class="messages" style="list-style: none;padding: 0;">
                             {% for messages in messages %}

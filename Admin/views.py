@@ -15,7 +15,7 @@ from Model.models import Rendez_vous, Roles, Utilisateur, Produit, Paniers, Prod
 @login_required
 def filtrer_Commande(request):
     if not request.user.roles or request.user.roles.role != 'ADMIN':
-        return render(request, "Acces_interdit.html")
+        return redirect('vitrine:Acces_interdit')
     # Obtenez la liste de tous les rendez-vous
     tous_Paniers = Paniers.objects.filter(reception_commande=True)
 
@@ -46,7 +46,7 @@ def filtrer_Commande(request):
 @login_required
 def produit_log_list(request):
     if not request.user.roles or request.user.roles.role != 'ADMIN':
-        return render(request, "Acces_interdit.html")
+        return redirect('vitrine:Acces_interdit')
     # Récupération des données depuis le modèle ProduitLog
     produit_logs = ProduitLog.objects.all()
 
@@ -71,7 +71,7 @@ def produit_log_list(request):
 @login_required
 def liste_produits_D(request):
     if not request.user.roles or request.user.roles.role != 'ADMIN':
-        return render(request, "Acces_interdit.html")
+        return redirect('vitrine:Acces_interdit')
     produits = Produit.objects.all()
     return render(request, 'list_PO_D.html', {'produits': produits})
 
@@ -79,7 +79,7 @@ def liste_produits_D(request):
 @login_required
 def liste_paniers_confirmes_D(request):
     if not request.user.roles or request.user.roles.role != 'ADMIN':
-        return render(request, "Acces_interdit.html")
+        return redirect('vitrine:Acces_interdit')
     paniers_confirmes = Paniers.objects.filter(confirmation_panier=True, confirmation_employer=False)
 
     context = {'paniers_confirmes': paniers_confirmes}
@@ -89,7 +89,7 @@ def liste_paniers_confirmes_D(request):
 @login_required
 def liste_paniers_traitements_D(request):
     if not request.user.roles or request.user.roles.role != 'ADMIN':
-        return render(request, "Acces_interdit.html")
+        return redirect('vitrine:Acces_interdit')
     paniers_traitements = Paniers.objects.filter(confirmation_employer=True, reception_commande=False)
 
     context = {'paniers_traitements': paniers_traitements}
@@ -99,7 +99,7 @@ def liste_paniers_traitements_D(request):
 @login_required
 def liste_commandes_receptionnees_D(request):
     if not request.user.roles or request.user.roles.role != 'ADMIN':
-        return render(request, "Acces_interdit.html")
+        return redirect('vitrine:Acces_interdit')
     commandes_receptionnees = Paniers.objects.filter(
         reception_commande=True,
         date_reception_commande__date=date.today()
@@ -113,7 +113,7 @@ def liste_commandes_receptionnees_D(request):
 @login_required
 def inscription_D(request):
     if not request.user.roles or request.user.roles.role != 'ADMIN':
-        return render(request, "Acces_interdit.html")
+        return redirect('vitrine:Acces_interdit')
     context = {}
     if request.method == 'POST':
         form = UserRegistrationForme(request.POST)
@@ -230,7 +230,7 @@ def reservations_en_attente_D(request):
 
 def reservations_confirmer_D(request):
     if not request.user.roles or request.user.roles.role != 'ADMIN':
-        return render(request, "Acces_interdit.html")
+        return redirect('vitrine:Acces_interdit')
     rendez_vous = Rendez_vous.objects.filter(confirmation=True, en_attente=False, fin=False, debut=False)
     return render(request, 'indexe2_D.html', {'reservations': rendez_vous})
 

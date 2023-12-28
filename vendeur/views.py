@@ -18,7 +18,7 @@ from vendeur.forms import UserRegistrationFormee, UserRegistrationFor
 @login_required(login_url='')
 def ajouter_produit(request):
     if not request.user.roles or request.user.roles.role != 'VENDEUR':
-        return redirect('Accueil')
+        return redirect('vitrine:Acces_interdit')
 
     today = datetime.now()
 
@@ -59,7 +59,7 @@ def ajouter_produit(request):
 @login_required
 def liste_produits(request):
     if not request.user.roles or request.user.roles.role != 'VENDEUR':
-        return redirect('Accueil')
+        return redirect('vitrine:Acces_interdit')
     produits = Produit.objects.all()
     today = datetime.now()
 
@@ -87,7 +87,7 @@ def liste_produits(request):
 @login_required
 def modifier_produit(request, produit_id):
     if not request.user.roles or request.user.roles.role != 'VENDEUR':
-        return redirect('Accueil')
+        return redirect('vitrine:Acces_interdit')
     produit = get_object_or_404(Produit, id=produit_id)
 
     if request.method == 'POST':
@@ -126,7 +126,7 @@ def modifier_produit(request, produit_id):
 @login_required
 def supprimer_produit(request, produit_id):
     if not request.user.roles or request.user.roles.role != 'VENDEUR':
-        return redirect('Accueil')
+        return redirect('vitrine:Acces_interdit')
     produit = get_object_or_404(Produit, id=produit_id)
     produit.delete()
     messages.success(request, 'Produit supprimé avec succès !')
@@ -136,7 +136,7 @@ def supprimer_produit(request, produit_id):
 @login_required
 def liste_produitss(request):
     if not request.user.roles or request.user.roles.role != 'VENDEUR':
-        return redirect('Accueil')
+        return redirect('vitrine:Acces_interdit')
     produits = Produit.objects.all()
     today = datetime.now()
 
@@ -164,7 +164,7 @@ def liste_produitss(request):
 @login_required
 def toggle_promotion(request, produit_id):
     if not request.user.roles or request.user.roles.role != 'VENDEUR':
-        return redirect('Accueil')
+        return redirect('vitrine:Acces_interdit')
 
     produit = get_object_or_404(Produit, pk=produit_id)
 
@@ -220,7 +220,7 @@ def liste_paniers_confirmes(request):
 @login_required
 def confirmer_statut_panier(request, panier_id):
     if not request.user.roles or request.user.roles.role != 'VENDEUR':
-        return redirect('Accueil')
+        return redirect('vitrine:Acces_interdit')
     panier = Paniers.objects.get(id=panier_id)
 
     if not panier.confirmation_employer:
@@ -259,7 +259,7 @@ def send_confirmation_email(client_email, panier):
 @login_required
 def liste_paniers_traitements(request):
     if not request.user.roles or request.user.roles.role != 'VENDEUR':
-        return redirect('Accueil')
+        return redirect('vitrine:Acces_interdit')
     paniers_traitements = Paniers.objects.filter(employer=request.user, confirmation_employer=True,
                                                  reception_commande=False)
     today = datetime.now()
@@ -287,7 +287,7 @@ def liste_paniers_traitements(request):
 @login_required
 def confirmer_statut_traitements(request, panier_id):
     if not request.user.roles or request.user.roles.role != 'VENDEUR':
-        return redirect('Accueil')
+        return redirect('vitrine:Acces_interdit')
     panier = Paniers.objects.get(id=panier_id)
 
     if not panier.reception_commande:
@@ -305,7 +305,7 @@ def confirmer_statut_traitements(request, panier_id):
 @login_required
 def liste_commandes_receptionnees(request):
     if not request.user.roles or request.user.roles.role != 'VENDEUR':
-        return redirect('Accueil')
+        return redirect('vitrine:Acces_interdit')
     commandes_receptionnees = Paniers.objects.filter(
         employer=request.user,
         reception_commande=True,

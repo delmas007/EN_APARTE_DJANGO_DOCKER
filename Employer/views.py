@@ -111,7 +111,7 @@ def reservations_en_attente(request):
 
 def send_confirmation_email(client_email, reservation, employer):
     subject = 'Confirmation de rendez-vous EN APARTE'
-    message = render_to_string('email.html', {'reservation': reservation, 'employer': employer})
+    message = render_to_string('emaile.html', {'reservation': reservation, 'employer': employer})
     plain_message = strip_tags(message)
     recipient_list = [client_email]
 

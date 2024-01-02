@@ -120,7 +120,7 @@ class XYZ_DateInput(forms.DateInput):
 class RendezVousForm(forms.ModelForm):
     class Meta:
         model = Rendez_vous
-        fields = ['date_rendez_vous', 'service', 'horaire']
+        fields = ['date_rendez_vous', 'service', 'horaire','preference_employer']
 
         widgets = {
             'date_rendez_vous': XYZ_DateInput(attrs={
@@ -176,6 +176,28 @@ class RendezVousForm(forms.ModelForm):
 
         # Mettre à jour les attributs du widget pour le champ 'horaire'
         self.fields['horaire'].widget.attrs.update({
+            'class': 'form-control',
+            'id': 'horaire',
+            'required': True
+        })
+
+        # Horaire
+        preference_employer_disponibles = Utilisateur.objects.filter(is_active=True, roles__role='EMPLOYER')
+
+        # Récupérer les horaires déjà sélectionnés pour ce rendez-vous (si édité)
+        preference_employer_selectionne = None
+        if self.instance and self.instance.preference_employer:
+            preference_employer_selectionne = self.instance.preference_employer
+
+        # Filtrer les heures disponibles en fonction de l'horaire sélectionné (s'il existe)
+        preference_employer_disponibles = preference_employer_disponibles.exclude(
+            pk=preference_employer_selectionne.pk) if preference_employer_selectionne else preference_employer_disponibles
+
+        # Mettre à jour les choix du champ 'horaire'
+        self.fields['preference_employer'].queryset = preference_employer_disponibles
+
+        # Mettre à jour les attributs du widget pour le champ 'horaire'
+        self.fields['preference_employer'].widget.attrs.update({
             'class': 'form-control',
             'id': 'horaire',
             'required': True

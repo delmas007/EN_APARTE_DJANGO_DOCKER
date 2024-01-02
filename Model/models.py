@@ -88,7 +88,8 @@ class Utilisateur(AbstractBaseUser):
         verbose_name = 'utilisateur'
 
     def __str__(self):
-        return self.nom
+        return f"{self.nom} {self.prenom}"
+
 
 
 class Service(models.Model):

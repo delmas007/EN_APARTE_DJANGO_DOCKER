@@ -97,17 +97,14 @@ def inscription(request):
             context['form'] = form
             return render(request, 'inscription.html', context=context)
 
-            # Passez le formulaire de retour au modèle avec les erreurs
-
     form = UserRegistrationForm()
     context['form'] = form
-    return render(request, 'inscription.html', context=context)
+    return render(request, 'inscription.html', context=['employers', context])
 
 
 @csrf_protect
 def Rendez_vous(request):
     services = Service.objects.all()
-
     if request.method == 'POST':
         form = RendezVousForm(request.POST)
         if form.is_valid():

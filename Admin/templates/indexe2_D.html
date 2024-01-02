@@ -45,6 +45,7 @@
                                       <th>Heure de rendez-vous</th>
                                       <th>Service</th>
                                       <th>Prix</th>
+                                      <th>Privé</th>
                                   </tr>
                                   </thead>
                                   <tbody>
@@ -57,6 +58,13 @@
                                               <td>{{ reservation.horaire.heure }}</td>
                                               <td>{{ reservation.service.type }}</td>
                                               <td>{{ reservation.service.prix }}</td>
+                                              <td>
+                                                  {% if reservation.preference_employer %}
+                                                      oui
+                                                  {% else %}
+                                                      non
+                                                  {% endif %}
+                                              </td>
                                           </tr>
                                       {% endfor %}
                                   {% else %}

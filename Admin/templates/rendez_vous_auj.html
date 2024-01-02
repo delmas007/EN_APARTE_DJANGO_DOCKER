@@ -45,6 +45,7 @@
                                       <th>Heure de rendez-vous</th>
                                       <th>Service</th>
                                       <th>Etat du rendez-vous</th>
+                                      <th>Privé nom employer</th>
                                   </tr>
                                   </thead>
                                   <tbody>
@@ -57,6 +58,13 @@
                                               <td>{{ rendez_vous.horaire.heure }}</td>
                                               <td>{{ rendez_vous.service.type }}</td>
                                               <td>{{ rendez_vous.etat }}</td>
+                                              <td>
+                                                  {% if rendez_vous.preference_employer %}
+                                                      {{ rendez_vous.preference_employer.nom }} {{ rendez_vous.preference_employer.prenom }}
+                                                  {% else %}
+                                                      pas privé
+                                                  {% endif %}
+                                              </td>
                                           </tr>
                                       {% endfor %}
                                   {% else %}

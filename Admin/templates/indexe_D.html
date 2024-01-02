@@ -45,6 +45,7 @@
                                       <th>Service</th>
                                       <th>Prix</th>
                                       <th>Privé nom employer</th>
+                                      <th>Supprimer</th>
                                   </tr>
                                   </thead>
                                   <tbody>
@@ -62,6 +63,12 @@
                                                   {% else %}
                                                       pas privé
                                                   {% endif %}
+                                              </td>
+                                              <td>
+                                                  <form method="post" action="{% url 'admins:supprimer_rendez_vous' reservation.id %}">
+                                                      {% csrf_token %}
+                                                      <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                                                  </form>
                                               </td>
                                           </tr>
                                       {% endfor %}

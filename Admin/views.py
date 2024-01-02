@@ -199,33 +199,43 @@ def reservations_en_attente_D(request):
 
     reservations = Rendez_vous.objects.filter(en_attente=True, confirmation=False)
 
-    if request.method == 'POST':
-        form = ConfirmationReservationForm(request.POST)
+    return render(request, 'indexe_D.html', {'reservations': reservations})
 
-        if form.is_valid():
-            reservation_id = form.cleaned_data['reservation_id']
-            confirmation = form.cleaned_data['confirmation']
 
-            reservation = get_object_or_404(Rendez_vous, id=reservation_id)
+@login_required
+def supprimer_rendez_vous(request, rendez_vous_id):
+    if not request.user.roles or request.user.roles.role != 'ADMIN':
+        return redirect('vitrine:Acces_interdit')
 
-            # Mettez à jour le champ de confirmation
-            reservation.confirmation = True
+    rendez_vous = get_object_or_404(Rendez_vous, id=rendez_vous_id)
+    rendez_vous.delete()
 
-            # Si la réservation est confirmée, enregistrez l'id de l'utilisateur connecté comme client
-            if reservation.confirmation:
-                reservation.employer = request.user
-                reservation.en_attente = False
+    messages.success(request, 'Le rendez-vous a été supprimé avec succès.')
+    return redirect('admins:reservation_D')
 
-            reservation.save()
 
-            # Ajoutez d'autres logiques pour le refus de la réservation si nécessaire
-            # ...
+@login_required
+def supprimer_rendez_vous_confirmer(request, rendez_vous_id):
+    if not request.user.roles or request.user.roles.role != 'ADMIN':
+        return redirect('vitrine:Acces_interdit')
 
-            return redirect('employer:reservation')
-    else:
-        form = ConfirmationReservationForm()
+    rendez_vous = get_object_or_404(Rendez_vous, id=rendez_vous_id)
+    rendez_vous.delete()
 
-    return render(request, 'indexe_D.html', {'reservations': reservations, 'form': form})
+    messages.success(request, 'Le rendez-vous a été supprimé avec succès.')
+    return redirect('admins:reservation_confirmer_D')
+
+
+@login_required
+def supprimer_rendez_vous_aujourd(request, rendez_vous_id):
+    if not request.user.roles or request.user.roles.role != 'ADMIN':
+        return redirect('vitrine:Acces_interdit')
+
+    rendez_vous = get_object_or_404(Rendez_vous, id=rendez_vous_id)
+    rendez_vous.delete()
+
+    messages.success(request, 'Le rendez-vous a été supprimé avec succès.')
+    return redirect('admins:rendez_vous_aujourdhui')
 
 
 def reservations_confirmer_D(request):

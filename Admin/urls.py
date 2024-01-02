@@ -4,7 +4,7 @@ from .views import rendez_vous_aujourdhui, reservations_en_attente_D, reservatio
     inscription_D, active_emp, desactive_amp, employer_compte, liste_produits_D, liste_paniers_confirmes_D, \
     liste_paniers_traitements_D, liste_commandes_receptionnees_D, filtrer_Commande, produit_log_list, ajout_service, \
     liste_services, supprimer_service, modifier_service, liste_services_mode, ajout_horaire, supprimer_horaire, \
-    liste_horaire
+    liste_horaire, supprimer_rendez_vous, supprimer_rendez_vous_confirmer, supprimer_rendez_vous_aujourd
 
 app_name = 'admins'
 urlpatterns = [
@@ -30,4 +30,7 @@ urlpatterns = [
     path('ajout-horaire/', ajout_horaire, name='ajout_horaire'),
     path('liste-horaire/', liste_horaire, name='liste_horaire'),
     path('supprimer-horaire/<int:horaire_id>/', supprimer_horaire, name='supprimer_horaire'),
+    path('supprimer_rendez_vous/<int:rendez_vous_id>/', supprimer_rendez_vous, name='supprimer_rendez_vous'),
+    path('supprimer_rendez_vous_confirmer/<int:rendez_vous_id>/', supprimer_rendez_vous_confirmer, name='supprimer_rendez_vous_confirmer'),
+    path('supprimer_rendez_vous_aujourdhui/<int:rendez_vous_id>/', supprimer_rendez_vous_aujourd, name='supprimer_rendez_vous_aujourdhui'),
 ]

@@ -99,7 +99,7 @@ def inscription(request):
 
     form = UserRegistrationForm()
     context['form'] = form
-    return render(request, 'inscription.html', context=['employers', context])
+    return render(request, 'inscription.html', context=context)
 
 
 @csrf_protect

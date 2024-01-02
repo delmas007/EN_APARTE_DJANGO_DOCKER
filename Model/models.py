@@ -129,6 +129,8 @@ class Rendez_vous(models.Model):
     service = models.ForeignKey(Service, on_delete=models.SET_NULL, null=True,related_name='services')
     horaire = models.ForeignKey(horaire, on_delete=models.SET_NULL, null=True)
     etat = models.CharField(max_length=255,null=True,blank=True)
+    preference_employer = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True,
+                                            related_name='rendez_vous_preference_employer')
 
     def save(self, *args, **kwargs):
         # Calculez l'état lors de la sauvegarde du modèle

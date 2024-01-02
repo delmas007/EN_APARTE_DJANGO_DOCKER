@@ -200,7 +200,7 @@ class RendezVousForm(forms.ModelForm):
         self.fields['preference_employer'].widget.attrs.update({
             'class': 'form-control',
             'id': 'horaire',
-            'required': True
+            'required': False
         })
 
 

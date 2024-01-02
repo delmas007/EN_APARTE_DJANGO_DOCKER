@@ -1,0 +1,120 @@
+{% extends 'lien.html' %}
+{% load static %}
+{% block content%}
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+    {% include 'nav_E.html' %}
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+
+    {% include 'slide.html' %}
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Réservation en attente...</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'employer:reservation' %}">Accueil</a></li>
+              <li class="breadcrumb-item active">Rendez-vous</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+      <section class="content">
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col-12">
+                      <div class="card">
+                          <div class="card-header">
+                              <h3 class="card-title">Tout les Réservations en attente..</h3>
+                          </div>
+                          <!-- /.card-header -->
+                          <div class="card-body">
+                              <table id="example1" class="table table-bordered table-striped">
+                                  <thead>
+                                  <tr>
+                                      <th>Nom du Client</th>
+                                      <th>Date de rendez-vous</th>
+                                      <th>Heure de rendez-vous</th>
+                                      <th>Service</th>
+                                      <th>Prix</th>
+                                      <th>Confirmation</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+                                  {% if reservations %}
+                                      {% for reservation in reservations %}
+                                          <tr>
+                                              <td>{{ reservation.client.nom }} {{ reservation.client.prenom }}</td>
+                                              <td>{{ reservation.date_rendez_vous }}</td>
+                                              <td>{{ reservation.horaire }}</td>
+                                              <td>{{ reservation.service.type }}</td>
+                                              <td>{{ reservation.service.prix }}</td>
+                                              <td>
+                                                  <form method="post" action="{% url 'employer:reservation' %}">
+                                                      {% csrf_token %}
+                                                      {{ form.as_p }}
+                                                      <input type="hidden" name="reservation_id" value="{{ reservation.id }}">
+                                                      <button type="submit" class="btn btn-primary">Confirmer</button>
+                                                  </form>
+                                              </td>
+                                          </tr>
+                                      {% endfor %}
+                                  {% else %}
+                                      <tr>
+                                          <td colspan="4">Aucune réservation en attente.</td>
+                                      </tr>
+                                  {% endif %}
+                                  </tbody>
+
+                              </table>
+                          </div>
+                          <!-- /.card-body -->
+                      </div>
+                      <!-- /.card -->
+                  </div>
+                  <!-- /.col -->
+              </div>
+              <!-- /.row -->
+          </div>
+          <!-- /.container-fluid -->
+      </section>
+      <!-- /.content -->
+  </div>
+    <!-- Main content -->
+
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script>
+    $(document).on("click", "#delete", function(e){
+        e.preventDefault();
+        var link = $(this).attr("href");
+        bootbox.confirm("Do you really want to delete this element ?", function(confirmed){
+            if (confirmed){
+                window.location.href = link;
+            };
+        });
+    });
+</script>
+</body>
+{% endblock %}
+

@@ -15,16 +15,17 @@ def reservations_confirmer(request):
     if not request.user.roles or request.user.roles.role != 'EMPLOYER':
         return redirect('vitrine:Acces_interdit')
     rendez_vous = Rendez_vous.objects.filter(confirmation=True, en_attente=False, fin=False, employer=request.user.id)
-    reservations_en_attentes = Rendez_vous.objects.filter(en_attente=True, confirmation=False).count()
+    reservations_en_attentes = Rendez_vous.objects.filter(en_attente=True, confirmation=False,preference_employer=None).count()
+    reservations_en_attentes_moi = Rendez_vous.objects.filter(en_attente=True, confirmation=False,preference_employer=request.user).count()
     reservations_confirmerr = Rendez_vous.objects.filter(en_attente=False, confirmation=True, fin=False,
                                                          employer=request.user.id).count()
-
     # Calculez le nombre total de réservations
-    total_reservations = reservations_en_attentes + reservations_confirmerr
+    total_reservations = reservations_en_attentes + reservations_confirmerr + reservations_en_attentes_moi
 
     # Renvoyez ces valeurs dans le contexte pour les utiliser dans le template
     context = {
         'reservations_en_attente': reservations_en_attentes,
+        'reservations_en_attentes_moi': reservations_en_attentes_moi,
         'reservations_confirmerr': reservations_confirmerr,
         'total_reservations': total_reservations,
         'rendez_vous': rendez_vous
@@ -59,18 +60,19 @@ def reservations_en_attente(request):
     if not request.user.roles or request.user.roles.role != 'EMPLOYER':
         return redirect('vitrine:Acces_interdit')
 
-    reservations = Rendez_vous.objects.filter(en_attente=True, confirmation=False)
+    reservations = Rendez_vous.objects.filter(en_attente=True, confirmation=False,preference_employer=None)
 
-    reservations_en_attentes = Rendez_vous.objects.filter(en_attente=True, confirmation=False).count()
+    reservations_en_attentes = Rendez_vous.objects.filter(en_attente=True, confirmation=False,preference_employer=None).count()
+    reservations_en_attentes_moi = Rendez_vous.objects.filter(en_attente=True, confirmation=False,preference_employer=request.user).count()
     reservations_confirmerr = Rendez_vous.objects.filter(en_attente=False, confirmation=True, fin=False,
                                                          employer=request.user.id).count()
-
     # Calculez le nombre total de réservations
-    total_reservations = reservations_en_attentes + reservations_confirmerr
+    total_reservations = reservations_en_attentes + reservations_confirmerr + reservations_en_attentes_moi
 
     # Renvoyez ces valeurs dans le contexte pour les utiliser dans le template
     context = {
         'reservations_en_attente': reservations_en_attentes,
+        'reservations_en_attentes_moi': reservations_en_attentes_moi,
         'reservations_confirmerr': reservations_confirmerr,
         'total_reservations': total_reservations,
         'reservations': reservations,
@@ -87,8 +89,6 @@ def reservations_en_attente(request):
 
             # Mettez à jour le champ de confirmation
             reservation.confirmation = True
-
-
 
             # Si la réservation est confirmée, enregistrez l'id de l'utilisateur connecté comme client
             if reservation.confirmation:
@@ -107,6 +107,60 @@ def reservations_en_attente(request):
         context['form'] = form
 
     return render(request, 'indexe.html', context)
+
+
+@login_required
+def reservations_en_attente_moi(request):
+    if not request.user.roles or request.user.roles.role != 'EMPLOYER':
+        return redirect('vitrine:Acces_interdit')
+
+    reservations = Rendez_vous.objects.filter(en_attente=True, confirmation=False, preference_employer=request.user)
+
+    reservations_en_attentes = Rendez_vous.objects.filter(en_attente=True, confirmation=False,preference_employer=None).count()
+    reservations_en_attentes_moi = Rendez_vous.objects.filter(en_attente=True, confirmation=False,preference_employer=request.user).count()
+    reservations_confirmerr = Rendez_vous.objects.filter(en_attente=False, confirmation=True, fin=False,
+                                                         employer=request.user.id).count()
+    # Calculez le nombre total de réservations
+    total_reservations = reservations_en_attentes + reservations_confirmerr + reservations_en_attentes_moi
+
+    # Renvoyez ces valeurs dans le contexte pour les utiliser dans le template
+    context = {
+        'reservations_en_attente': reservations_en_attentes,
+        'reservations_en_attentes_moi': reservations_en_attentes_moi,
+        'reservations_confirmerr': reservations_confirmerr,
+        'total_reservations': total_reservations,
+        'reservations': reservations,
+    }
+
+    if request.method == 'POST':
+        form = ConfirmationReservationForm(request.POST)
+
+        if form.is_valid():
+            reservation_id = form.cleaned_data['reservation_id']
+            confirmation = form.cleaned_data['confirmation']
+
+            reservation = get_object_or_404(Rendez_vous, id=reservation_id)
+
+            # Mettez à jour le champ de confirmation
+            reservation.confirmation = True
+
+            # Si la réservation est confirmée, enregistrez l'id de l'utilisateur connecté comme client
+            if reservation.confirmation:
+                reservation.employer = request.user
+                reservation.en_attente = False
+
+            reservation.save()
+            send_confirmation_email(reservation.client.email, reservation, request.user)
+
+            # Ajoutez d'autres logiques pour le refus de la réservation si nécessaire
+            # ...
+
+            return redirect('employer:reservation')
+    else:
+        form = ConfirmationReservationForm()
+        context['form'] = form
+
+    return render(request, 'indexe_me.html', context)
 
 
 def send_confirmation_email(client_email, reservation, employer):

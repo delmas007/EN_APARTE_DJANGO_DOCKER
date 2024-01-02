@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accès interdit</title>
+    <style>
+			body {
+				font-family: 'Arial', sans-serif;
+				text-align: center;
+				padding: 50px;
+				background-color: #f8f9fa;
+				color: #495057;
+				height: 100vh;
+				margin: 0; 
+				display: flex;
+				align-items: center;
+				justify-content: center; 
+		}
+
+		h1 {
+			font-size: 2.5em;
+			color: #dc3545;
+			margin-bottom: 20px;
+		}
+
+		p {
+			font-size: 1.5em;
+			color: #6c757d;
+			margin-bottom: 30px;
+		}
+
+		a {
+			color: #007bff;
+			text-decoration: none;
+		}
+
+		a:hover {
+			text-decoration: none;
+            transform: scale(1.05);
+		}
+
+    </style>
+</head>
+<body>
+   <div class="contenu">
+	    <h1>Accès interdit</h1>
+		<p>Vous n'avez pas l'autorisation d'accéder à cette page. <br>
+		Retourner à la <a href="{% url 'vitrine:Accueil' %}">page d'accueil</a>.</p>
+	</div>
+</body>
+</html>

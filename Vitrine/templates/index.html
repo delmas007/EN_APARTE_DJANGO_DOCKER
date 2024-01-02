@@ -89,13 +89,13 @@
 
             <section class="slick-slideshow">   
                 <div class="slick-custom">
-                    <img src=" {% static 'images/beaute-spa (1).jpg' %}" class="img-fluid" alt="">
+                    <img src=" {% static 'images/coiffure.jpg' %}" class="img-fluid" alt="">
 
                     <div class="slick-bottom">
                         <div class="container">
                             <div class="row">
                                 <div class="col-lg-6 col-10">
-                                    <h1 class="slick-title">Bienvenue</h1>
+                                    <h1 class="slick-title">Coiffures</h1>
 
                                     <p class="lead text-white mt-lg-3 mb-lg-5">Un institut de branté et de bien-être, de luxe, qui priorise la qualité pour ses clients.</p>
                                 </div>
@@ -111,9 +111,9 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col-lg-6 col-10">
-                                    <h1 class="slick-title">Relaxation</h1>
+                                    <h1 class="slick-title">Soins esthetiques et bien-etre</h1>
 
-                                    <p class="lead text-white mt-lg-3 mb-lg-5">Please share this Little Fashion template to your friends. Thank you for supporting us.</p>
+                                    <p class="lead text-white mt-lg-3 mb-lg-5">Soins amincissants</p>
                                 </div>
                             </div>
                         </div>
@@ -127,7 +127,7 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col-lg-6 col-10">
-                                    <h1 class="slick-title">Massage de qualité</h1>
+                                    <h1 class="slick-title">Soins de visage</h1>
                                     <p class="lead text-white mt-lg-3 mb-lg-5">Harmonie Massage maintient des normes rigoureuses de qualité, de la sélection de produits de massage haut de gamme aux techniques de traitement les plus récentes. </p>
                                 </div>
                             </div>
@@ -237,11 +237,15 @@
                                 
                                 <h2 class="mb-4">Disponibilité</h2>
 
-                                <p class="lead mb-4">Nous sommes disponible du Lundi au Vendredi</p>
-                                <p class="lead mb-4">8H-18H</p>
-
-                                <a href="products.html" class="custom-link">
-                                    Explore Products
+                                <p class="lead mb-4">Nous sommes disponible du Mardi au Dimanche</p>
+                                <p class="lead mb-4">Mardi, 09:00–20:00</p>
+                                <p class="lead mb-4">Mercredi, 09:00–20:00</p>
+                                <p class="lead mb-4">Jeudi, 09:00–20:00</p>
+                                <p class="lead mb-4">Vendredi, 09:00–20:00</p>
+                                <p class="lead mb-4">Samedi, 09:00–20:00</p>
+                                <p class="lead mb-4">Dimanche, 13:00–19:30</p>
+                                <a href="{% url 'Model:Rendez_vous' %}" class="custom-link">
+                                    Prendre un rendez-vous
                                     <i class="bi-arrow-right ms-2"></i>
                                 </a>
                             </div>

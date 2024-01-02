@@ -81,7 +81,7 @@
                     </div>
 
                     <div class="form-group mb-2">
-                        <label for="reason">Employer (Si vous desirez les service d'un employer en particulier) :</label>
+                        <label for="reason">Employer (Si vous desirez les services d'un employer en particulier) :</label>
                         {{ form.preference_employer }}
                     </div>
 
@@ -99,7 +99,9 @@
                         </button>
                     {% endif %}
 
-                    <div id="error-message" class="error mt-3">Disponibilité: Lundi-Vendredi 8H-18H</div>
+                    <div id="error-message" class="error mt-3">Disponibilité: Mardi-Samedi 9H-20H
+                        Dimanche: 13H-19H
+                    </div>
                     {% if messages %}
                         <ul class="messages" style="list-style: none;padding: 0;">
                             {% for messages in messages %}

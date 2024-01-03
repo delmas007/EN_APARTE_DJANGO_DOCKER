@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Évaluation du service de l'employé</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .popup {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .popup h3 {
+            margin-top: 0;
+        }
+
+        .rating-container {
+            text-align: center;
+        }
+
+        .rating-stars {
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .star {
+            font-size: 30px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+        .star.selected {
+            color: gold; /* Couleur d'étoile sélectionnée */
+        }
+
+        #feedback,
+        #comments,
+        #submitBtn {
+            margin-top: 10px;
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+			border: 2px solid gray;
+			border-radius: 5px;
+        }
+
+        #submitBtn {
+            background-color: #4caf50;
+            color: #fff;
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .submitBtn:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="popup">
+        <form id="feedback-form">
+            <h3>Évaluation du service de l'employé :</h3>
+
+            <div class="rating-container">
+                <label for="rating">Note :</label>
+                <div class="rating-stars" data-rating="0">
+                    <span class="star" data-value="1">&#9733;</span>
+                    <span class="star" data-value="2">&#9733;</span>
+                    <span class="star" data-value="3">&#9733;</span>
+                    <span class="star" data-value="4">&#9733;</span>
+                    <span class="star" data-value="5">&#9733;</span>
+                </div>
+            </div>
+
+            <div>
+                <label for="feedback">Comment trouvez-vous cet employé ?</label>
+                <select id="feedback" name="feedback">
+                    <option value="service_agreable">Service agréable</option>
+                    <option value="respecte_les_clients">Respecte les clients</option>
+                    <option value="impoli">Impoli</option>
+                    <!-- Ajoutez d'autres options selon vos besoins -->
+                </select>
+            </div>
+
+            <div>
+                <label for="comments">Commentaires :</label>
+                <textarea id="comments" name="comments" rows="4" placeholder="commentaires ici..."></textarea>
+            </div>
+
+            <button class="submitBtn" id="submitBtn" type="button" onclick="submitFeedback()">Soumettre</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const stars = document.querySelectorAll(".rating-stars .star");
+
+            stars.forEach(function (star) {
+                star.addEventListener("click", function () {
+                    const value = parseInt(this.getAttribute("data-value"));
+                    setRating(value);
+                });
+            });
+
+            function setRating(value) {
+                stars.forEach(function (star) {
+                    const starValue = parseInt(star.getAttribute("data-value"));
+                    if (starValue <= value) {
+                        star.classList.add("selected");
+                    } else {
+                        star.classList.remove("selected");
+                    }
+                });
+            }
+
+            function submitFeedback() {
+                const rating = parseInt(document.querySelector(".rating-stars").getAttribute("data-rating"));
+                const feedback = document.getElementById("feedback").value;
+                const comments = document.getElementById("comments").value;
+
+                // Vous pouvez ici envoyer ces données à votre serveur ou effectuer d'autres actions nécessaires
+                console.log("Note :", rating);
+                console.log("Feedback :", feedback);
+                console.log("Commentaires :", comments);
+            }
+        });
+    </script>
+</body>
+</html>

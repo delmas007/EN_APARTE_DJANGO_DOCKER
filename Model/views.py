@@ -211,8 +211,7 @@ def evaluations(request, uidb64, token):
             form = EvaluationForm(request.POST,instance=Rendez_Vous)
             if form.is_valid():
                 form.save()
-                messages.success(request, "Votre mot de passe a été défini. Vous pouvez continuer et <b>vous "
-                                          "connecter </b> maintenant.")
+                messages.success(request, "Votre mot de passe a été défini. Vous pouvez continuer et <b>vous")
         form = EvaluationForm()
         return render(request, 'note.html', {'form': form})
     else:

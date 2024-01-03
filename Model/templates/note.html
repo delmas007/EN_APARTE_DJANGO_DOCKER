@@ -88,6 +88,13 @@
 
             <div class="rating-container">
                 <label for="rating">Note :</label>
+                <div class="rating-stars" data-rating="0">
+                    <span class="star" data-value="1">&#9733;</span>
+                    <span class="star" data-value="2">&#9733;</span>
+                    <span class="star" data-value="3">&#9733;</span>
+                    <span class="star" data-value="4">&#9733;</span>
+                    <span class="star" data-value="5">&#9733;</span>
+                </div>
                 {{ form.evaluation }}
             </div>
 
@@ -124,7 +131,10 @@
             stars.forEach(function (star) {
                 star.addEventListener("click", function () {
                     const value = parseInt(this.getAttribute("data-value"));
+                    // Appel de la fonction setRating pour mettre à jour l'apparence des étoiles
                     setRating(value);
+                    // Mise à jour de la valeur du champ evaluation dans le formulaire
+                    document.querySelector('#id_evaluation').value = value;
                 });
             });
 
@@ -137,17 +147,6 @@
                         star.classList.remove("selected");
                     }
                 });
-            }
-
-            function submitFeedback() {
-                const rating = parseInt(document.querySelector(".rating-stars").getAttribute("data-rating"));
-                const feedback = document.getElementById("feedback").value;
-                const comments = document.getElementById("comments").value;
-
-                // Vous pouvez ici envoyer ces données à votre serveur ou effectuer d'autres actions nécessaires
-                console.log("Note :", rating);
-                console.log("Feedback :", feedback);
-                console.log("Commentaires :", comments);
             }
         });
     </script>

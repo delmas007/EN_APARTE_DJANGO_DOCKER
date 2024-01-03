@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,12 +63,14 @@
 			border-radius: 5px;
         }
 
-        #submitBtn {
-            background-color: #4caf50;
+        .submitBtn {
+            background-color: #c3bd5d;
             color: #fff;
             cursor: pointer;
             border: none;
             border-radius: 10px;
+            font-size: 30px;
+            width: 100%;
         }
 
         .submitBtn:hover {
@@ -80,7 +83,8 @@
     <div class="popup">
         <form id="feedback-form" method="POST">
             {% csrf_token %}
-            <h3>Évaluation du service de l'employé :</h3>
+        <img src="{% static 'image/aparte_logo.png' %}">
+            <h3 style="margin-top: 30px">Évaluation du service de l'employé :</h3>
 
             <div class="rating-container">
                 <label for="rating">Note :</label>
@@ -97,7 +101,7 @@
                 {{ form.commentaire }}
             </div>
 
-            <button class="submitBtn" id="submitBtn" type="button" >Soumettre</button>
+            <button class="submitBtn"   >Soumettre</button>
             {% if messages %}
                 <ul class="messages" style="list-style: none;padding: 0;">
                     {% for messages in messages %}

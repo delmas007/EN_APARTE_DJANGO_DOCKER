@@ -120,7 +120,7 @@ class XYZ_DateInput(forms.DateInput):
 class RendezVousForm(forms.ModelForm):
     class Meta:
         model = Rendez_vous
-        fields = ['date_rendez_vous', 'service', 'horaire','preference_employer']
+        fields = ['date_rendez_vous', 'service', 'horaire', 'preference_employer']
 
         widgets = {
             'date_rendez_vous': XYZ_DateInput(attrs={
@@ -222,7 +222,7 @@ class ChangerMotDePasse(SetPasswordForm):
             'style': "color: black;",
             'id': "password",
             'placeholder': "Confirme Password",
-    })
+        })
 
     class Meta:
         model = Utilisateur
@@ -241,4 +241,21 @@ class PasswordResetForme(PasswordResetForm):
             'required': '',
             'pattern': '[^ @]*@[^ @]*',
             'name': 'email',
+        })
+
+
+class EvaluationForm(forms.ModelForm):
+    class Meta:
+        model = Rendez_vous
+        fields = ['evaluation']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['evaluation'].widget.attrs.update({
+            'type': "number",
+            'class': "form-control",
+            'style': "color: black;",
+            'id': "evaluation",
+            'required': True,
+            'name': 'contact',
         })

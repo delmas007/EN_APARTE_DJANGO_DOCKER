@@ -78,36 +78,38 @@
 <body>
 
     <div class="popup">
-        <form id="feedback-form">
+        <form id="feedback-form" method="POST">
+            {% csrf_token %}
             <h3>Évaluation du service de l'employé :</h3>
 
             <div class="rating-container">
                 <label for="rating">Note :</label>
-                <div class="rating-stars" data-rating="0">
-                    <span class="star" data-value="1">&#9733;</span>
-                    <span class="star" data-value="2">&#9733;</span>
-                    <span class="star" data-value="3">&#9733;</span>
-                    <span class="star" data-value="4">&#9733;</span>
-                    <span class="star" data-value="5">&#9733;</span>
-                </div>
+                {{ form.evaluation }}
             </div>
 
             <div>
                 <label for="feedback">Comment trouvez-vous cet employé ?</label>
-                <select id="feedback" name="feedback">
-                    <option value="service_agreable">Service agréable</option>
-                    <option value="respecte_les_clients">Respecte les clients</option>
-                    <option value="impoli">Impoli</option>
-                    <!-- Ajoutez d'autres options selon vos besoins -->
-                </select>
+                {{ form.mot }}
             </div>
 
             <div>
                 <label for="comments">Commentaires :</label>
-                <textarea id="comments" name="comments" rows="4" placeholder="commentaires ici..."></textarea>
+                {{ form.commentaire }}
             </div>
 
-            <button class="submitBtn" id="submitBtn" type="button" onclick="submitFeedback()">Soumettre</button>
+            <button class="submitBtn" id="submitBtn" type="button" >Soumettre</button>
+            {% if messages %}
+                <ul class="messages" style="list-style: none;padding: 0;">
+                    {% for messages in messages %}
+                        <li{% if messages.tags %} class="{{ messages.tags }}"{% endif %} id="message-alert" style=" margin: 10px 0; padding: 10px; border-radius: 5px;">{{ messages }}</li>
+                    {% endfor %}
+                    <script>
+                        setTimeout(function() {
+                            document.getElementById('message-alert').style.display = 'none';
+                        }, 5000);
+                    </script>
+                </ul>
+            {% endif %}
         </form>
     </div>
 

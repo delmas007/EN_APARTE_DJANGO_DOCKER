@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.core.handlers.wsgi import WSGIRequest
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
@@ -8,6 +9,8 @@ from Employer.forms import ConfirmationReservationForm
 from Model.models import Rendez_vous, Produit
 from django.conf import settings
 
+from Model.views import evaluation_email
+
 
 # noinspection PyPackageRequirements
 @login_required
@@ -15,8 +18,10 @@ def reservations_confirmer(request):
     if not request.user.roles or request.user.roles.role != 'EMPLOYER':
         return redirect('vitrine:Acces_interdit')
     rendez_vous = Rendez_vous.objects.filter(confirmation=True, en_attente=False, fin=False, employer=request.user.id)
-    reservations_en_attentes = Rendez_vous.objects.filter(en_attente=True, confirmation=False,preference_employer=None).count()
-    reservations_en_attentes_moi = Rendez_vous.objects.filter(en_attente=True, confirmation=False,preference_employer=request.user).count()
+    reservations_en_attentes = Rendez_vous.objects.filter(en_attente=True, confirmation=False,
+                                                          preference_employer=None).count()
+    reservations_en_attentes_moi = Rendez_vous.objects.filter(en_attente=True, confirmation=False,
+                                                              preference_employer=request.user).count()
     reservations_confirmerr = Rendez_vous.objects.filter(en_attente=False, confirmation=True, fin=False,
                                                          employer=request.user.id).count()
     # Calculez le nombre total de réservations
@@ -45,12 +50,13 @@ def debut_rendez_vous(request, rendez_vous_id):
 
 
 @login_required
-def fin_rendez_vous(request, rendez_vous_id):
+def fin_rendez_vous(request, rendez_vous_id, email, uuid):
     rdv = get_object_or_404(Rendez_vous, id=rendez_vous_id)
 
     # Mettre à jour le champ 'fin' à True
     rdv.fin = True
     rdv.save()
+    evaluation_email(request, mail=email, rendez_vous_uuid=uuid)
 
     return redirect('employer:reservation_confirmer')
 
@@ -60,10 +66,12 @@ def reservations_en_attente(request):
     if not request.user.roles or request.user.roles.role != 'EMPLOYER':
         return redirect('vitrine:Acces_interdit')
 
-    reservations = Rendez_vous.objects.filter(en_attente=True, confirmation=False,preference_employer=None)
+    reservations = Rendez_vous.objects.filter(en_attente=True, confirmation=False, preference_employer=None)
 
-    reservations_en_attentes = Rendez_vous.objects.filter(en_attente=True, confirmation=False,preference_employer=None).count()
-    reservations_en_attentes_moi = Rendez_vous.objects.filter(en_attente=True, confirmation=False,preference_employer=request.user).count()
+    reservations_en_attentes = Rendez_vous.objects.filter(en_attente=True, confirmation=False,
+                                                          preference_employer=None).count()
+    reservations_en_attentes_moi = Rendez_vous.objects.filter(en_attente=True, confirmation=False,
+                                                              preference_employer=request.user).count()
     reservations_confirmerr = Rendez_vous.objects.filter(en_attente=False, confirmation=True, fin=False,
                                                          employer=request.user.id).count()
     # Calculez le nombre total de réservations
@@ -116,8 +124,10 @@ def reservations_en_attente_moi(request):
 
     reservations = Rendez_vous.objects.filter(en_attente=True, confirmation=False, preference_employer=request.user)
 
-    reservations_en_attentes = Rendez_vous.objects.filter(en_attente=True, confirmation=False,preference_employer=None).count()
-    reservations_en_attentes_moi = Rendez_vous.objects.filter(en_attente=True, confirmation=False,preference_employer=request.user).count()
+    reservations_en_attentes = Rendez_vous.objects.filter(en_attente=True, confirmation=False,
+                                                          preference_employer=None).count()
+    reservations_en_attentes_moi = Rendez_vous.objects.filter(en_attente=True, confirmation=False,
+                                                              preference_employer=request.user).count()
     reservations_confirmerr = Rendez_vous.objects.filter(en_attente=False, confirmation=True, fin=False,
                                                          employer=request.user.id).count()
     # Calculez le nombre total de réservations

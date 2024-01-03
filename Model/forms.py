@@ -1,5 +1,6 @@
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, SetPasswordForm, PasswordResetForm
 from django import forms
+
 from Model.models import Utilisateur, Rendez_vous, horaire, Service
 
 
@@ -247,15 +248,27 @@ class PasswordResetForme(PasswordResetForm):
 class EvaluationForm(forms.ModelForm):
     class Meta:
         model = Rendez_vous
-        fields = ['evaluation']
+        fields = ['evaluation', 'commentaire', 'mot']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['evaluation'].widget.attrs.update({
+        self.fields['evaluation'].widget = forms.NumberInput(attrs={
             'type': "number",
             'class': "form-control",
-            'style': "color: black;",
-            'id': "evaluation",
+            'style': "width: 100%;height: 30px"
+        })
+        self.fields['commentaire'].widget = forms.Textarea(attrs={
+            'class': "form-control",
+            'id': "comments",
             'required': True,
-            'name': 'contact',
+            'name': 'comments',
+            'rows': 4,
+            'placeholder': "commentaires ici...",
+        })
+        self.fields['mot'].widget.attrs.update({
+            'class': "form-control",
+            'id': "feedback",
+            'required': True,
+            'name': 'feedback',
+            'aria-required': True,
         })

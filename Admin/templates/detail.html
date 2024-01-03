@@ -1,0 +1,100 @@
+{% extends 'base_f.html' %}
+{% load static %}
+{% block content%}
+
+
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+    {% include 'nav_D.html' %}
+
+    <!-- Main Sidebar Container -->
+
+    {% include 'slide_D.html' %}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            background-color: #f8f9fa;
+        }
+
+        h1, h2 {
+            color: #343a40;
+        }
+
+        .rendezvous-card {
+            background-color: #ffffff;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #007bff;
+        }
+
+        .rating-stars {
+            color: #ffc107;
+            font-size: 1.2em;
+        }
+
+        .evaluation-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .evaluation-item {
+            background-color: #ffffff;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .evaluation-item strong {
+            color: #007bff;
+        }
+    </style>
+    <div class="container">
+        <div class="rendezvous-card">
+            <div class="card-header">Rendez-vous 1</div>
+            <p><strong>Nom client:</strong> Client 1</p>
+            <p><strong>Nom employé:</strong> Employé 1</p>
+            <p><strong>Date de rendez-vous:</strong> 01/01/2022</p>
+            <p><strong>Heure de rendez-vous:</strong> 14:00</p>
+            <p><strong>Service:</strong> Service 1</p>
+            <p><strong>Évaluation:</strong>
+                <span class="rating-stars">&#9733;&#9733;&#9733;</span>
+            </p>
+            <p><strong>Commentaire:</strong> Très bon service!</p>
+        </div>
+
+       
+    </div>
+
+    <!-- Scripts Bootstrap (ajustez les liens en fonction de votre configuration) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+{% endblock %}

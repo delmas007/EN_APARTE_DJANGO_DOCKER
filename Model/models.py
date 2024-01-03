@@ -114,11 +114,6 @@ class horaire(models.Model):
 
 
 class Rendez_vous(models.Model):
-    mots = [
-        ('Homme', 'Homme'),
-        ("Femme", "Femme"),
-
-    ]
     date_rendez_vous = models.DateField(blank=True, null=True)
     en_attente = models.BooleanField(default=True)
     confirmation = models.BooleanField(default=False)
@@ -138,7 +133,7 @@ class Rendez_vous(models.Model):
                                             related_name='rendez_vous_preference_employer')
     evaluation = models.IntegerField(blank=True, null=True)
     commentaire = models.TextField(blank=True, null=True,max_length=250)
-    mot = models.CharField(max_length=250, choices=mots,blank=True, null=True)
+    mot = models.CharField(max_length=250,blank=True, null=True)
     eva_uuid = models.UUIDField(default=uuid.uuid4, editable=False)
 
     def save(self, *args, **kwargs):

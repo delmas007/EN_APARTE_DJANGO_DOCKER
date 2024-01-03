@@ -68,7 +68,7 @@
                                                           </form>
                                                       </td>
                                                       <td>
-                                                          <form method="post" action="{% url 'employer:fin_rendez_vous' rdv.id %}">
+                                                          <form method="post" action="{% url 'employer:fin_rendez_vous' rdv.id rdv.client.email rdv.eva_uuid %}">
                                                               {% csrf_token %}
                                                               <button type="submit" class="btn btn-success" {% if rdv.fin == True or rdv.debut == False %}disabled{% endif %}>Fin</button>
                                                           </form>

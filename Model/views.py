@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.utils.html import strip_tags
 from django.views.decorators.csrf import csrf_protect
 from Model.forms import ConnexionForm, UserRegistrationForm, RendezVousForm, PasswordResetForme, ChangerMotDePasse
-from Model.models import Roles, Service, Utilisateur
+from Model.models import Roles, Service, Utilisateur, Rendez_vous
 from django.contrib import messages
 
 from django.template.loader import render_to_string
@@ -16,6 +16,8 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.templatetags.static import static
+
+from Model.token import account_activation_tokens
 from Model.tokens import account_activation_token
 
 
@@ -103,7 +105,7 @@ def inscription(request):
 
 
 @csrf_protect
-def Rendez_vous(request):
+def Rendez_vouss(request):
     services = Service.objects.all()
     if request.method == 'POST':
         form = RendezVousForm(request.POST)
@@ -196,13 +198,45 @@ def passwordResetConfirm(request, uidb64, token):
     return redirect("Accueil")
 
 
-# def evaluation(request, uidb64, token):
-#
-#     try:
-#         uid = force_str(urlsafe_base64_decode(uidb64))
-#         Rendez_Vous = Rendez_vous.objects.get(eva_uuid=uid)
-#     except:
-#         Rendez_Vous = None
-#
-#     if Rendez_Vous is not None and account_activation_token.check_token(Rendez_Vous, token):
-#         if request.method == 'POST':
+def evaluations(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        Rendez_Vous = Rendez_vous.objects.get(eva_uuid=uid)
+    except:
+        Rendez_Vous = None
+
+    if Rendez_Vous is not None and account_activation_token.check_token(Rendez_Vous, token):
+        if request.method == 'POST':
+            rating = request.GET.get('rating')
+            feedback_type = request.GET.get('feedback_type')
+            comments = request.GET.get('comments')
+
+            feedback = Rendez_vous(
+                evaluation=rating,
+                commentaire=feedback_type,
+                mot=comments,
+            )
+            feedback.save()
+        return render(request, 'note.html')
+    else:
+        messages.error(request, "Le lien a expiré")
+    messages.error(request, 'Quelque chose a mal tourné, rediriger vers la page d’accueil')
+    return render(request, 'note.html')
+
+
+def evaluation_email(request, mail, rendez_vous_uuid):
+    associated_user = get_user_model().objects.filter(Q(email=mail)).first()
+    uuid = Rendez_vous.objects.filter(Q(eva_uuid=rendez_vous_uuid)).first()
+    if uuid:
+        subject = "Votre Avis Nous Importe - Évaluez notre Service"
+        message = render_to_string("evaluation.html", {
+            'user': associated_user,
+            'domain': get_current_site(request).domain,
+            'uid': urlsafe_base64_encode(force_bytes(rendez_vous_uuid)),
+            'token': account_activation_tokens.make_token(uuid),
+            "protocol": 'https' if request.is_secure() else 'http'
+        })
+        plain_message = strip_tags(message)
+        email = EmailMultiAlternatives(subject=subject, body=plain_message, to=[associated_user.email])
+        email.attach_alternative(message, "text/html")
+        email.send()

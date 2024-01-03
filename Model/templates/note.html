@@ -78,12 +78,13 @@
 <body>
 
     <div class="popup">
-        <form id="feedback-form">
+        <form id="feedback-form" method="POST">
+            {% csrf_token %}
             <h3>Évaluation du service de l'employé :</h3>
 
             <div class="rating-container">
                 <label for="rating">Note :</label>
-                <div class="rating-stars" data-rating="0">
+                <div class="rating-stars" data-rating="0" aria-required="true">
                     <span class="star" data-value="1">&#9733;</span>
                     <span class="star" data-value="2">&#9733;</span>
                     <span class="star" data-value="3">&#9733;</span>
@@ -94,7 +95,7 @@
 
             <div>
                 <label for="feedback">Comment trouvez-vous cet employé ?</label>
-                <select id="feedback" name="feedback">
+                <select id="feedback" name="feedback"aria-required="true">
                     <option value="service_agreable">Service agréable</option>
                     <option value="respecte_les_clients">Respecte les clients</option>
                     <option value="impoli">Impoli</option>
@@ -107,7 +108,7 @@
                 <textarea id="comments" name="comments" rows="4" placeholder="commentaires ici..."></textarea>
             </div>
 
-            <button class="submitBtn" id="submitBtn" type="button" onclick="submitFeedback()">Soumettre</button>
+            <button class="submitBtn" id="submitBtn" type="button" >Soumettre</button>
         </form>
     </div>
 

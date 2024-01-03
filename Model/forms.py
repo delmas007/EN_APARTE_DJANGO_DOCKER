@@ -256,7 +256,6 @@ class EvaluationForm(forms.ModelForm):
         self.fields['commentaire'].widget = forms.Textarea(attrs={
             'class': "form-control",
             'id': "comments",
-            'required': True,
             'name': 'comments',
             'rows': 4,
             'placeholder': "commentaires ici...",
@@ -264,7 +263,5 @@ class EvaluationForm(forms.ModelForm):
         self.fields['mot'].widget.attrs.update({
             'class': "form-control",
             'id': "feedback",
-            'required': True,
             'name': 'feedback',
-            'aria-required': True,
         })

@@ -91,7 +91,6 @@ class Utilisateur(AbstractBaseUser):
         return f"{self.nom} {self.prenom}"
 
 
-
 class Service(models.Model):
     type = models.CharField(max_length=255, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
@@ -127,11 +126,13 @@ class Rendez_vous(models.Model):
     client = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True, related_name='rendez_vous_clients')
     employer = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True,
                                  related_name='rendez_vous_employers')
-    service = models.ForeignKey(Service, on_delete=models.SET_NULL, null=True,related_name='services')
+    service = models.ForeignKey(Service, on_delete=models.SET_NULL, null=True, related_name='services')
     horaire = models.ForeignKey(horaire, on_delete=models.SET_NULL, null=True)
-    etat = models.CharField(max_length=255,null=True,blank=True)
-    preference_employer = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True,blank=True,
+    etat = models.CharField(max_length=255, null=True, blank=True)
+    preference_employer = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True, blank=True,
                                             related_name='rendez_vous_preference_employer')
+    evaluation = models.IntegerField(blank=True, null=True)
+    eva_uuid = models.UUIDField(default=uuid.uuid4, editable=False)
 
     def save(self, *args, **kwargs):
         # Calculez l'état lors de la sauvegarde du modèle
@@ -145,7 +146,6 @@ class Rendez_vous(models.Model):
             self.etat = "Pas encore commencé"
 
         super().save(*args, **kwargs)
-
 
 
 @receiver(pre_save, sender=Rendez_vous)

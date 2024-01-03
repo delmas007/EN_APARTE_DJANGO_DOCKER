@@ -194,3 +194,15 @@ def passwordResetConfirm(request, uidb64, token):
 
     messages.error(request, 'Quelque chose a mal tourné, rediriger vers la page d’accueil')
     return redirect("Accueil")
+
+
+# def evaluation(request, uidb64, token):
+#
+#     try:
+#         uid = force_str(urlsafe_base64_decode(uidb64))
+#         Rendez_Vous = Rendez_vous.objects.get(eva_uuid=uid)
+#     except:
+#         Rendez_Vous = None
+#
+#     if Rendez_Vous is not None and account_activation_token.check_token(Rendez_Vous, token):
+#         if request.method == 'POST':

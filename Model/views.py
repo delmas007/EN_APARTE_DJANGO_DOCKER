@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.contrib import messages
+from django.http import JsonResponse
 from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Q
 from django.shortcuts import render, redirect

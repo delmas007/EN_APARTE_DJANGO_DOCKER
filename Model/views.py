@@ -6,7 +6,8 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.html import strip_tags
 from django.views.decorators.csrf import csrf_protect
-from Model.forms import ConnexionForm, UserRegistrationForm, RendezVousForm, PasswordResetForme, ChangerMotDePasse
+from Model.forms import ConnexionForm, UserRegistrationForm, RendezVousForm, PasswordResetForme, ChangerMotDePasse, \
+    EvaluationForm
 from Model.models import Roles, Service, Utilisateur, Rendez_vous
 from django.contrib import messages
 
@@ -205,23 +206,20 @@ def evaluations(request, uidb64, token):
     except:
         Rendez_Vous = None
 
-    if Rendez_Vous is not None and account_activation_token.check_token(Rendez_Vous, token):
+    if Rendez_Vous is not None and account_activation_tokens.check_token(Rendez_Vous, token):
         if request.method == 'POST':
-            rating = request.GET.get('rating')
-            feedback_type = request.GET.get('feedback_type')
-            comments = request.GET.get('comments')
-
-            feedback = Rendez_vous(
-                evaluation=rating,
-                commentaire=feedback_type,
-                mot=comments,
-            )
-            feedback.save()
-        return render(request, 'note.html')
+            form = EvaluationForm(request.POST,instance=Rendez_Vous)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Votre mot de passe a été défini. Vous pouvez continuer et <b>vous "
+                                          "connecter </b> maintenant.")
+        form = EvaluationForm()
+        return render(request, 'note.html', {'form': form})
     else:
         messages.error(request, "Le lien a expiré")
     messages.error(request, 'Quelque chose a mal tourné, rediriger vers la page d’accueil')
-    return render(request, 'note.html')
+    form = EvaluationForm()
+    return render(request, 'note.html', {'form': form})
 
 
 def evaluation_email(request, mail, rendez_vous_uuid):

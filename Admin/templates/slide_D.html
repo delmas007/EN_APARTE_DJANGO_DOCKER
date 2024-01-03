@@ -48,6 +48,7 @@
             {% url 'admins:liste_services_mode' as admin_liste_services_mode_url %}
             {% url 'admins:ajout_horaire' as admin_ajout_horaire_url %}
             {% url 'admins:liste_horaire' as admin_liste_horaire_url %}
+            {% url 'admins:filtrer_evaluation' as admin_filtrer_evaluation_url %}
 
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item has-treeview {% if request.path == admin_ajout_service_url or request.path == admin_liste_services_url or request.path == admin_liste_services_mode_url %}menu-open{% endif %}">
@@ -231,6 +232,27 @@
                             <a style="background-color: transparent"  href="{{ admin_liste_commandes_receptionnees_url }}" class="nav-link {% if request.path == admin_liste_commandes_receptionnees_url %}active{% endif %}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Receptionné</p>
+                            </a>
+                        </li>
+                    </ul>
+
+                </li>
+
+                <li class="nav-item has-treeview {% if request.path == admin_filtrer_evaluation_url   %}menu-open{% endif %}">
+                    <a  href="#" class="nav-link {% if request.path == admin_filtrer_evaluation_url   %}active{% endif %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                        </svg>
+                        <p>
+                            Evaluation
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a style="background-color: transparent"  href="{{ admin_filtrer_evaluation_url }}" class="nav-link {% if request.path == admin_filtrer_evaluation_url %}active{% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Verifier</p>
                             </a>
                         </li>
                     </ul>

@@ -5,7 +5,7 @@ from .views import rendez_vous_aujourdhui, reservations_en_attente_D, reservatio
     liste_paniers_traitements_D, liste_commandes_receptionnees_D, filtrer_Commande, produit_log_list, ajout_service, \
     liste_services, supprimer_service, modifier_service, liste_services_mode, ajout_horaire, supprimer_horaire, \
     liste_horaire, supprimer_rendez_vous, supprimer_rendez_vous_confirmer, supprimer_rendez_vous_aujourd, \
-    filtrer_evaluation
+    filtrer_evaluation, Afficher_eva
 
 app_name = 'admins'
 urlpatterns = [
@@ -15,6 +15,7 @@ urlpatterns = [
     path('Reservations_confirmer_D/', reservations_confirmer_D, name='reservation_confirmer_D'),
     path('Filtrer-rendez-vous/', filtrer_rendez_vous, name='filtrer_rendez_vous'),
     path('Filtrer_evaluation/', filtrer_evaluation, name='filtrer_evaluation'),
+    path('information/<int:eva_uuid>/', Afficher_eva, name='afficher_evalu'),
     path('Filtrer_Commande/', filtrer_Commande, name='filtrer_Commande'),
     path('Active_employer/<int:employer_id>/', active_emp, name='active_emp'),
     path('Desactive_employer/<int:employer_id>/', desactive_amp, name='desactive_amp'),

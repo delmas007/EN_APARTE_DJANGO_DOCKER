@@ -349,6 +349,19 @@ def modifier_service(request, service_id):
     return render(request, 'mod.html', context)
 
 
+@login_required
+def Afficher_eva(request, eva_uuid):
+    if not request.user.roles or request.user.roles.role != 'ADMIN':
+        return redirect('vitrine:Acces_interdit')
+    eva = get_object_or_404(Rendez_vous, id=eva_uuid)
+
+    context = {
+        'rendez_vous': eva
+    }
+
+    return render(request, 'detail.html', context)
+
+
 def ajout_horaire(request):
     context = {}
     if request.method == 'POST':

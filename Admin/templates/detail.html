@@ -78,16 +78,35 @@
     </style>
     <div class="container">
         <div class="rendezvous-card">
-            <div class="card-header">Rendez-vous 1</div>
-            <p><strong>Nom client:</strong> Client 1</p>
-            <p><strong>Nom employé:</strong> Employé 1</p>
-            <p><strong>Date de rendez-vous:</strong> 01/01/2022</p>
-            <p><strong>Heure de rendez-vous:</strong> 14:00</p>
-            <p><strong>Service:</strong> Service 1</p>
-            <p><strong>Évaluation:</strong>
-                <span class="rating-stars">&#9733;&#9733;&#9733;</span>
-            </p>
-            <p><strong>Commentaire:</strong> Très bon service!</p>
+            <div class="card-header">Rendez-vous</div>
+            {% if rendez_vous %}
+                <p class="text-dark"><strong>Nom client:</strong> {{ rendez_vous.client.nom }} {{ rendez_vous.client.prenom }}</p>
+                <p class="text-dark"><strong>Nom employé:</strong> {{ rendez_vous.employer.nom }} {{ rendez_vous.employer.prenom }}</p>
+                <p class="text-dark"><strong>Date de rendez-vous:</strong> {{ rendez_vous.date_rendez_vous }}</p>
+                <p class="text-dark"><strong>Heure de rendez-vous:</strong> {{ rendez_vous.horaire.heure }}</p>
+                <p class="text-dark"><strong>Heure de debut:</strong> {{ rendez_vous.heure_debut_rendez_vous }}</p>
+                <p class="text-dark"><strong>Heure de fin:</strong> {{ rendez_vous.heure_fin_rendez_vous }}</p>
+                <p class="text-dark"><strong>Durée du rendez-vous:</strong> {{ rendez_vous.duree_rendez_vous }}</p>
+                <p class="text-dark"><strong>Service:</strong> {{ rendez_vous.service.type }}</p>
+                <p class="text-dark"><strong>Prix:</strong> {{ rendez_vous.service.prix }}</p>
+                <p class="text-dark"><strong>Évaluation:</strong>
+                    {% if rendez_vous.evaluation == 0 %}
+                    <span > pas evaluation</span>
+                    {% elif rendez_vous.evaluation == 1 %}
+                        <span class="rating-stars">&#9733;</span>
+                    {% elif rendez_vous.evaluation == 2 %}
+                        <span class="rating-stars">&#9733;&#9733;</span>
+                    {% elif rendez_vous.evaluation == 3 %}
+                        <span class="rating-stars">&#9733;&#9733;&#9733;</span>
+                    {% elif rendez_vous.evaluation == 4 %}
+                        <span class="rating-stars">&#9733;&#9733;&#9733;&#9733;</span>
+                    {% elif rendez_vous.evaluation == 5 %}
+                        <span class="rating-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                    {% endif %}
+                </p>
+                <p class="text-dark"><strong>Remarque:</strong> {{ rendez_vous.mot }}</p>
+                <p class="text-dark"><strong>Commentaire:</strong> {{ rendez_vous.commentaire }}</p>
+            {% endif %}
         </div>
 
        
@@ -96,5 +115,7 @@
     <!-- Scripts Bootstrap (ajustez les liens en fonction de votre configuration) -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    </div>
+</div>
 </body>
 {% endblock %}

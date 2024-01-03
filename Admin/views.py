@@ -13,6 +13,39 @@ from Model.models import Rendez_vous, Roles, Utilisateur, Produit, Paniers, Prod
 
 
 @login_required
+def filtrer_evaluation(request):
+    if not request.user.roles or request.user.roles.role != 'ADMIN':
+        return redirect('vitrine:Acces_interdit')
+    # Obtenez la liste de tous les rendez-vous
+    tous_les_rendez_vous = Rendez_vous.objects.filter(fin=True)
+
+    # Gestion des filtres
+    date_filtre = request.GET.get('date', '')
+    note = request.GET.get('note', '')
+    employer_filtre = request.GET.get('employer', '')
+    client_filtre = request.GET.get('client', '')
+
+    # Appliquer les filtres
+    if date_filtre:
+        tous_les_rendez_vous = tous_les_rendez_vous.filter(date_rendez_vous=date_filtre)
+    if note:
+        tous_les_rendez_vous = tous_les_rendez_vous.filter(evaluation=note)
+    if employer_filtre:
+        tous_les_rendez_vous = tous_les_rendez_vous.filter(employer__nom__icontains=employer_filtre)
+    if client_filtre:
+        tous_les_rendez_vous = tous_les_rendez_vous.filter(client__nom__icontains=client_filtre)
+
+    context = {
+        'tous_les_rendez_vous': tous_les_rendez_vous,
+        'date_filtre': date_filtre,
+        'employer_filtre': employer_filtre,
+        'client_filtre': client_filtre,
+        'note': note
+    }
+    return render(request, 'evaluationss.html', context)
+
+
+@login_required
 def filtrer_Commande(request):
     if not request.user.roles or request.user.roles.role != 'ADMIN':
         return redirect('vitrine:Acces_interdit')

@@ -1,4 +1,9 @@
 {% load static %}
+<style>
+    p{
+        color: white;
+    }
+</style>
 <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background: linear-gradient(to bottom, black, #ddaa2e, dimgray)">
     <!-- Brand Logo -->
     <a href="" class="brand-link">
@@ -38,7 +43,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ employer_reservation_url }}" class="nav-link {% if request.path == employer_reservation_url %}active{% endif %}">
+                            <a style="background-color: transparent" href="{{ employer_reservation_url }}" class="nav-link {% if request.path == employer_reservation_url %}active{% endif %}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Réservation en attente...</p>
                             </a>
@@ -46,7 +51,7 @@
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ employer_reservation_moi_url }}" class="nav-link {% if request.path == employer_reservation_moi_url %}active{% endif %}">
+                            <a style="background-color: transparent" href="{{ employer_reservation_moi_url }}" class="nav-link {% if request.path == employer_reservation_moi_url %}active{% endif %}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Réservation privé</p>
                             </a>
@@ -54,7 +59,7 @@
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ employer_reservation_confirmer_url }}" class="nav-link {% if request.path == employer_reservation_confirmer_url %}active{% endif %}">
+                            <a style="background-color: transparent" href="{{ employer_reservation_confirmer_url }}" class="nav-link {% if request.path == employer_reservation_confirmer_url %}active{% endif %}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Réservation confirmer</p>
                             </a>

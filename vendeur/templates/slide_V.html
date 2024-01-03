@@ -1,9 +1,14 @@
 {% load static %}
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
+<style>
+    p{
+        color: white;
+    }
+</style>
+<aside class="main-sidebar sidebar-dark-primary elevation-4" style="background: linear-gradient(to bottom, black, #ddaa2e, dimgray)">
     <!-- Brand Logo -->
     <a href="#" class="brand-link">
         <img src="{% static 'images/icons/photo_2023-12-14_15-44-58.ico' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">Vendeur</span>
+        <span class="brand-text font-weight-light ecrit" style="color: white">Vendeur</span>
     </a>
 
     <!-- Sidebar -->
@@ -14,7 +19,7 @@
                 <img src="{% static 'dist/img/user2-160x160.png' %}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">{{ request.user.nom }} {{ request.user.prenom }}</a>
+                <a  href="#" class="d-block">{{ request.user.nom }} {{ request.user.prenom }}</a>
             </div>
         </div>
 
@@ -39,24 +44,24 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ vendeur_ajouter_un_produit_url }}" class="nav-link {% if request.path == vendeur_ajouter_un_produit_url %}active{% endif %}">
+                        <li class="nav-item" style="background:transparent ">
+                            <a style="background:transparent " href="{{ vendeur_ajouter_un_produit_url }}" class="nav-link {% if request.path == vendeur_ajouter_un_produit_url %}active{% endif %}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p> Ajouter un produit</p>
+                                <p style="color: white">Ajouter un produit   </p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item" >
+                            <a style="background:transparent " href="{{ vendeur_liste_produits_url }}" class="nav-link {% if request.path == vendeur_liste_produits_url %}active{% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p style="color: white">Modifier produit   </p>
                             </a>
                         </li>
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ vendeur_liste_produits_url }}" class="nav-link {% if request.path == vendeur_liste_produits_url %}active{% endif %}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Modifier produit   </p>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ vendeur_liste_produitss_url }}" class="nav-link {% if request.path == vendeur_liste_produitss_url %}active{% endif %}">
+                            <a style="background:transparent " href="{{ vendeur_liste_produitss_url }}" class="nav-link {% if request.path == vendeur_liste_produitss_url %}active{% endif %}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Promotion</p>
                             </a>
@@ -75,7 +80,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ vendeur_liste_paniers_confirmes_url }}" class="nav-link {% if request.path == vendeur_liste_paniers_confirmes_url %}active{% endif %}">
+                            <a style="background:transparent " href="{{ vendeur_liste_paniers_confirmes_url }}" class="nav-link {% if request.path == vendeur_liste_paniers_confirmes_url %}active{% endif %}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>En attente</p>
                             </a>
@@ -83,7 +88,7 @@
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ vendeur_liste_paniers_traitements_url }}" class="nav-link {% if request.path == vendeur_liste_paniers_traitements_url %}active{% endif %}">
+                            <a style="background:transparent "  href="{{ vendeur_liste_paniers_traitements_url }}" class="nav-link {% if request.path == vendeur_liste_paniers_traitements_url %}active{% endif %}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>En cours de traitement</p>
                             </a>
@@ -91,7 +96,7 @@
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ vendeur_liste_commandes_receptionnees_url }}" class="nav-link {% if request.path == vendeur_liste_commandes_receptionnees_url %}active{% endif %}">
+                            <a style="background:transparent " href="{{ vendeur_liste_commandes_receptionnees_url }}" class="nav-link {% if request.path == vendeur_liste_commandes_receptionnees_url %}active{% endif %}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Expédiée</p>
                             </a>

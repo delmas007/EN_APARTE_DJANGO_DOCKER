@@ -211,7 +211,10 @@ def evaluations(request, uidb64, token):
             form = EvaluationForm(request.POST,instance=Rendez_Vous)
             if form.is_valid():
                 form.save()
-                messages.success(request, "Votre mot de passe a été défini. Vous pouvez continuer et <b>vous")
+                messages.success(request, "Nous tenons à exprimer notre gratitude pour votre évaluation. Votre "
+                                          "feedback est essentiel pour nous et nous aide à offrir un service toujours "
+                                          "meilleur. Merci de choisir notre entreprise, nous sommes ravis de vous "
+                                          "compter parmi nos clients. À bientôt !")
         form = EvaluationForm()
         return render(request, 'note.html', {'form': form})
     else:

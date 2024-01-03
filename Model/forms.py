@@ -252,11 +252,7 @@ class EvaluationForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['evaluation'].widget = forms.NumberInput(attrs={
-            'type': "number",
-            'class': "form-control",
-            'style': "width: 100%;height: 30px"
-        })
+        self.fields['evaluation'].widget = forms.HiddenInput(attrs={'id': 'id_evaluation'})
         self.fields['commentaire'].widget = forms.Textarea(attrs={
             'class': "form-control",
             'id': "comments",

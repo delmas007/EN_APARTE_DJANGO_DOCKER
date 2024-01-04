@@ -6,9 +6,8 @@ django-bootstrap-datepicker-plus==5.0.4
 django-bootstrap4==23.2
 django-crispy-forms==1.14.0
 django-livereload-server==0.4
-mysqlclient==2.1.1
-Pillow==9.2.0
-psycopg2==2.9.3
+psycopg2-binary
+Pillow
 pydantic==2.5.2
 pydantic_core==2.14.5
 python-environ==0.4.54

@@ -4,14 +4,14 @@ beautifulsoup4==4.11.1
 Django==4.2.7
 django-livereload-server==0.4
 psycopg2-binary
-Pillow
+Pillow==10.2.0
 pydantic==2.5.2
 pydantic_core==2.14.5
 python-environ==0.4.54
 six==1.16.0
 soupsieve==2.3.2.post1
-sqlparse==0.4.2
-tornado==6.2
+sqlparse==0.4.4
+tornado==6.4
 typing_extensions==4.8.0
 tzdata==2022.1
 reportlab~=4.0.8

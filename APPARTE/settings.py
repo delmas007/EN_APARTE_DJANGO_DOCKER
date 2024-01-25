@@ -59,8 +59,9 @@ ROOT_URLCONF = 'APPARTE.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / '../templates', BASE_DIR / '../Model/templates', BASE_DIR / '../Vitrine/templates',
-                 BASE_DIR / '../Employer/templates', BASE_DIR / '../vendeur/templates',BASE_DIR / '../Admin/templates']
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), os.path.join(BASE_DIR, 'Model/templates'),
+                 os.path.join(BASE_DIR, 'Vitrine/templates'), os.path.join(BASE_DIR, 'Employer/templates'),
+                 os.path.join(BASE_DIR, 'vendeur/templates')]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -146,3 +147,4 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'alidouwrm@gmail.com'
 EMAIL_HOST_PASSWORD = 'nuau mlcc accq lsrl'
+
